@@ -1,0 +1,11 @@
+target/
+upload-dir/
+.idea/
+.vscode/
+/mylog.log
+/mylog.log.*
+/src/main/webapp/jasper/*.pdf
+.DS_Store
+/mram.iml
+application.properties
+src/
