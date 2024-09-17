@@ -1,0 +1,75 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content" kendo-tab-strip k-options="tabStrip">
+            <!-- tab list -->
+            <ul>
+                <li class="k-state-active">Агентлаг /  Сум,Дүүрэг</li>
+                <li>Хянагч байгууллага</li>
+                <li>Хэрэглэгч</li>
+            </ul>
+
+            <div style="padding: 0;border: none;">
+                <kendo-grid id="app1Data" k-scope-field="grid" k-data-source="dataSource" class="uk-text-small" options="main1Grid"></kendo-grid>
+            </div>
+            <div style="padding: 0;border: none;">
+                <kendo-grid id="app2Data" k-scope-field="grid" k-data-source="dataSource" class="uk-text-small" options="main2Grid"></kendo-grid>
+            </div>
+            <div style="padding: 0;border: none;">
+                <kendo-grid id="app3Data" k-scope-field="grid" k-data-source="userDataSource" class="uk-text-small" options="main3Grid"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_application">
+    <div class="uk-modal-dialog" style="margin-bottom:0;padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0 -24px;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0;">
+                        Бүртгэл
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" style="margin: 0 -24px;"  id="myFormCreate" novalidate kendo-validator="validatorProject" ng-submit="submitProject($event)">
+            <div style="padding:0 24px;">
+                <div class="uk-overflow-container">
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <label for="name" class="k-form-label">Ерөнхийлөн захирагч</label>
+                            <div class="k-form-field-wrap">
+                                <input kendo-text-box id="name"  disabled
+                                       validationMessage="Гарчиг шаардлагатай" ng-model="user.governor.name"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <label for="orgId" class="k-form-label">Агентлаг</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="orgId"
+                                        k-data-text-field="'name'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="govOrg.orgId" k-auto-bind="true"
+                                        k-data-source="orgDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0;padding:12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="submit" class="md-btn md-btn-mini md-btn-success">Хадгалах</button>
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close  ">Хаах</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

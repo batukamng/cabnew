@@ -1,0 +1,90 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-content-view" style="height: 100px;"></div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_application">
+    <div class="uk-modal-dialog" style="margin-bottom:0;padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0 -24px;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0;">
+                        Онцлох болгох
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" style="margin: 0 -24px;" name="myFormCreate"  id="myFormCreate" novalidate kendo-validator="validatorProject" ng-submit="submitProject($event)">
+            <div style="padding:0 24px;">
+                <div class="uk-overflow-container">
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+<!--                            <label for="appId" class="k-form-label">Онцлох төсөл:</label>-->
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" name="apprId"
+                                        k-filter="'startswith'" ng-model="appOrAppr" k-auto-bind="true" style="width: 100%">
+                                    <option value="appr">Хэрэгжилт</option>
+                                    <option value="app">Төлөвлөлт</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" ng-show="appOrAppr=='appr'" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <label for="apprId" class="k-form-label">Онцлох хэрэгжилт</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box ng-required="appOrAppr=='appr'" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="apprId" name="apprId"
+                                        k-filter="'startswith'" ng-model="apprId" k-auto-bind="true"
+                                        k-options="apprOptions"
+                                        k-data-source="apprDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" ng-show="appOrAppr=='app'" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <label for="appId" class="k-form-label">Онцлох төлөвлөлт</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box ng-required="appOrAppr=='app'" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="appId" name="appId"
+                                        k-filter="'startswith'" ng-model="appId" k-auto-bind="true"
+                                        k-options="appOptions"
+                                        k-data-source="appDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0;padding:12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="submit" class="md-btn md-btn-mini md-btn-success">Үргэлжлүүлэх</button>
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close  ">Хаах</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+td {
+    border: none!important;
+}
+.k-grid .k-alt {
+    background-color: #white!important;
+}
+</style>

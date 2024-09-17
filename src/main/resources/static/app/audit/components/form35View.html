@@ -1,0 +1,224 @@
+<div id="materiality" class="bg-white col-span-4">
+    <div class="pb-4 flex justify-between  !border-solid border-0 !border-b-[3px] border-[#F0F2F5]">
+        <div class="font-light !text-[#212121] border-none m-0">
+            <span style="display: block;margin-top: 7px;" class="font-medium text-[#212121]" ng-bind="item.name!=null?item.name:'Ерөнхий мэдээлэл'"></span>
+        </div>
+        <div>
+            <button ng-click="formSubmit35()" class="md-btn md-btn-success gradient-button px-4 !rounded-md !text-sm">
+                Хадгалах
+            </button>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="mt-4">
+            <label>
+                Материаллаг байдлын түвшин
+            </label>
+            <select required kendo-drop-down-list ng-model="materiality.level"
+                    style="width: 100%;">
+                <option value="0.5">0.5</option>
+                <option value="1">1.0</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2.0</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <label>
+                Дансны код
+            </label>
+            <select required kendo-drop-down-list ng-model="materiality.accLvl"
+                    style="width: 100%;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="col-span-2">
+            <table class="uk-table uk-table-striped" style="margin-bottom: 0">
+                <thead>
+                <tr>
+                    <th rowspan="2" style="vertical-align: middle"
+                        class="TableHeadText px-2  align-middle  py-3 text-xs  text-center ">
+                        №
+                    </th>
+                    <th rowspan="2" style="vertical-align: middle"
+                        class="p-1 align-middle  py-3 text-xs  text-left ">
+                        Материаллаг байдлын суурь
+                    </th>
+                    <th rowspan="2" style="vertical-align: middle"
+                        class=" p-1  align-middle  py-1 text-xs  text-center  px-1 w-2">
+                        Санхүүгийн тайлангийн дүн
+                    </th>
+                    <th colspan="2"
+                        class=" p-1  align-middle  py-1 text-xs text-center  px-1">
+                        Материаллаг байдлын түвшин
+                    </th>
+                    <th style="vertical-align: middle" rowspan="2"
+                        class=" p-1  align-middle  py-1 text-xs px-1 text-center">
+                        Сонгосон материаллаг байдал
+                    </th>
+                </tr>
+                <tr>
+                    <th class=" p-1  align-middle py-1 text-xs  text-center px-1">
+                        0.5
+                        /бага/
+                    </th>
+                    <th class=" p-1  align-middle py-1 text-xs  text-center  px-1">
+                        2.0 /их/
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="mt in materialityList">
+                    <td class="uk-text-center">
+                        {{$index+1}}
+                    </td>
+                    <td>
+                        {{mt.name}}
+                    </td>
+                    <td class="uk-text-right">
+                        {{mt.amount | number:2}}
+                    </td>
+                    <td class="uk-text-right">
+                        {{mt.amount * 0.5 * 0.01 | number:2}}
+                    </td>
+                    <td class="uk-text-right">
+                        {{mt.amount * 2 * 0.01 | number:2}}
+                    </td>
+                    <td class="text-center">
+                        {{mt.amount * materiality.level * 0.01 | number:2}}
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td></td>
+                    <td>
+
+                    </td>
+                    <td class="uk-text-right">
+                        {{materialityList | sumOfValue:'amount' | number: 2}}
+                    </td>
+                    <td class="uk-text-right">
+                        {{(materialityList | sumOfValue:'amount') * 0.5 * 0.01 | number: 2}}
+                    </td>
+                    <td class="uk-text-right">
+                        {{(materialityList | sumOfValue:'amount') * 2 * 0.01 | number: 2}}
+                    </td>
+                    <td class="text-center">
+                        {{(materialityList | sumOfValue:'amount') * materiality.level * 0.01 | number: 2}}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-span-2">
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                     <span class="font-medium" style="line-height: 32px;">
+                        Сонгосон материаллаг байдлын суурь
+                    </span>
+                </div>
+                <div>
+                    <select required kendo-drop-down-list ng-model="materiality.accId"
+                            k-data-text-field="'name'"
+                            k-data-value-field="'id'"
+                            k-data-source="materialityList"
+                            style="width: 100%"></select>
+                </div>
+                <div>
+                   <span class="font-medium" style="line-height: 32px;">
+                        Тогтоосон материаллаг байдал
+                   </span>
+                </div>
+                <div>
+                    <label ng-repeat="amt in materialityList"
+                           ng-if="materiality.accId==amt.id">
+                        {{amt.amount * materiality.level * 0.01 | number:2}}
+                    </label>
+                </div>
+                <div>
+                  <span class="font-medium" style="line-height: 32px;">
+                        Гүйцэтгэлийн материаллаг байдал
+                        тооцох хувь
+                  </span>
+                </div>
+                <div>
+                    <select required kendo-drop-down-list ng-model="materiality.percentage"
+                            style="width: 100%;">
+                        <option value="0.6">60%</option>
+                        <option value="0.65">65%</option>
+                        <option value="0.7">70%</option>
+                        <option value="0.75">75%</option>
+                        <option value="0.8">80%</option>
+                    </select>
+                </div>
+                <div>
+                   <span class="font-medium" style="line-height: 32px;">
+                        Гүйцэтгэлийн материаллаг байдал
+                   </span>
+                </div>
+                <div>
+                    <label ng-repeat="amt in materialityList"
+                           ng-if="materiality.accId==amt.id">
+                        {{amt.amount * materiality.level * 0.01 * materiality.percentage | number:2}}
+                    </label>
+                </div>
+            </div>
+            <div class="grid mt-4 grid-cols-1 gap-4">
+                <div>
+                    <label>
+                        Суурь үзүүлэлтийг сонгосон шалтгаан, тайлбар
+                    </label>
+                    <div>
+                        <textarea required kendo-text-area k-placeholder="'...'" k-ng-model="materiality.baseline" style="width: 100%;" rows="3"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <label>
+                        Хувь хэмжээ сонгосон шалтгаан, тайлбар
+                    </label>
+                    <div>
+                        <textarea required kendo-text-area k-placeholder="'...'" k-ng-model="materiality.perReason" style="width: 100%;" rows="3"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <label>
+                        Материаллаг байдлыг чанарын хувьд авч үзэх шалтгаан, тайлбар
+                    </label>
+                    <div>
+                        <textarea required kendo-text-area k-placeholder="'...'" k-ng-model="materiality.quaReason" style="width: 100%;" rows="3"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <label>
+                        Гүйцэтгэлийн материаллаг байдал сонгосон шалтгаан, тайлбар
+                    </label>
+                    <div>
+                        <textarea required kendo-text-area k-placeholder="'...'" k-ng-model="materiality.performReason" style="width: 100%;" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_loader_35">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-35" style="height: 100px;"></div>
+    </div>
+</div>
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-35'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>

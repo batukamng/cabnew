@@ -1,0 +1,55 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid class="uk-text-small" options="mainGrid"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 uk-text-center" style="padding: 40px 0">
+                <img style="width: 200px;height: 200px;" ng-src="assets/img/loader-excel.gif" alt=""/>
+                <span style="display: block;">
+                    Түр хүлээнэ үү...
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_upload" class="uk-modal">
+    <div class="uk-modal-dialog" style="padding: 0 !important;">
+        <div class="formHeader" style="display: block;margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left"><h3 class="heading_a" style="margin-bottom: 0;">Excel import <button type="button" class="uk-modal-close uk-float-right uk-close"></button></h3></div>
+            </div>
+        </div>
+
+        <div style="padding: 24px;">
+            <form name="formFile" id="form_validation_dif" ng-submit="submitUploadDifference()">
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <button style="width: 100%" class="k-button k-button-icontext md-bg-green-A400" ngf-select="selectFile(act)" ngf-pattern="'.xlsx,.xls'"
+                                accept=".xlsx,.xls"  ngf-max-size="20MB" ng-model="act" required name="act">
+                            <span class="k-icon k-i-folder-add"></span> <span ng-show="!fileSelected">Импортлох</span><span ng-show="fileSelected">Солих</span>
+                        </button>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <button style="width: 100%" type="submit" class="k-button k-button-icontext" ng-show="!formFile.act.$error.required"><span class="k-icon k-i-upload"></span>Илгээх</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="formFooter" style="margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close  ">Хаах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

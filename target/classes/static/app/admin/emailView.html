@@ -1,0 +1,120 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <!-- <div class="uk-width-medium-1-1 iconBtn treeBtn">
+                <kendo-tree-list k-options="treeListOptions"></kendo-tree-list>
+            </div>-->
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid id="appData" class="uk-text-small" options="mainGrid"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .treeBtn .k-icon {
+        margin-right: 0 !important;
+    }
+
+    .treeBtn .k-button {
+        padding: 4px 8px !important;
+    }
+</style>
+<script type="text/x-kendo-template" id="Rud">
+    <button class="k-button k-button-icontext k-grid-custom k-grid-update"><span
+            class="k-icon k-i-edit"></span></button>
+    <button class="k-button k-button-icontext k-grid-remove-command "><span
+            class="k-icon k-i-delete"></span></button>
+</script>
+
+<script type="text/x-kendo-template" id="Radd">
+    <button class="k-button k-button-icontext" ng-click="createEmail()"><span class="k-icon k-i-plus"></span>Нэмэх</button>
+</script>
+
+<div class="uk-modal" id="modal_email">
+    <div class="uk-modal-dialog uk-modal-dialog-large" style="margin-bottom:0;padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0 -24px;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0;">
+                        Имэйл бичих
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="uk-overflow-container">
+
+            <form class="k-form k-form-vertical uk-margin-medium-bottom" kendo-validator="validatorProject"
+                ng-submit="submitEmail($event)">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <div><label>явуулах хүмүүсээ сонго</label></div>
+                        <input type="radio" required value="1" ng-model="mail.userType" name="rating" class="radio">
+                        Гүйцэтгэгчрүү
+                        илгээх
+                        <input type="radio" required value="10" ng-model="mail.userType" name="rating" class="radio">
+                        Бусад
+                    </div>
+                    <div class="uk-width-1-1">
+                        <label>Имэйлийн гарчиг</label>
+                        <textarea kendo-text-area required k-ng-model="mail.title" style="width: 100%;"
+                            rows="1"></textarea>
+                    </div>
+                    <div style="margin-top: 10px;" class="uk-width-1-1">
+                        <label>Имэйлийн агуулгаа оруулна уу</label>
+                        <textarea kendo-editor k-options="{{editorOptions}}" k-ng-model="mail.body"></textarea>
+                        <!-- placeholder="Имэйлийн агуулгаа оруулна уу" -->
+                    </div>
+                    <div style="margin: 10px 0px 10px 0px;" class="uk-width-1-1">
+                        <label>
+                            <input type="checkbox" id="receiveAccept" class="k-checkbox" ng-change="changeReceive()"
+                                ng-model="mail.receiveAccept" /> Хүлээн авсан эсэх
+                            товч
+                            харуулах
+                        </label>
+                    </div>
+                    <!-- <div ng-repeat="(index, item) in attFiles track by $index" class="uk-width-1-1">
+                        <div style="margin: 5px;">{{item.fileName}}<a ng-click="removeFile(index)"><span
+                                    class="k-icon k-i-delete"></span></a>
+                        </div>
+                    </div> -->
+                    <div class="uk-width-2-5">
+                        <!--  accept="image/*,.pdf"-->
+                        <input name="file" type="file" accept="image/*,.pdf" kendo-upload
+                            k-options="fileAttachmentOptions"
+                            k-async="{ saveUrl: '/api/file/uploadFile', removeUrl: '/api/file/delete', autoUpload: true }"
+                            k-success="onSelect" k-upload="onUpload" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="formFooter" style="margin: 0 -24px;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" ng-click="submitEmail($event)" class="md-btn md-btn-mini md-btn-success">
+                        Илгээх
+                    </button>
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader_email">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-email-view" style="height: 100px;"></div>
+    </div>
+</div>
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-email-view'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "PIMIS", // optional
+    });
+</script>

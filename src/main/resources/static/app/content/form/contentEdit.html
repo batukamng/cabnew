@@ -1,0 +1,205 @@
+<div id="stat03">
+    <div class="w-9/10 2xl:w-4/5 uk-container-center reset-print">
+
+        <div class="bg-white custom-card border col-span-4 rounded-xl p-0">
+            <div class="py-4 px-10 flex justify-between">
+                <h3 class="uk-text-muted uk-form-header font-light !text-[#212121] border-none m-0">
+                    Мэдээ үүсгэх
+                </h3>
+                <button class="!bg-white border-none cursor-pointer"
+                        style="transition: transform 0.2s ease-out; transform: rotate(90deg)"
+                        id="general_btn" ng-click="togglePanel('general_pnl', 'general_btn')">
+                    <i class="material-icons text-[#212121] text-2xl bg-white">arrow_forward_ios</i>
+                </button>
+            </div>
+            <div id="general_pnl" style="overflow: hidden; transition: max-height 0.2s ease-out">
+                <form id="contentForm" ng-submit="submit($event)" style="height: 100%">
+                    <div class="uk-grid uk-grid-small px-10 pt-4 pb-8 border-0 border-t-[3px] border-solid border-[#F0F2F5]">
+                        <div class="uk-width-medium-1-1 uk-grid-margin">
+                            <label for="title" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Мэдээний гарчиг
+                            </label>
+                            <input kendo-text-box id="title" name="title"
+                                   ng-required="fnd.supType=='02'"
+                                   validationMessage="Овог шаардлагатай" ng-model="cnt.title"
+                                   style="width: 100%"/>
+                        </div>
+                        <div class="uk-width-medium-1-1 uk-grid-margin">
+                            <label for="shortText"
+                                   class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Товч тайлбар
+                            </label>
+                            <textarea required id="shortText" kendo-text-area k-placeholder="'...'"
+                                      k-ng-model="cnt.shortText" validationMessage="Enter {0}"
+                                      style="width: 100%;" rows="3"></textarea>
+                        </div>
+                        <div class="uk-width-medium-1-4 uk-grid-margin">
+                            <label for="type" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Төрөл
+                            </label>
+                            <select name="type" id="type" required kendo-combo-box style="width: 100%"
+                                    k-data-text-field="'comCdNm'" k-data-value-field="'shortCd'"
+                                    k-data-source="typeDataSource" data-required-msg="Select type"
+                                    ng-model="cnt.type"></select>
+                            <span class="k-invalid-msg" data-for="type"></span>
+                        </div>
+                        <div class="uk-width-medium-1-4 uk-grid-margin">
+                            <label for="status" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Төлөв
+                            </label>
+                            <select name="status" id="status" required kendo-combo-box
+                                    style="width: 100%" k-data-text-field="'comCdNm'"
+                                    k-data-value-field="'shortCd'" k-data-source="statusDataSource"
+                                    ng-model="cnt.status" data-required-msg="Select status"
+                                    style="width: 100%;"></select>
+                            <span class="k-invalid-msg" data-for="status"></span>
+                        </div>
+                        <div class="uk-width-medium-1-4 uk-grid-margin">
+                            <label for="visiblity"
+                                   class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Байршил
+                            </label>
+                            <select name="visiblity" id="visiblity" required kendo-combo-box
+                                    style="width: 100%" k-data-text-field="'comCdNm'"
+                                    k-data-value-field="'shortCd'"
+                                    k-data-source="contentVisibilityDataSource"
+                                    ng-model="cnt.visibility" data-required-msg="Select visibility"
+                                    style="width: 100%;"></select>
+                            <span class="k-invalid-msg" data-for="visiblity"></span>
+                        </div>
+                        <div class="uk-width-medium-1-4 uk-grid-margin">
+                            <label for="tag" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                Ангилал сонгох
+                            </label>
+                            <select name="tag" id="tag" kendo-combo-box required
+                                    k-data-text-field="'comCdNm'"
+                                    k-data-value-field="'id'"
+                                    style="width: 100%" k-options="selectPriOptions"
+                                    k-data-source="tagDataSource"
+                                    k-ng-model="cnt.termId" data-required-msg="Шаардлагатай"></select>
+                            <span class="k-invalid-msg" data-for="tag"></span>
+                        </div>
+                        <div class="uk-width-medium-1-1 uk-grid-margin">
+                            <div class="k-form-field-wrap" style="width: 100%;height: 40vh;padding-bottom: 24px">
+                                <label style="line-height:21px;" for="status">Дэлгэрэнгүй мэдээлэл</label>
+                                <textarea ui-tinymce="tinymce_options" ng-model="cnt.moreText" cols="10"
+                                          style="height: 100%"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="uk-width-medium-1-1" style="margin-top: 0">
+
+
+            <!-- <div class="md-card">
+                 <div class="md-card-content" style="padding: 8px; height: 76vh">
+                     <form id="contentForm" ng-submit="submit($event)" style="height: 100%">
+                         <div class="uk-grid uk-grid-divider" style="height: 100%; margin-left: -20px">
+                             <div class="uk-width-medium-1-3">
+
+                                 <div class="uk-grid uk-grid-small" data-uk-grid-margin ng-if="cnt.type=='closed'">
+                                     <div class="k-form-field-wrap" style="width: 100%">
+                                         <label style="line-height:21px;" for="recipient">Хүлээн авагч</label>
+                                         <select name="status" id="recipient" kendo-multi-select style="width: 100%"
+                                                 data-bind="value:cnt.recipient"
+                                                 k-ng-model="cnt.recipients" data-required-msg="Select recipient">
+                                             <option value="yam">Яамдууд</option>
+                                             <option value="Tra01">Гүйцэтгэгчид</option>
+                                             <option value="Tra02">Хянагч байгууллагууд</option>
+                                         </select>
+                                         <span class="k-invalid-msg" data-for="status"></span>
+                                     </div>
+                                 </div>
+
+                                 <div class="uk-grid uk-grid-small">
+                                     <div class="uk-width-medium-1-1 uk-grid-margin">
+                                         <div class="k-form-field-wrap" style="width: 100%">
+                                             <label style="line-height:21px;" for="input-file-a">Ковер зураг</label>
+                                             <input type="file" id="input-file-a" accept="image/*"
+                                                    ng-files="getTheUFilesAttach($files)"
+                                                    ng-model="cnt.image" class="dropify"/>
+                                             <span class="k-invalid-msg" data-for="status"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             &lt;!&ndash;<div class="uk-width-medium-2-3" style="height: 100%">
+
+                                 <div class="uk-grid uk-grid-small" data-uk-grid-margin
+                                      style="height: calc(100% - 120px);">
+                                     <div class="k-form-field-wrap" style="width: 100%; height: 100%">
+                                         <label style="line-height:21px;" for="status">Дэлгэрэнгүй мэдээлэл</label>
+                                         <textarea ui-tinymce="tinymce_options" ng-model="cnt.moreText" cols="10"
+                                                   style="height: 100%"></textarea>
+                                     </div>
+                                 </div>
+                             </div>&ndash;&gt;
+                         </div>
+                     </form>
+                 </div>
+             </div>-->
+        </div>
+
+        <div class="mt-6 fixed flex gap-2 w-screen !items-center justify-end !px-6 bottom-0 h-20 box-border bg-white w-screen left-0 border-solid border-0 border-t-[2px] border-zinc-200"
+             style="z-index: 100; box-shadow: 0 5px 10px -2px rgb(86 61 124 / 13%)">
+            <button class="md-btn px-4 rounded-md !text-sm bg-[#10b981] text-white hover:bg-[#10b981]"
+                    ng-click="submit($event)">
+                Хадгалах
+            </button>
+            <button class="md-btn px-4 rounded-md !text-sm outlined-button" ng-click="stat(1, true)">Буцах</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_pdf">
+    <div class="uk-modal-dialog uk-modal-dialog-large">
+        <div class="formHeader">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0;">
+                        {{viewItem.name}}
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div style="overflow-x: hidden; height: 75vh;margin-top:20px;">
+            <div id="pdfViewer"></div>
+        </div>
+        <div class="formFooter" style="margin-bottom: -24px; margin-top: 20px;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader_edit">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader" style="height: 100px;"></div>
+    </div>
+</div>
+
+<style>
+    .tox-tinymce {
+        height: 100% !important;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>

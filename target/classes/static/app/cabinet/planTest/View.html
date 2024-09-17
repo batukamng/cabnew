@@ -1,0 +1,138 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" options="mainGrid" data-source="dataSource"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Төлөвлөгөө бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label>Байгууллага</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <span class="k-input k-textbox ng-pristine ng-untouched k-input-solid k-input-md k-rounded-md  w-full" style="padding:5px 8px;">{{user.organization.name}}</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="planYr">Он</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box ng-required="detailItem.objId  != null" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="planYr"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.planYr"
+                                        k-data-source="years" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="fullDesc">Тайлбар</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                 <textarea kendo-text-area id="fullDesc" required k-ng-model="dataItem.fullDesc" style="width: 100%;"
+                                           rows="5"></textarea>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БУЦАХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal custom-modal" id="modal_progress">
+    <div class="uk-modal-dialog" style="padding: 0 !important">
+        <div class="formHeader" style="display: block; margin: 0; padding: 12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0">
+                        Төлөвлөлтийн явц
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="uk-overflow-container mt-0 h-max" id="overflow" style="margin:0 !important;">
+            <div class="h-full overflow-y-auto custom-scroll" style="max-height: inherit">
+                <div class="bg-zinc-100 px-[24px] py-[20px]">
+                    <p class="text-lg font-medium mt-0" ng-bind="contractView.orgNm"></p>
+                    <p class="m-0" ng-bind="contractView.fullDesc"></p>
+                </div>
+                <div class="py-[30px] px-10">
+                    <div class="grid relative grid-cols-6 h-full" ng-repeat="step in steps track by $index ">
+                        <div class="col-span-1 flex flex-col justify-start items-center relative h-full">
+                            <div
+                                    class="h-8 w-8 bg-white border-zinc-500 border-0 box-border border-solid flex items-center justify-center rounded-full"
+                                    ng-class="step.step == currentStep ? '!border-indigo-900 !border-[2px]':  step.step<currentStep ? '!bg-indigo-900 ' : '!border-[2px] ' "
+                            >
+                                <i class="material-icons w-5 h-5 text-white"
+                                   ng-if="step.step<currentStep">check_rounded</i>
+                                <span class="text-zinc-500 font-medium"
+                                      ng-if="step.step>currentStep || step.step==currentStep "
+                                      ng-class="step.step==currentStep && 'text-indigo-900'">{{step.step}}</span>
+                            </div>
+                            <div class="bg-indigo-900 w-[2px] !-z-1 h-[100px]" ng-if="steps.length-1!=$index"
+                                 ng-class="(step.step>currentStep || step.step==currentStep) && '!bg-zinc-100'"></div>
+                        </div>
+                        <div class="col-span-5 text-left flex flex-col items-left text-zinc-600"
+                             ng-class="step.step==currentStep && 'text-indigo-900'">
+                            <p class="text-md text-left font-bold break-auto"
+                               ng-class="step.step==currentStep && 'text-indigo-900'">{{step.name}}</p>
+                            <div class="text-zinc-500 text-[13px]"
+                                 ng-class="step.step==currentStep && 'text-indigo-900'">
+                                <p class="m-0">Захиалагч: <span class="font-medium">{{step.consumer}}</span></p>
+                                <p class="m-0">Мэргэжилтэн: <span class="font-medium">{{step.imp}}</span></p>
+                                <p ng-if="step.parsedDate" class="m-0">Зарцуулсан хугацаа: <span
+                                        class="font-medium">{{step.parsedDate}}</span></p>
+                                <p class="m-0">Огноо: <span
+                                        class="font-medium">{{step.date | date:'yyyy/MM/dd hh:mm'}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+        <div id="main-loader-contract-list" style="height: 100px"></div>
+    </div>
+</div>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-contract-list"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>

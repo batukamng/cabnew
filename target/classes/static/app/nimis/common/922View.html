@@ -1,0 +1,14 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-data-source="gridDataSource">
+                    <div k-detail-template>
+                        <div id="detGrid" class="uk-text-small" kendo-grid k-options="detailGridOptions(dataItem)"></div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+

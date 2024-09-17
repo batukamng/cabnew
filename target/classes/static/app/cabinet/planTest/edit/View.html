@@ -1,0 +1,976 @@
+<div id="page_content">
+    <div id="page_content_inner" style="padding:24px 24px;">
+        <div id="main_content">
+            <div class="grid grid-cols-1 mb-16">
+                <div class="uk-text-center  pb-4">
+                    <span ng-bind="app.fullDesc"></span>
+                </div>
+                <div ng-repeat="grp in types | filter:{objType:'01'}:true" ng-init="$parentIndex = $index">
+                    <div class="bg-white">
+                        <div class="tblwrapper">
+                            <table class="sub-table1 funding-table" style="border-spacing: 0;border-bottom: 1px solid #eef1f4;">
+                                <thead>
+                                <tr>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Д/д</label></th>
+                                    <th style="background-color: white;" class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">СТРАТЕГИ ТӨЛӨВЛӨГӨӨ БОЛОН ҮНДЭСЛЭЖ БАЙГАА БУСАД БОДЛОГЫН БАРИМТ БИЧИГ ХУУЛЬ ТОГТООМЖ</label></th>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Шалгуур үзүүлэлт</label></th>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Суурь түвшин </br> ({{app.planYr-1}} он)</label></th>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">ЗОРИЛТОТ ТҮВШИН</label></th>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">ХУГАЦАА УЛИРАЛ</label></th>
+                                    <th style="background-color: white;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">ХАРИУЦАХ АЛБАН ХААГЧ</label></th>
+                                    <th style="background-color: white;" ng-if="editable" class="uk-text-center">
+                                        <button data-uk-tooltip="{cls:'long-text text-center',pos:'bottom'}" title="Стратеги бүртгэх" ng-if="editable" type="button" style="width: 75px !important;float:right;" class="md-btn outlined-button mt-0 md-btn !text-xs rounded-full"
+                                                ng-click="add()"> Стратеги
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <colgroup>
+                                    <col style="width: 80px"/>
+                                    <col />
+                                    <col style="width: 250px"/>
+                                    <col style="width: 200px"/>
+                                    <col style="width: 200px"/>
+                                    <col style="width: 100px"/>
+                                    <col style="width: 250px"/>
+                                    <col ng-if="editable" style="width: 90px"/>
+                                </colgroup>
+                                <tbody>
+                                <tr  class="bg-sky-100" ng-repeat-start="objective in groups | filter:{objType:grp.objType}:true" ng-init="$parentIndex = $index;">
+                                  <!--  <td  class="border-left:none;border-top:none; uppercase !text-xs font-normal uk-text-muted" style="text-align:center;">
+                                        <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted des-dugaar"></label>
+                                    </td>-->
+                                    <td colspan="{{editable?7:7}}" class="uk-text-left" >
+                                        <div class="flex flex-row">
+                                            <div class="grow">
+                                                <p style="display: inline-block;margin-top:5px;" class="uk-form-label " data-uk-tooltip="{cls:'long-text',pos:'bottom'}" title="{{child.createdAt}}"  ng-click="loadRequest(child)" ng-class="child.reqCnt>0?'uk-text-danger font-normal cursor-pointer':'font-normal uk-text-muted'">
+                                                    <span class="font-medium">Стратегийн зорилт  {{$parentIndex+1}} : </span> {{objective.title}}</p>
+                                            </div>
+                                            <div class="flex-none w-10"><button ng-if="editable" style="display: inline;margin:5px;" class="grid-btn ng-scope" ng-click="update(objective)">
+                                                <div class="nimis-icon edit"></div></button></div>
+                                        </div>
+                                    </td>
+                                    <td ng-if="editable" style="width: 80px;">
+                                        <div class="flex justify-center gap-3">
+                                            <button type="button" data-uk-tooltip="{cls:'long-text text-center',pos:'bottom'}" title="Үндсэн зорилт"  style="width: 75px !important;float:right;" class="md-btn outlined-button mt-0 md-btn !text-xs rounded-full" ng-click="addDetail(objective,0)"> Зорилт
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat-start="child in details | filter:{objId:objective.id,parentId:null}:true"  ng-init="$mainIndex = $index">
+                                    <td class=" border-left:none;border-top:none;" style="text-align:center;border-bottom:1px solid #eef1f4">
+                                      <!--  <label class="des-dugaar uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                           &lt;!&ndash; {{$parentIndex+1+$index+1}}&ndash;&gt;
+                                        </label>-->
+                                        <span class="font-medium">Зорилт {{$parentIndex+1}}.{{$index + 1}}</span>
+                                    </td>
+                                    <td style="border-bottom:1px solid #eef1f4" class="uk-text-left">
+                                        <div class="flex flex-row">
+                                            <div class="grow">
+                                                <p style="display: inline-block;margin-top:8px;" class="uk-form-label " data-uk-tooltip="{cls:'long-text',pos:'bottom'}" title="{{child.createdAt}}"  ng-click="loadRequest(child)" ng-class="child.reqCnt>0?'uk-text-danger font-normal cursor-pointer':'font-normal uk-text-muted'">
+                                                    {{child.title}}</p>
+                                            </div>
+                                            <div ng-if="editable" class="flex-none w-10"><button style="display: inline-block;margin:5px 0 0 5px;" data-uk-tooltip="{cls:'long-text',pos:'bottom'}" title="Дэд зорилт бүртгэх"  class="grid-btn" ng-click="addDetail(child,1)"><div class="nimis-icon add"></div></button></div>
+                                        </div>
+                                    </td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">   {{child.criteria}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.baseStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.targetStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.durationStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.userNames}}</label></td>
+                                    <td ng-if="editable" style="width: 80px;border-bottom:1px solid #eef1f4">
+                                        <div  class="flex justify-center gap-3">
+                                            <button class="grid-btn" ng-click="updateDetail(child)"><div class="nimis-icon edit"></div></button>
+                                            <button class="grid-btn" ng-click="deleteDetail($index,child)"><div class="nimis-icon delete"></div></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="childItem in details | filter:{parentId:child.id}:true"  ng-init="$subMainIndex = $index">
+                                    <td class=" border-left:none;border-top:none;" style="text-align:center;">
+                                       <!-- <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted des-dugaar">
+                                         &lt;!&ndash;   {{$parentIndex+1+$index + 1 +$index + 1}} &ndash;&gt;
+                                        </label>-->
+                                        <span class="font-medium">{{$parentIndex+1}}.{{$mainIndex + 1}}.{{$subMainIndex + 1}}</span>
+                                    </td>
+                                    <td style="border-bottom:1px solid #eef1f4" class="uk-text-left">
+                                        <div class="flex flex-row">
+                                            <div class="grow">
+                                                <p class="uk-form-label" data-uk-tooltip="{cls:'long-text',pos:'bottom'}" title="{{childItem.createdAt}}" ng-class="child.reqCnt>0?'uk-text-danger font-medium cursor-pointer':'font-normal uk-text-muted'">{{childItem.title}}</p>
+                                            </div>
+                                            <div class="flex-none w-10">
+                                                <button ng-if="editable" style="display: inline;margin:5px;width:24px;" class="grid-btn ng-scope" ng-click="loadRequest(childItem)">
+                                                    {{(requestItems | filter:{detId:childItem.id}:true).length}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                       <!-- <p style="padding-left:60px;" class="uk-form-label" ng-click="loadRequest(childItem)" data-uk-tooltip="{cls:'long-text',pos:'bottom'}" title="{{childItem.createdAt}}" ng-class="child.reqCnt>0?'uk-text-danger font-medium cursor-pointer':'font-normal uk-text-muted'"><span class="font-medium">Дэд зорилт-{{$parentIndex+1}}.{{$mainIndex + 1}}.{{$subMainIndex + 1}} : </span> {{childItem.title}}</p>-->
+                                    </td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">   {{childItem.criteria}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{childItem.baseStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{childItem.targetStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{childItem.durationStr}}</label></td>
+                                    <td style="border-bottom:1px solid #eef1f4"  class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{childItem.userNames}}</label></td>
+                                    <td ng-if="editable" style="width: 80px;border-bottom:1px solid #eef1f4">
+                                        <div  class="flex justify-center gap-3">
+                                            <button class="grid-btn" ng-click="updateDetail(childItem)"><div class="nimis-icon edit"></div></button>
+                                            <button class="grid-btn" ng-click="deleteDetail($index,childItem)"><div class="nimis-icon delete"></div></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat-end></tr>
+                                <tr ng-repeat-end></tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div ng-repeat-end></div>
+                </div>
+
+                <!--<div class="bg-white mt-20">
+                    <div>
+                        <table class="sub-table1 funding-table" style="border-spacing: 0">
+                            <thead>
+                            <tr>
+                                <th class="uk-text-center" style="width: 58px!important;"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Д/д</label></th>
+                                <th class="uk-text-left" style="min-width: 300px;"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Стратеги төлөвлөгөө болон үндэслэж байгаа бусад бодлогын баримт бичиг хууль тогтоомж</label></th>
+                                &lt;!&ndash; <th class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Төрөл</label></th>&ndash;&gt;
+                                <th class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Шалгуур үзүүлэлт</label></th>
+                                <th class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Суурь түвшин</label></th>
+                                <th class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Зорилтот түвшин</label></th>
+                                <th class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Хугацаа улирал</label></th>
+                                <th class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Хариуцах албан хаагч</label></th>
+                                <th ng-if="editable" style="width: 116px;" class="uk-text-center">
+                                    <button type="button" style="width: 70px !important" class="md-btn outlined-button mt-0 md-btn !text-xs rounded-full"
+                                            ng-click="add()">
+                                        &lt;!&ndash; <i style="margin-top: 0" class="material-icons">add</i>&ndash;&gt; Стратеги
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <colgroup>
+                                <col style="width: 58px!important"/>
+                                <col style="min-width: 300px"/>
+                                <col style="width: 200px"/>
+                                <col style="width: 200px"/>
+                                <col style="width: 200px"/>
+                                <col style="width: 200px"/>
+                                <col style="width: 200px"/>
+                                <col ng-if="editable" style="width: 90px"/>
+                            </colgroup>
+                        </table>
+                        <ul>
+                            <li ng-repeat="grp in groups | filter:{objType:'01'}:true" ng-init="$parentIndex = $index">
+                                <div style="border-right:1px solid #eef1f4;border-left:1px solid #eef1f4;border-top:1px solid #eef1f4;padding:8px;">
+                                    <table  style="border-spacing: 0; width: 100%;">
+                                        <colgroup>
+                                            <col />
+                                            <col style="width: 50px"/>
+                                            <col style="width: 90px"/>
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-form-label !text-md font-medium uk-text-muted" style="color: #312e81 !important;display:inline-block;padding-top:8px;padding-bottom:4px;">
+                                                        Стратегийн зорилт {{$index + 1}}. {{grp.title}}
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <button ng-if="editable" style="display: inline;margin:5px;" class="grid-btn" ng-click="update(grp)"><div class="nimis-icon edit"></div></button>
+                                                </td>
+                                                <td>
+                                                    <button ng-if="editable" type="button" style="width: 70px !important;float:right;margin-bottom:10px; margin-right: 13px;" class="md-btn outlined-button mt-0 md-btn !text-xs rounded-full"
+                                                            ng-click="addDetail(grp)">
+                                                        &lt;!&ndash; <i style="margin-top: 0" class="material-icons">add</i>&ndash;&gt; Зорилт
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <table class="sub-table1 funding-table" style="border-spacing: 0">
+                                    <colgroup>
+                                        <col style="width: 50px"/>
+                                        <col />
+                                        <col style="width: 200px"/>
+                                        <col style="width: 200px"/>
+                                        <col style="width: 200px"/>
+                                        <col style="width: 200px"/>
+                                        <col style="width: 200px"/>
+                                        <col ng-if="editable" style="width: 90px"/>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr ng-repeat-start="item in details | filter:{objId:grp.id,parentId:null}:true">
+                                        <td  class="uk-text-center">
+                                            <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Зорилт {{$parent.$index+1}}.{{$index+1}}</label>
+                                        </td>
+                                        <td class="uk-text-left tooltip"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{item.title}}</label><span class="tooltiptext">{{item.updatedAt}}</span></td>
+                                        <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{item.criteria}}</label></td>
+                                        <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{item.baseStr}}</label></td>
+                                        <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{item.targetStr}}</label></td>
+                                        <td class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{item.durationStr}}</label></td>
+                                        <td style="width: 200px;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal text-center uk-text-muted" style="white-space: normal;"> {{item.userNames}}</label></td>
+                                        <td ng-if="editable" style="width: 90px;">
+                                            <div class="flex justify-center gap-3">
+                                                <button class="grid-btn" ng-click="addDetail(grp)"><div class="nimis-icon add"></div></button>
+                                                <button class="grid-btn" ng-click="updateDetail(item)"><div class="nimis-icon edit"></div></button>
+                                                <button class="grid-btn" ng-click="deleteDetail($index,item)"><div class="nimis-icon delete"></div></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="(details | filter:{parentId:item.id}:true).length>0">
+                                        <td colspan='{{editable?8:7}}' style="padding: 0;border-top:none;" ng-class="viewChilds? '' : 'hide'">
+                                            <table class="sub-table1 funding-table" style="border-spacing: 0">
+                                                <colgroup>
+                                                    <col style="width: 49px"/>
+                                                    <col />
+                                                    <col style="width: 200px"/>
+                                                    <col style="width: 200px"/>
+                                                    <col style="width: 200px"/>
+                                                    <col style="width: 200px"/>
+                                                    <col style="width: 200px"/>
+                                                    <col  ng-if="editable" style="width: 90px"/>
+                                                </colgroup>
+                                                <tbody>
+                                                <tr ng-repeat="child in details | filter:{parentId:item.id}:true" class="">
+                                                    <td style="border-left:none;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">
+                                                        Дэд зорилт {{$parentIndex+1}}.{{$parent.$index+1}}.{{$index + 1}}</label>
+                                                    </td>
+                                                    <td class="uk-text-left tooltip"><label class="uk-form-label uppercase !text-xs" ng-click="loadRequest(child)" ng-class="child.reqCnt>0?'uk-text-danger font-medium cursor-pointer':'font-normal uk-text-muted'"> {{child.title}}</label><span class="tooltiptext">{{item.updatedAt}}</span></td>
+                                                    <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.criteria}}</label></td>
+                                                    <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.baseStr}}</label></td>
+                                                    <td class="uk-text-left"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.targetStr}}</label></td>
+                                                    <td class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted"> {{child.durationStr}}</label></td>
+                                                    <td style="width: 200px;" class="uk-text-center"><label class="uk-form-label uppercase !text-xs font-normal text-center uk-text-muted" style="white-space: normal;"> {{child.userNames}}</label></td>
+                                                    <td  ng-if="editable" style="width: 90px;border-right:none;">
+                                                        <div  class="flex justify-center gap-3">
+                                                            <button class="grid-btn" ng-click="addDetail(grp)"><div class="nimis-icon add"></div></button>
+                                                            <button class="grid-btn" ng-click="updateDetail(child)"><div class="nimis-icon edit"></div></button>
+                                                            <button class="grid-btn" ng-click="deleteDetail($index,child)"><div class="nimis-icon delete"></div></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat-end></tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+                        <table class="sub-table1 funding-table" style="border-spacing: 0">
+                            <tfoot class="bg-zinc-100">
+                            <tr>
+                                <td ng-if="editable" colspan="3" class="uk-text-bold uk-text-right">Нийт</td>
+                                <td ng-if="!editable" colspan="2" class="uk-text-bold uk-text-right">Нийт</td>
+                                <td style="width: 90px;" class="uk-text-center">
+                                    <span class="uk-text-bold ">{{(details | filter:{objType:'01',parentId:null}:true).length}}</span>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="footer" class="mt-6 box-border bg-white border-solid border-0 !border-t-[2px] border-zinc-200"
+        style="padding: 0 12px !important;z-index: 100">
+    <div class="grid grid-cols-3 gap-4">
+        <div>
+
+        </div>
+        <div class="col-span-2 text-right">
+            <button ng-click="sendPlan(1)" style="padding: 0"
+                    ng-show="(app.statusNm=='Хувиарласан' || app.statusNm=='Цуцалсан') && user.level.name=='Нэгжийн дарга'"
+                    class="md-btn md-btn-success px-4 rounded-md !text-sm">
+                <span>Батлах</span>
+            </button>
+            <button ng-click="sendPlan(0)" style="padding: 0"
+                    ng-show="app.statusNm=='Хадгалсан' && user.level.name=='Нэгжийн дарга'"
+                    class="md-btn md-btn-success px-4 rounded-md !text-sm">
+                <span ng-bind="app.statusNm=='Хадгалсан' && user.level.name=='Нэгжийн дарга'?'Хувиарлах':'Батлах'"></span>
+            </button>
+            <button ng-click="sendPlan(2)" style="padding: 0"
+                    ng-show="user.level.name=='Нэгжийн дарга' && app.statusNm=='Баталсан'"
+                    class="md-btn md-btn-danger px-4 rounded-md !text-sm">
+                <span>Цуцлах</span>
+            </button>
+
+            <button class="md-btn px-4 rounded-md !text-sm outlined-button" back-button>Буцах</button>
+        </div>
+    </div>
+</footer>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Стратегийн зорилт бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <!--<li>
+                            <div class="k-edit-label"><label>Төрөл</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="custom-select w-full" id="contractType">
+                                    <div class="item text-sm" style="width: 40%"
+                                         ng-class="dataItem.objType == '01' ? 'active' : ''"
+                                         ng-click="dataItem.objType = '01'">Гүйцэтгэлийн зорилт
+                                    </div>
+                                    <div class="item text-sm" style="width: 60%"
+                                         ng-class="dataItem.objType == '02' ? 'active' : ''"
+                                         ng-click="dataItem.objType = '02'">Мэдлэг, ур чадвараа дээшлүүлэх зорилт
+                                    </div>
+                                </div>
+                            </div>
+                        </li>-->
+
+                        <li>
+                            <div class="k-edit-label"><label for="fullDesc">Стратегийн зорилт</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                 <textarea kendo-text-area id="fullDesc" required k-ng-model="dataItem.title" style="width: 100%;"
+                                           rows="8"></textarea>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="k-edit-label"><label>Албан хаагч</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="my-2 mr-1 inline-block" ng-repeat="eco in workers">
+                                    <input type="checkbox" ng-value="eco.id" ng-model="bagObj[eco.id]" class="k-checkbox hidden" style="display: none !important" id="{{eco.id}}-{{$index}}" />
+                                    <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer capitalize" for="{{eco.id}}-{{$index}}"
+                                    ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>{{eco.username}}</label
+                                    >
+                                </div>
+                            </div>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                    <button ng-show="dataItem.id!=null" type="button" ng-click="delete(dataItem)"
+                            class="md-btn md-btn-mini !text-sm md-btn-danger px-4">Устгах
+                    </button>
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form_detail">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:800px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Зорилт бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form name="detailForm" class="k-form k-form-vertical" id="validatorDetail" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formDetailSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <!--<li ng-if="formTp==3">
+                            <div class="k-edit-label"><label>Төрөл</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="custom-select w-full">
+                                    <div class="item text-sm" style="width: 50%"
+                                         ng-class="detailItem.eventType == '01' ? 'active' : ''"
+                                         ng-click="objChange('01')">Үндсэн зорилт
+                                    </div>
+                                    <div class="item text-sm" style="width: 50%"
+                                         ng-class="detailItem.eventType == '02' ? 'active' : ''"
+                                         ng-click="objChange('02')">Дэд зорилт
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li ng-if="detailItem.eventType == '02'">
+                            <div class="k-edit-label"><label for="userId">Үндсэн зорилт</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box ng-required="detailItem.objType == '02'" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="userId"
+                                        k-data-text-field="'title'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="detailItem.parentId"
+                                        k-data-source="detailDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>-->
+                        <li>
+                            <div class="k-edit-label"><label for="title" ng-bind="formTp==0?'Үндсэн зорилт':'Дэд зорилт'">Зорилт</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                 <textarea kendo-text-area id="title" required k-ng-model="detailItem.title" style="width: 100%;"
+                                           rows="3"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="title">Шалгуур үзүүлэлт</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box id="products"
+                                        k-placeholder="'Сонгох'"  k-filter="'startswith'" k-auto-bind="true"
+                                        k-data-text-field="'title'" k-data-value-field="'title'"
+                                        k-ng-model="detailItem.critObj"
+                                        k-data-source="criteriaDataSource" style="width: 100%"></select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="baseStr">Суурь түвшин</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <textarea kendo-text-area id="baseStr" k-ng-model="detailItem.baseStr" style="width: 100%;" rows="2"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="targetStr">Зорилтот түвшин</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <textarea kendo-text-area id="targetStr" k-ng-model="detailItem.targetStr" style="width: 100%;" rows="2"></textarea>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label"><label class="pt-6" style="display: block;" >Үргэлжлэх хугацаа</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label>Эхлэх</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <select kendo-combo-box required validationMessage="шаардлагатай"
+                                                    k-placeholder="'Сонгох'"
+                                                    k-data-text-field="'text'" k-data-value-field="'value'" ng-model="detailItem.srtDt"
+                                                    k-data-source="durations" style="width: 100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Дуусах </label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <select kendo-combo-box required validationMessage="шаардлагатай"
+                                                    k-placeholder="'Сонгох'"
+                                                    k-data-text-field="'text'" k-data-value-field="'value'" ng-model="detailItem.endDt"
+                                                    k-data-source="durations" style="width: 100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li ng-if="detailItem.eventType == '02'">
+                            <div class="k-edit-label"><label>Албан хаагч</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="k-form-field-wrap my-2 inline-block">
+                                    <input ng-checked="allChecked" type="checkbox" id="{{item.id}}-{{$index}}-allPriv" class="k-checkbox hidden" style="display: none !important" ng-click="selectAll($event.target.checked)" />
+                                    <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer" for="{{item.id}}-{{$index}}-allPriv"
+                                    ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>Бүгд</label
+                                    >
+                                </div>
+                                <div class="my-2 mr-1 inline-block" ng-repeat="eco in workers">
+                                    <input type="checkbox" ng-value="eco.id" ng-model="bagObj[eco.id]" class="k-checkbox hidden" style="display: none !important" id="{{eco.id}}-{{$index}}" />
+                                    <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer capitalize" for="{{eco.id}}-{{$index}}"
+                                    ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>{{eco.name}}</label
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                    <button type="button" ng-click="formDetailSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form_criteria">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:800px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Шалгуур үзүүлэлт бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form name="criteriaForm" class="k-form k-form-vertical" id="validatorCriteria" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formCriteriaSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+
+                        <li>
+                            <div class="k-edit-label"><label for="title">Арга хэмжээ</label></div>
+                            <div class="k-edit-field pt-2 k-form-field-wrap">
+                                {{criteriaItem.title}}
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label">
+                                <div class="grid grid-cols-1 gap-1">
+                                    <div>
+                                        <label for="criteria">Шалгуур үзүүлэлт</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <textarea kendo-text-area required k-ng-model="criteriaItem.criteria" style="width: 100%;" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="k-edit-label"><label class="pt-6" style="display: block;">Хүрэх түвшин (хагас жилээр)</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label>Суурь үзүүлэлт</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input  kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0" required ng-model="criteriaItem.baseline" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="firstHalf">Эхний хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0"  required ng-model="criteriaItem.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="secondHalf">Сүүлийн хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0" required ng-model="criteriaItem.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="k-edit-label"><label class="pt-6" style="display: block;" >Үргэлжлэх хугацаа</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="fullDesc">Эхлэх</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input
+                                                    validationMessage="шаардлагатай"
+                                                    kendo-date-picker
+                                                    k-format="'yyyy-MM-dd'"
+                                                    required
+                                                    ng-model="criteriaItem.srtDt"
+                                                    k-max="criteriaItem.endDt"
+                                                    style="width: 100%"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="fullDesc">Дуусах </label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input
+                                                    validationMessage="шаардлагатай"
+                                                    kendo-date-picker
+                                                    k-format="'yyyy-MM-dd'"
+                                                    required
+                                                    ng-model="criteriaItem.endDt"
+                                                    k-min="criteriaItem.srtDt"
+                                                    k-max="lastDay"
+                                                    k-rebind = "criteriaItem.srtDt"
+                                                    style="width: 100%"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="k-edit-label"><label for="fullDesc">Хүрэх түвшин (хагас жилээр)</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="firstHalf">Эхний хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="firstHalf" required ng-model="detailItem.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="secondHalf">Сүүлийн хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="secondHalf" required ng-model="detailItem.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                    <button type="button" ng-click="formCriteriaSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form_request">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Хүсэлт</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" custom-scrollbar  style="margin-bottom: 20px; overflow-x: hidden;">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+
+                    <dl class="w-full text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+                        <div class="flex flex-col pb-3" ng-repeat="item in requests">
+                            <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{item.name}}</dt>
+                            <dd class="text-lg font-medium">{{item.title}}
+                                <button ng-hide="item.responseType=='0' || item.responseType=='1'" type="button" ng-show="$last" ng-click="deny(item)" class="float-right md-btn md-btn-danger md-btn-mini !text-sm">Буцаах</button>
+                                <button ng-hide="item.responseType=='0' || item.responseType=='1'" type="button" ng-show="$last" ng-click="approve(item)" class="float-right mr-2 md-btn md-btn-primary md-btn-mini !text-sm">Зөвшөөрөх</button>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">Хаах
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="uk-modal" id="modal_deny_request">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Буцаах</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="denyForm" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label">
+                                <div class="grid grid-cols-1 gap-1">
+                                    <div>
+                                        <label>Тайлбар</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <textarea kendo-text-area required k-ng-model="denyItem.answer" style="width: 100%;" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">
+                        Хаах
+                    </button>
+                    <button type="button" ng-click="denySubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_approve_request">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Хүсэлт</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" custom-scrollbar  style="margin-bottom: 0px; overflow-x: hidden;">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label">
+                                <div class="grid grid-cols-1 gap-1">
+                                    <div>
+                                        <label>Тайлбар</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <textarea kendo-text-area required k-ng-model="approveItem.answer" style="width: 100%;" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">
+                        Хаах
+                    </button>
+                    <button type="button" ng-click="approveSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .k-edit-label{
+        width:30%;
+    }
+    .k-edit-field{
+        width:68%;
+    }
+    .k-no-data{
+        display: table;
+        width: 100%;
+        padding-top: 20px;
+    }
+</style>
+
+<script id="noDataTemplate" type="text/x-kendo-tmpl">
+    <div>
+        Шалгуур үзүүлэлт бүртгээгүй байна. Шинээр бүртгэх үү? - '#: instance.element.val() #' ?
+    </div>
+
+
+<br />
+<button class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md" onclick="addNew('#: instance.element[0].id #', '#: instance.element.val() #')">Нэмэх</button>
+</script>
+<script>
+    $(document).ready(function() {
+        var crudServiceBaseUrl = "/api/cab/criteria";
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            transport: {
+                read:  {
+                    url: crudServiceBaseUrl + "/list",
+                    contentType: "application/json; charset=UTF-8",
+                    type: "POST",
+                    data: {filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value: JSON.parse(localStorage.getItem("currentUser")).user.orgId}]},"sort": [{field: 'id', dir: 'desc'}]},
+                    beforeSend: function (req) {
+                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                    }
+                },
+                create: {
+                    url: crudServiceBaseUrl + "/submit",
+                    contentType: "application/json; charset=UTF-8",
+                    type: "POST",
+                    beforeSend: function (req) {
+                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                    }
+                },
+                parameterMap: function (options) {
+                    return JSON.stringify(options);
+                }
+            },
+            schema: {
+                data: "data",
+                total: "total",
+                model: {
+                    id: "id",
+                    fields: {
+                        id: { type: "number" },
+                        title: { type: "string" }
+                    }
+                }
+            },
+            pageSize: 20,
+            serverPaging: true,
+            serverFiltering: true,
+            serverSorting: true
+        });
+
+        /*$("#products").kendoComboBox({
+            filter: "startswith",
+            dataTextField: "title",
+            dataValueField: "title",
+            dataSource: dataSource,
+          //  noDataTemplate: $("#noDataTemplate").html()
+        });*/
+
+        /*$(function() {
+            $("[data-role=combobox]").each(function() {
+                var widget = $(this).getKendoComboBox();
+                widget.input.on("focus", function() {
+                    widget.open();
+                });
+            });
+        });*/
+    });
+
+    function addNew(widgetId, value) {
+        var widget = $("#" + widgetId).getKendoAutoComplete();
+        var dataSource = widget.dataSource;
+
+        if (confirm("Бүртгэх үү?")) {
+            dataSource.add({
+                id: 0,
+                title: value
+            });
+
+            dataSource.one("sync", function() {
+                widget.close();
+            });
+
+            dataSource.sync();
+        }
+    };
+
+
+</script>
+
+
+<style>
+    .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip1 {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip1 .tooltiptext1 {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip1:hover .tooltiptext1 {
+  visibility: visible;
+}
+</style>
+
+
+<style>
+    table {
+        /* min-width: max-content;
+        border-collapse: separate; */
+    }
+    th {
+        position: sticky;
+        top: 0px;
+
+    }
+
+    .tblwrapper {
+        max-height: 800px;
+        overflow-y: scroll;
+
+    }
+</style>

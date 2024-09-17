@@ -1,0 +1,253 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content" class="p-3">
+            <!--<div class="grid bg-white grid-cols-6 border border-gray-300 rounded-md gap-4 p-3">
+                <div class="items-center text-center pt-2">
+                    <label for="organization" class="mb-2 text-sm font-medium text-gray-900 pr-2">Байгууллага сонгох</label>
+                </div>
+                <div class="items-center">
+                    <select id="organization" name="organization" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>Байгууллага 1</option>
+                        <option>Байгууллага 2</option>
+                        <option>Байгууллага 3</option>
+                    </select>
+                </div>
+                <div class="items-center text-center pt-2">
+                    <label for="countries" class="mb-2 text-sm font-medium text-gray-900 pr-2">Нэгж сонгох</label>
+                </div>
+                <div class="items-center">
+                    <select id="countries" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>Нэгж 1</option>
+                        <option>Нэгж 2</option>
+                        <option>Нэгж 3</option>
+                        <option>Нэгж 4</option>
+                    </select>
+                </div>
+                <div class="items-center text-center pt-2">
+                    <label for="datepicker" class="mb-2 text-sm font-medium text-gray-900 pr-2">Огноо</label>
+                </div>
+                <div class="items-center">
+                    <input id="datepicker" style="border-radius: 0.5rem !important; border-color: black !important;" class="focus:ring-blue-500 focus:border-blue-500"/>
+                </div>
+            </div>-->
+            <div ng-repeat="item in main.zoriltList" class="grid bg-white border border-gray-300 rounded-md mt-3 pt-5 pb-5">
+                <div class="h2 p-3 text-xl font-semibold border-bottom">Гүйцэтгэлийн зорилт, арга хэмжээ</div>
+                <hr class="mt-3">
+                <div class="grid grid-cols-6 gap-4 p-3">
+                    <div class="items-center pt-2">
+                        <label class="mb-2 text-sm font-medium text-gray-900 pr-2">{{$index+1}}. Зорилт</label>
+                    </div>
+                    <div class="items-center col-span-3">
+                        <input class="border border-gray-300 text-gray-900 text-sm w-full rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text"
+                        value="1. Төрийн албан хаагч цаг хугацаа, орон зайнаас үл хамааран тасралтгүй сурч хөгжих таатай орчныг бүрдүүлэх хүрээнд төрийн албаны сургалтын нэгдсэн системийг хөгжүүлж, нэвтрүүлэх"
+                        >
+                    </div>
+                    <div class="items-center">
+                        <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Албан хаагч</label>
+                        <select class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-4/6 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option>П.БААСАН</option>
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <button ng-if="$index==0" ng-click="add1()" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            <span>Зорилт нэмэх</span>
+                        </button>
+                        <button ng-if="$index>0" ng-click="remove1($index)" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            <span>Хасах</span>
+                        </button>
+                    </div>
+                </div>
+                <div ng-repeat="argaKhemjee in item.argaKhemjeeList">
+                    <hr>
+                    <div class="grid grid-cols-6 gap-4 p-3">
+                        <div class="items-center pt-2">
+                                <label ng-show="argaKhemjee.parentId==null" class="mb-2 text-sm font-medium text-gray-900 pr-2">{{$parent.$index+1}}.{{$index+1}}. Арга хэмжээ</label>
+                                <label ng-show="argaKhemjee.parentId==0" class="mb-2 text-sm font-medium text-gray-900 pr-2">{{$parent.$index+1}}.{{$index+1}}. Дэд арга хэмжээ</label>
+                        </div>
+                        <div class="items-center col-span-3">
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                 type="text">
+                        </div>
+                        <div class="text-right">
+                            <button ng-show="argaKhemjee.parentId==null" ng-click="addSub($parent.$index)" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Дэд арга хэмжээ</span>
+                            </button>
+                            <button ng-show="$index>0 && argaKhemjee.parentId==0" ng-click="removeSub($parent.$index, $index)" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Хасах</span>
+                            </button>
+                        </div>
+                        <div class="text-right">
+                            <button ng-show="$index==0 && argaKhemjee.parentId==null" ng-click="add2($parent.$index, $index)" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Арга хэмжээ нэмэх</span>
+                            </button>
+                            <button ng-show="$index>0 && argaKhemjee.parentId===null" ng-click="remove2($parent.$index, $index)" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Хасах</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div ng-repeat="tuvshin in argaKhemjee.tuvshinList">
+                        <hr>
+                        <div class="grid grid-cols-6 gap-4 p-3">
+                            <div class="items-center pt-3">
+                                <p class="mb-2 text-sm font-medium text-gray-900 pr-2">Хүрэх түвшин (хагас жилээр)</p>
+                            </div>
+                            <div class="items-center">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Эхний хагас</label>
+                                <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                            </div>
+                            <div class="items-center">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Сүүлийн хагас</label>
+                                <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                            </div>
+                            <div class="items-center">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Эхлэх хугацаа</label>
+                                <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                            </div>
+                            <div class="items-center">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Дуусах хугацаа</label>
+                                <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                            </div>
+                            <div class="text-right">
+                                <button ng-show="$index==0" style="margin-top: 0px;" ng-click="add3($parent.$parent.$index, $parent.$index)" class="bg-blue-500 mt-6 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                    <span>Нэмэх</span>
+                                </button>
+                                <button ng-show="$index>0" style="margin-top: 0px;" ng-click="remove3($parent.$parent.$index, $parent.$index, $index)" class="bg-red-500 mt-6 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                    <span>Хасах</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-6 gap-4 p-3">
+                            <div class="items-center pt-2">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Шалгуур үзүүлэлт</label>
+                            </div>
+                            <div class="items-center col-span-2">
+                                <select class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option>Систем хөгжүүлэлтийнажлын хувь</option>
+                                    <option>Үндсэн арга хэмжээний гүйцэтгэлд эзлэх хувь</option>
+                                    <option>Санхүүгийн эх үүсвэрийг шийдвэрлүүлсэн байна.</option>
+                                    <option>Зөвлөх үйлчилгээний гэрээ байгуулж, ажлын тайланг хүлээн авсан байна.</option>
+                                    <option>Гүйцэтгэгчтэй гэрээ байгуулсан байна</option>
+                                    <option>Модуль хөгжүүлэлтийн ажлын хувь</option>
+                                    <option>Систем хөгжүүлэлтийн ажлын хувь</option>
+                                    <option>Цахим ситсем нэвтрүүлсан байгууллагын тоо</option>
+                                </select>
+                            </div>
+                            <div class="items-center pt-2">
+                                <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Суурь үзүүлэлт</label>
+                            </div>
+                            <div class="items-center col-span-2">
+                                <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid bg-white border border-gray-300 rounded-md mt-3 pt-5 pb-5">
+                <div class="h2 mt-3 p-3 text-xl font-semibold border-bottom">Мэдлэг, ур чадвараа дээшлүүлэх зорилт, арга хэмжээ</div>
+                <hr class="mt-3">
+                <div ng-repeat="item in main.medlegList">
+                    <div class="grid grid-cols-6 gap-4 p-3">
+                        <div class="items-center pt-2">
+                            <label ng-if="item.parentId==null" class="mb-2 text-sm font-medium text-gray-900 pr-2">Арга хэмжээ</label>
+                            <label ng-if="item.parentId>=0 && item.parentId!=null" class="mb-2 text-sm font-medium text-gray-900 pr-2">Дэд арга хэмжээ</label>
+                        </div>
+                        <div class="items-center col-span-3">
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                        <div class="text-right">
+                            <button ng-show="item.parentId==null" ng-click="add4Sub($index)" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Дэд арга хэмжээ</span>
+                            </button>
+                            <button ng-show="$index>0 && item.parentId!=null" ng-click="remove4Sub($index)" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px"  height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Хасах</span>
+                            </button>
+                        </div>
+                        <div class="text-right">
+                            <button ng-show="$index==0 && item.parentId==null" ng-click="add4($index)" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Нэмэх</span>
+                            </button>
+                            <button ng-show="$index>0 && item.parentId==null" ng-click="remove4($index)" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px"  height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Хасах</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div ng-repeat="tuvshin in item.tuvshinList">
+                    <div class="grid grid-cols-6 gap-4 p-3">
+                        <div class="items-center pt-3">
+                            <p class="mb-2 text-sm font-medium text-gray-900 pr-2">Хүрэх түвшин (хагас жилээр)</p>
+                        </div>
+                        <div class="items-center">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Эхний хагас</label>
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                        <div class="items-center">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Сүүлийн хагас</label>
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                        <div class="items-center">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Эхлэх хугацаа</label>
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                        <div class="items-center">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Дуусах хугацаа</label>
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+
+                        <div class="text-right">
+                            <button ng-show="$index==0" ng-click="add5($parent.$index, $index)" class="bg-blue-500 mt-6 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.528"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Нэмэх</span>
+                            </button>
+                            <button ng-show="$index>0" ng-click="remove5($parent.$index, $index)" class="bg-red-500 mt-6 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center">
+                                <svg width="20px"  height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12L18 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                <span>Хасах</span>
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="grid grid-cols-6 gap-4 p-3">
+                        <div class="items-center pt-2">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2">Шалгуур үзүүлэлт</label>
+                        </div>
+                        <div class="items-center col-span-2">
+                            <select class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option>Шалгуур үзүүлэлт 1</option>
+                                <option>Шалгуур үзүүлэлт 2</option>
+                                <option>Шалгуур үзүүлэлт 3</option>
+                                <option>Шалгуур үзүүлэлт 4</option>
+                            </select>
+                        </div>
+                        <div class="items-center pt-2">
+                            <label class="mb-2 text-sm font-medium text-gray-900 pr-2" >Суурь үзүүлэлт</label>
+                        </div>
+                        <div class="items-center col-span-2">
+                            <input class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-6 gap-4 p-3">
+                    <div class="col-span-5"></div>
+                    <div class="text-right">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                            Хадгалах
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

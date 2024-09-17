@@ -1,0 +1,450 @@
+<div id="page_content">
+  <div id="page_content_inner">
+    <div class="profile-container">
+      <div class="uk-width-1-1 custom-card" style="padding: 30px 0; padding-bottom: 20px">
+        <div class="uk-flex custom-tab px-8">
+          <span class="item" ng-class="selectedItem=='info' && 'active'" ng-click="tabChange('info')">Хувийн мэдээлэл</span>
+          <span class="item" ng-class="selectedItem=='password' && 'active'" ng-click="tabChange('password')">Нууц үг</span>
+          <!-- <span
+            class="item"
+            ng-class="selectedItem=='phone' && 'active'"
+            ng-click="tabChange('phone')"
+            >Утасны дугаар</span
+          > -->
+          <span class="item" ng-class="selectedItem=='email' && 'active'" ng-click="tabChange('email')">Цахим хаяг</span>
+        </div>
+        <div class="panel">
+          <div ng-show="selectedItem=='info'">
+            <form class="nimis-form" role="form" id="formInfo" name="infoForm">
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="userAvatar">Хэрэглэгчийн зураг</label>
+                <div class="flex gap-4">
+                  <label class="custom-file-upload">
+                    <i class="material-icons">add</i>
+                    <input ng-files="getUserAvatar($files)" class="hidden" type="file" accept="image/*" name="file" id="userAvatar" />
+                  </label>
+                  <div class="relative rounded-sm">
+                    <img
+                            ng-src="{{user.user.avatar!=null && user.user.avatar.uri!=null?__env.url+user.user.avatar.uri:'assets/img/avatars/img_user_avatar.png'}}"
+                            alt="user avatar"
+                            id="previewAvatar"
+                            height="150"
+                            width="150"
+                            style="height: 150px; width: 150px"
+                            class="object-cover object-center rounded-sm"
+                    />
+                    <div class="spinner" ng-if="imgLoading"></div>
+                    <i class="material-icons absolute right-[10px] top-[10px] cursor-pointer text-white" ng-click="file1234=null">cancel_rounded</i>
+                  </div>
+                </div>
+
+              </div>
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="username">Нэвтрэх нэр</label>
+                <input class="input" id="username" disabled ng-model="user.user.username" />
+              </div>
+
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="orgName">Байгууллагын нэр</label>
+                <input class="input" id="orgName" disabled ng-model="user.user.organization.name" />
+              </div>
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="lastname">Таны овог</label>
+                <input class="input" id="lastname" required name="lastname" ng-model="credentials.lastname" data-parsley-required-message="Овгоо оруулна уу." />
+              </div>
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="firstname">Таны нэр</label>
+                <input class="input" id="firstname" required name="firstname" ng-model="credentials.firstname" data-parsley-required-message="Нэрээ оруулна уу." />
+              </div>
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="firstname">Утас</label>
+                <input
+                  type="text"
+                  onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+                  class="input"
+                  id="phone"
+                  required
+                  name="phone"
+                  ng-model="credentials.phone"
+                  data-parsley-required-message="Утасны дугаараа оруулна уу."
+                />
+              </div>
+              <div class="text-right" type="submit" ng-click="submitProfile()">
+                <button class="outlined-button hover:shadow-lg from-indigo-900 rounded-full">ХАДГАЛАХ</button>
+              </div>
+            </form>
+          </div>
+          <!-- <form
+              ng-if="selectedItem=='phone'"
+              class="nimis-form"
+              role="form"
+              id="formPhone"
+              name="phoneForm"
+              ng-submit="submitProfile()"
+            >
+              <p style="font-weight: 400">
+                Та өөрийн гар утасны дугаарыг оруулна уу.
+              </p>
+              <div class="uk-form-row form-field parsley-row">
+                <input
+                  class="input"
+                  ng-model="item"
+                  style="height: 4rem"
+                /><button class="filled">код илгээх</button>
+              </div>
+              <p style="font-weight: 400">
+                Таны дугаарт илгээсэн 6 оронтой кодыг оруулна уу
+              </p>
+              <div class="grid grid-cols-6 gap-2">
+                <input
+                  class="number-input col-span-1"
+                  ng-repeat="item in [].constructor(6) track by $index"
+                  ng-value="'-'"
+                />
+              </div>
+              <div class="flex justify-between my-4">
+                <div class="timer">0:00</div>
+                <button
+                  class="filled"
+                  style="position: static; width: 200px !important"
+                >
+                  код дахин авах
+                </button>
+              </div>
+              <div class="text-right"><button>ҮРГЭЛЖЛҮҮЛЭХ</button></div>
+            </form> -->
+          <div ng-show="selectedItem=='email'">
+            <form class="nimis-form" role="form" id="formEmail" name="emailForm" ng-submit="submitEmail()">
+              <p style="font-weight: 400">Та цахим шуудангаа оруулна уу.</p>
+              <div class="uk-form-row form-field parsley-row">
+                <input class="input first" required name="email" type="text" ng-model="credentials.email" style="height: 4rem" />
+                <button class="filled" type="submit">
+                  <span ng-show="!codeLoader">код илгээх</span>
+                  <span ng-show="codeLoader" class="spinner"></span>
+                </button>
+              </div>
+            </form>
+            <form class="nimis-form" role="form" id="formCode" name="codeForm" ng-submit="validateCode()">
+              <p style="font-weight: 400">Таны цахим шууданд илгээсэн 6 оронтой кодыг оруулна уу</p>
+              <div class="grid grid-cols-6 gap-2" id="numberContainer">
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" data-pattern-msg="as" />
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" />
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" />
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" />
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" />
+                <input type="tel" maxlength="1" pattern="[0-9]" class="number-input col-span-1" ng-keydown="numberKeydown($event)" />
+              </div>
+              <div class="flex justify-between my-4">
+                <div class="timer">0:00</div>
+                <button class="filled" style="position: static; width: 200px !important" type="button" ng-click="submitEmail('regenerate')">
+                  <span ng-show="!regenerateLoader">код дахин авах</span>
+                  <span ng-show="regenerateLoader" class="spinner"></span>
+                </button>
+              </div>
+              <div class="text-right">
+                <button type="submit" class="outlined-button hover:shadow-lg from-indigo-900 rounded-full">ХАДГАЛАХ</button>
+              </div>
+            </form>
+          </div>
+          <div ng-show="selectedItem=='password'">
+            <form class="nimis-form" role="form" id="formPassword" name="passwordForm" ng-submit="submitProfile()">
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="newPassword">Шинэ нууц үг</label>
+                <input
+                  ng-attr-type="{{ showPassword ? 'text' : 'password' }}"
+                  type="password"
+                  name="password"
+                  ng-change="validatePassword()"
+                  class="input"
+                  required
+                  data-parsley-required-message="Шинэ нууц
+                үгээ оруулна уу"
+                  ng-model="credentials.newPassword"
+                  id="newPassword"
+                />
+                <span class="passwordToggleBtn" ng-click="showPassword=!showPassword"
+                  ><i ng-if="showPassword" class="material-icons">visibility_outlined</i><i ng-if="!showPassword" class="material-icons">visibility_off_outlined</i></span
+                >
+              </div>
+              <!-- <div class="flex gap-2 mt-4 items-center">
+                <div
+                  ng-repeat="i in [].constructor(5) track by $index"
+                  style="height: 4px; border-radius: 10px; background: #eef1f4"
+                  ng-style="$index < 2 && {'background': '#FAA41B' }"
+                  class="w-1/6"
+                ></div>
+                <span style="color: #a1a6ae; font-size: 14px; font-weight: 400"
+                  >Дундаж</span
+                >
+              </div> -->
+              <ul class="password-patterns">
+                <li style="margin-top: 5px" ng-class="passChecker.upper && 'check'"><i class="material-icons mr-4">check</i>Том үсэг</li>
+                <li style="margin-top: 5px" ng-class="passChecker.lower && 'check'"><i class="material-icons mr-4">check</i>Жижиг үсэг</li>
+                <li style="margin-top: 5px" ng-class="passChecker.number && 'check'"><i class="material-icons mr-4">check</i>Тоо</li>
+                <li style="margin-top: 5px" ng-class="passChecker.symbol && 'check'"><i class="material-icons mr-4">check</i>Тусгай тэмдэгт</li>
+                <li style="margin-top: 5px" ng-class="passChecker.length && 'check'"><i class="material-icons mr-4">check</i>Хамгийн багадаа 8 оронтой</li>
+              </ul>
+              <div class="uk-form-row form-field parsley-row" style="margin-top: 15px">
+                <label for="verifyPassword">Нууц үгээ баталгаажуулах</label>
+                <input
+                  ng-attr-type="{{ showVerifyPassword ? 'text' : 'password' }}"
+                  name="verifyPassword"
+                  class="input"
+                  id="verifyPassword"
+                  ng-model="credentials.verifyPassword"
+                  required
+                  data-parsley-equalto="#newPassword"
+                  data-parsley-required-message="Нууц үгээ дахин оруулна уу"
+                  data-parsley-equalto-message="Нууц үг тохирохгүй байна"
+                />
+                <span class="passwordToggleBtn" ng-click="showVerifyPassword=!showVerifyPassword"
+                  ><i ng-if="showVerifyPassword" class="material-icons">visibility_outlined</i><i ng-if="!showVerifyPassword" class="material-icons">visibility_off_outlined</i></span
+                >
+              </div>
+              <div class="text-right">
+                <button class="outlined-button hover:shadow-lg from-indigo-900 rounded-full">ХАДГАЛАХ</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .uk-notify-message {
+    border-radius: 10px !important;
+    padding: 0 !important;
+  }
+  .custom-card {
+    border: 1px solid #f0f2f5;
+    box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    background: white;
+    padding: 30px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #212121;
+    box-sizing: border-box;
+  }
+  .custom-card .small-text {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #515965;
+  }
+  .custom-card .small-card {
+    border: 1px solid #f0f2f5;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 100%;
+  }
+  .icon-container {
+    border-radius: 10px;
+    display: flex;
+    height: 60px;
+    width: 60px;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-container > i {
+    font-size: 24px !important;
+  }
+  .profile-container {
+    margin: 0 20%;
+  }
+  .current-tab {
+    gap: 40px;
+    border-bottom: 3px solid #eef1f4;
+    padding: 0px 40px;
+  }
+  .current-tab .item {
+    font-size: 15px;
+    height: 33px;
+    cursor: pointer;
+    font-weight: 400;
+    position: relative;
+  }
+  .current-tab .item.active,
+  .current-tab .item:hover {
+    color: #686ef5;
+    font-weight: 600;
+  }
+  .current-tab .item::after {
+    content: "";
+    height: 3px;
+    width: 0px;
+    position: absolute;
+    background: #686ef5;
+    bottom: -3px;
+    margin: 0px auto;
+    transition: all 0.2s ease 0s;
+    left: 0px;
+    right: 0px;
+  }
+  .current-tab .item.active::after,
+  .current-tab .item:hover::after {
+    width: 100%;
+  }
+  .custom-card .number-input {
+    border: 1px solid #eef1f4;
+    height: 96px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 42px;
+    margin-left: 5px;
+    color: #212121 !important;
+    font-weight: 300 !important;
+  }
+  .custom-card .panel p {
+    font-weight: 400;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 20px;
+    padding: 0 30px;
+    color: #515965;
+  }
+  .custom-card .panel button {
+    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(to left, #2563eb, #941b36) border-box;
+    left: 5px;
+    border: 1px solid transparent;
+    padding: 7px 25px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  .custom-card .panel button:hover {
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .form-field .input.verified {
+    border-color: #28a745;
+  }
+  .form-field {
+    position: relative;
+  }
+  .form-field .verify-icon {
+    position: absolute;
+    right: 10px;
+    color: #28a745;
+    font-size: 26px;
+    bottom: 10px;
+  }
+  .customCheckbox {
+    margin-top: 20px;
+  }
+  .nimis-form .form-field label {
+    font-weight: 300;
+    font-size: 14px;
+  }
+  .nimis-form .form-field input {
+    margin-top: 0;
+  }
+  .custom-card .panel {
+    margin: 30px 120px;
+  }
+  .passwordToggleBtn {
+    position: absolute;
+    right: 10px;
+    top: 33px;
+    cursor: pointer;
+  }
+  .passwordToggleBtn i {
+    font-size: 20px;
+  }
+  .custom-card .panel button.filled {
+    background: linear-gradient(to right, #2563eb , #312e81) border-box !important;
+    color: #ffffff !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    width: 128px !important;
+    text-transform: uppercase !important;
+    height: 37px !important;
+    border-radius: 9999px !important;
+    cursor: pointer;
+    position: absolute;
+    left: unset !important;
+    right: 12px;
+    padding: 0 !important;
+    margin: 0 !important;
+    top: 9px;
+  }
+  .timer {
+    width: 88px;
+    height: 32px;
+    background: #f6f7f8;
+    font-weight: 600;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  ul.password-patterns {
+    color: #a1a6ae;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .password-patterns li.check {
+    color: #2acb7f;
+  }
+  .password-patterns li.check i {
+    color: #2acb7f;
+  }
+  .uk-notify-message {
+    border-radius: 3px;
+    padding: 10px;
+  }
+  .uk-notify-message .uk-notify-message-success {
+    background-color: #2acb7f;
+  }
+  .spinner {
+    display: block;
+    border: 6px solid rgb(256, 256, 256, 0.5);
+    border-top: 6px solid #fff;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    margin: auto;
+    animation: spin 2s linear infinite;
+  }
+  input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload {
+    background: #f6f7f8;
+    border: 1px solid #eef1f4;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    cursor: pointer;
+  }
+  .custom-file-upload i {
+    color: #515965;
+    font-size: 70px;
+  }
+  .custom-tab .item {
+    font-size: 14px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>

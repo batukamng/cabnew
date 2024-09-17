@@ -1,0 +1,149 @@
+<div id="page_content">
+  <div id="page_content_inner">
+    <div id="main_content">
+      <kendo-grid id="app1Data" k-scope-field="grid" k-data-source="dataSource" options="mainGrid"></kendo-grid>
+    </div>
+  </div>
+</div>
+
+<div class="uk-modal" id="modal_application">
+  <div class="uk-modal-dialog" style="margin-bottom: 0; padding: 0">
+    <div class="formHeader" style="display: block; margin: 0 -24px; padding: 12px">
+      <div class="uk-grid">
+        <div class="uk-width-medium-1-1 uk-text-left">
+          <h3 class="heading_a" style="margin-bottom: 0">
+            Бүртгэл
+            <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <form class="k-form k-form-vertical" style="margin: 0 -24px" id="myFormCreate" novalidate kendo-validator="validatorProject" ng-submit="submitProject($event)">
+      <div style="padding: 0 24px">
+        <div class="uk-overflow-container">
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-1-1">
+              <label for="decisionName" class="k-form-label">Тушаал, шийдвэрийн нэр</label>
+              <div class="k-form-field-wrap">
+                <input kendo-text-box id="decisionName" name="decisionName" ng-required="true" validationMessage="Нэр шаардлагатай" ng-model="app.decisionName" style="width: 100%" />
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small uk-margin-small-bottom" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 uk-width-small-1-1">
+              <label for="taskType" class="k-form-label">Тушаал, шийдвэрийн төрөл</label>
+              <div class="k-form-field-wrap">
+                <select
+                  kendo-combo-box
+                  validationMessage="шаардлагатай"
+                  id="taskType"
+                  name="taskType"
+                  k-placeholder="'Сонгох'"
+                  k-data-text-field="'comCdNm'"
+                  k-data-value-field="'id'"
+                  k-filter="'startswith'"
+                  k-ng-model="app.taskType"
+                  k-data-source="taskTypeDataSource"
+                  style="width: 100%"
+                ></select>
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-small-1-2">
+              <label for="decisionNo" class="k-form-label">Тушаал, шийдвэрийн дугаар</label>
+              <div class="k-form-field-wrap">
+                <input kendo-text-box id="decisionNo" name="decisionNo" ng-required="true" validationMessage="Дугаар шаардлагатай" ng-model="app.decisionNo" style="width: 100%" />
+              </div>
+            </div>
+            <div class="uk-width-small-1-2">
+              <label for="pipAppEndYr" class="k-form-label">Огноо</label>
+              <div class="k-form-field-wrap">
+                <input
+                  k-format="'dd-MMMM-yyyy'"
+                  validationMessage="шаардлагатай"
+                  id="pipAppEndYr"
+                  kendo-date-picker
+                  onkeydown="return false;"
+                  ng-model="app.decisionDate"
+                  k-options="yearSelectorOptions"
+                  style="width: 100%"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-small-1-2">
+              <label for="mentionNo" class="k-form-label">Заалтын дугаар</label>
+              <div class="k-form-field-wrap">
+                <input kendo-text-box id="mentionNo" name="mentionNo" ng-required="true" validationMessage="Дугаар шаардлагатай" ng-model="app.mentionNo" style="width: 100%" />
+              </div>
+            </div>
+            <div class="uk-width-small-1-2">
+              <label for="url" class="k-form-label">Холбох /link/</label>
+              <div class="k-form-field-wrap">
+                <input kendo-text-box id="url" name="url" ng-required="true" validationMessage="Холбох /link/ шаардлагатай" ng-model="app.url" style="width: 100%" />
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-small-1-1">
+              <label for="shortDescription" class="k-form-label">Товч агуулга</label>
+              <div class="k-form-field-wrap">
+                <input
+                  kendo-text-box
+                  id="shortDescription"
+                  name="shortDescription"
+                  ng-required="true"
+                  validationMessage="Товч агуулга шаардлагатай"
+                  ng-model="app.shortDescription"
+                  style="width: 100%"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-small-1-1">
+              <label for="addDescription" class="k-form-label">Нэмэлт тайлбар</label>
+              <div class="k-form-field-wrap">
+                <input kendo-text-box id="addDescription" name="addDescription" ng-required="true" validationMessage="Нэмэлт тайлбар шаардлагатай" ng-model="app.addDescription" style="width: 100%" />
+              </div>
+            </div>
+          </div>
+          <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+            <div class="uk-width-1-1">
+              <label for="files" class="k-form-label">Файл хавсаргах</label>
+              <div class="k-form-field-wrap">
+                <input
+                  required
+                  name="file"
+                  id="files"
+                  accept="image/*,application/pdf"
+                  type="file"
+                  k-options="fileOptions"
+                  k-localization="{ select: 'Файл сонгох' }"
+                  kendo-upload
+                  k-select="onSelect"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formFooter" style="margin: 0; padding: 12px">
+        <div class="uk-grid">
+          <div class="uk-width-1-1 uk-text-right">
+            <button type="submit" class="md-btn md-btn-mini md-btn-success">Хадгалах</button>
+            <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+  <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+    <img src="assets/img/loader-8.gif" />
+  </div>
+</div>

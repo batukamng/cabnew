@@ -1,0 +1,81 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-data-source="gridDataSource">
+                    <div k-detail-template>
+                        <div id="detGrid" class="uk-text-small" kendo-grid k-options="detailGridOptions(dataItem)">
+                            <div k-detail-template>
+                                <div id="thirdGrid" class="uk-text-small" kendo-grid k-options="thirdGridOptions(dataItem)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog" style="padding: 0 !important;">
+        <button type="button" class="uk-modal-close uk-close"></button>
+        <h3 class="uk-modal-title uk-text-center" style="border-bottom: 2px solid #ddd;padding: 12px;">
+            Салбар бүртгэх
+        </h3>
+        <form kendo-validator="validator" id="userForm" class="uk-overflow-container" style="padding: 16px;" ng-submit="dataSubmit()">
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="code">Код</label></div>
+                    <div class="k-edit-field" style="width: 100%;">
+                        <input type="text" class="k-input k-textbox" required ng-model="dataItem.code" id="code"
+                               style="width: 100%;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="name">Нэр</label></div>
+                    <div class="k-edit-field" style="width: 100%;">
+                        <input type="text" class="k-input k-textbox" required ng-model="dataItem.name" id="name"
+                               style="width: 100%;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width:100%;"><label for="staff">Айкон</label></div>
+                    <div class="k-edit-field" style="width: 100%;">
+                        <div style="width: 100%">
+                            <input name="file" accept="image/*" type="file" id="icon" k-options="iconFileOptions" kendo-upload k-select="iconOnSelect" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width:100%;"><label for="staff">Маркер айкон</label></div>
+                    <div class="k-edit-field" style="width: 100%;">
+                        <div style="width: 100%">
+                            <input name="file" accept="image/*" type="file" id="marker" k-options="markerFileOptions" kendo-upload k-select="markerOnSelect" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width:100%;"><label for="staff">Зураг</label></div>
+                    <div class="k-edit-field" style="width: 100%;">
+                        <div style="width: 100%">
+                            <input name="file" accept="image/*" type="file" id="staff" k-options="fileOptions" kendo-upload k-select="onSelect" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="uk-modal-footer uk-text-right" style="margin: 0 !important;padding-top: 0;">
+            <button type="button" class="md-btn md-btn-mini-close uk-modal-close float-left">Хаах</button>
+            <button type="button" ng-click="dataSubmit()" class="md-btn md-btn-mini md-btn-success !text-sm gradient-button px-4 float-right">Хадгалах</button>
+        </div>
+    </div>
+</div>
+
+

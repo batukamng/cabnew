@@ -1,0 +1,280 @@
+<div id="stat03">
+    <div class="w-8/10 2xl:w-3/5 mb-28 uk-container-center reset-print">
+        <div class="bg-white custom-card border col-span-4 rounded-xl p-0">
+            <div class="py-4 px-10 flex justify-between">
+                <h3 class="uk-text-muted uk-form-header font-light !text-[#212121] border-none m-0">
+                    Хэрэглэгч бүртгэх
+                </h3>
+                <button class="!bg-white border-none cursor-pointer"
+                        style="transition: transform 0.2s ease-out; transform: rotate(90deg)" id="additional_btn"
+                        ng-click="togglePanel('additional_pnl', 'additional_btn')">
+                    <i class="material-icons text-[#212121] text-2xl bg-white">arrow_forward_ios</i>
+                </button>
+            </div>
+            <div id="additional_pnl" custom-scrollbar style="max-height: 100%; transition: max-height 0.2s ease-out">
+                <form id="contentForm" kendo-validator="validatorAdditional" ng-submit="submit($event)">
+                    <div class="uk-grid uk-grid-small px-10 py-8 border-0 border-t-[3px] border-solid border-[#F0F2F5]">
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Түвшин сонгоно уу</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        id="lvlId"
+                                        required
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="levelDataSource"
+                                        k-ng-model="userItem.level"
+                                        k-on-change="levelTypeSelect(userItem.level)"
+                                        ng-model="userItem.lvlId"
+                                        placeholder="Үндсэн түвшин сонгох"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Төрөл сонгоно уу</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        id="typeId"
+                                        required
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'comCdNm'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="userTypes"
+                                        k-ng-model="userItem.userType"
+                                        k-on-change="userTypeSelect(userItem.userType)"
+                                        ng-model="userItem.typeId"
+                                        placeholder="Төрөл сонгох"
+                                        style="width: 100%"
+                                        ng-disabled="userItem.lvlId == null"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2" ng-if="(requireList | filter:{comCd:'reqTez'}:true).length>0">
+                            <div class="k-edit-label"><label>ТЕЗ сонгоно уу</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        id="tezId"
+                                        required
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="tezTypeDataSource"
+                                        k-filter="'contains'"
+                                        k-ng-model="userItem.governor"
+                                        ng-model="userItem.tezId"
+                                        ng-change="tezChange()"
+                                        placeholder="ТЕЗ-ээр шүүх"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2" ng-if="(requireList | filter:{comCd:'reqTez'}:true).length>0">
+                            <div class="k-edit-label"><label>ТТЗ сонгоно уу</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        id="ttzId"
+                                        required
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="ttzTypeDataSource"
+                                        k-cascade-from="'tezId'" k-cascade-from-field="'tezId'"
+                                        k-filter="'contains'"
+                                        ng-model="userItem.ttzId"
+                                        placeholder="ТТЗ-ээр шүүх"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2" ng-if="(requireList | filter:{comCd:'reqOrg'}:true).length>0">
+                            <div class="k-edit-label">Байгууллага</div>
+                            <div class="k-edit-field">
+                                <select
+                                        id="orgId"
+                                        kendo-drop-down-list
+                                        required
+                                        k-auto-bind="false"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'contains'"
+                                        k-data-source="organizationDataSource"
+                                        k-ng-model="userItem.organization"
+                                        ng-model="userItem.orgId"
+                                        style="width: 100%"
+                                ></select>
+                            </div>
+                        </div>
+
+                        <div class="uk-width-medium-1-2" ng-if="(requireList | filter:{comCd:'reqProvince'}:true).length>0">
+                            <div class="k-edit-label"><label>Аймаг / Нийслэл</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        id="amgId"
+                                        required
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'cdNm'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="amgDataSource"
+                                        k-filter="'contains'"
+                                        k-ng-model="userItem.province"
+                                        ng-model="userItem.amgId"
+                                        placeholder="Аймаг-аар шүүх"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2" ng-if="(requireList | filter:{comCd:'reqDistrict'}:true).length>0">
+                            <div class="k-edit-label">Сум / Дүүрэг</div>
+                            <div class="k-edit-field">
+                                <select
+                                        id="sumId"
+                                        kendo-drop-down-list
+                                        required
+                                        k-auto-bind="true"
+                                        k-data-text-field="'cdNm'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'contains'"
+                                        k-cascade-from="'amgId'" k-cascade-from-field="'parentId'"
+                                        k-data-source="sumDataSource"
+                                        k-ng-model="userItem.district"
+                                        ng-model="userItem.sumId"
+                                        style="width: 100%"
+                                ></select>
+                            </div>
+                        </div>
+
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Овог</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="userItem.lastname" id="lastname" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Нэр</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="userItem.firstname" id="firstname" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>И-мэйл хаяг</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="userItem.email" id="email" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Утасны дугаар</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="userItem.phone" id="phone" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Нэвтрэх нэр</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="userItem.username" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div class="k-edit-label"><label>Шинэ нууц үг</label></div>
+                            <div class="k-edit-field">
+                                <input type="password" ng-required="userItem.id==null" class="k-input k-textbox" ng-model="userItem.password" style="width: 100%" />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-2" >
+                            <div class="k-edit-label"><label>Идэвхтэй эсэх</label></div>
+                            <div class="k-edit-field">
+                                <div class="custom-select">
+                                    <div class="item w-1/2" ng-class="{'active' : userItem.enabled==1}" ng-click="userItem.enabled=1">Идэвхтэй</div>
+                                    <div class="item w-1/2" ng-class="{'active' : userItem.enabled==0}" ng-click="userItem.enabled=0">Идэвхгүй</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-1" ng-if="userItem.typeId != null">
+                            <span style="display: block;">Эрх сонгох</span>
+                            <div class="my-2 mr-1 inline-block" ng-if="roleDataSource.length>0" ng-repeat="role in roleDataSource">
+                                <input type="checkbox" ng-value="role.id" ng-model="roles[role.id]" class="k-checkbox hidden" style="display: none !important" id="{{role.id}}-{{$index}}" />
+                                <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer capitalize" for="{{role.id}}-{{$index}}"
+                                ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>{{role.name}}</label
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="mt-6 fixed flex gap-2 w-screen !items-center justify-end !px-12 bottom-0 h-20 box-border bg-white w-screen left-0 border-solid border-0 border-t-[2px] border-zinc-200"
+             style="z-index: 100; box-shadow: 0 5px 10px -2px rgb(86 61 124 / 13%)">
+            <button ng-click="submit($event)"
+                    style="padding: 0" class="md-btn md-btn-success gradient-button px-4 !rounded-md !text-sm">
+                Хадгалах
+            </button>
+
+            <button class="md-btn md-btn-danger px-4 rounded-md !text-sm"
+                    ng-if="buttonData.includes('delete') && contractView.statusNm!='Баталсан'"
+                    ng-click="deleteContract(contractView.id)">Устгах
+            </button>
+            <button class="md-btn px-4 rounded-md !text-sm outlined-button" ng-click="stat(1, true)">Буцах</button>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-approved-1" style="height: 100px;"></div>
+    </div>
+</div>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-approved-1'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+
+<style>
+    .k-edit-label{
+        text-align: left;
+    }
+    .tox-tinymce {
+        height: calc(100% - 20px) !important;
+    }
+    .k-upload-async{
+        display: none;
+    }
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        background: #f6f7f8;
+        border: 1px solid #eef1f4;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 143px;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .custom-file-upload i {
+        color: #515965;
+        font-size: 70px;
+    }
+
+    .custom-tab .item {
+        font-size: 14px;
+    }
+</style>

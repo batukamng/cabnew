@@ -1,0 +1,630 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-width-medium-8-10 uk-container-center">
+            <div class="uk-grid uk-grid-collapse" data-uk-grid-margin>
+                <div class="uk-width-medium-7-10">
+                    <div class="md-card md-card-single" single-card>
+                        <div class="md-card-toolbar">
+                            <div ng-show="!mainPanel" class="md-card-toolbar-actions hidden-print">
+                                <i ng-click="voiceCall()" class="md-icon material-icons">local_phone</i>
+                                <i ng-click="videoCall()" class="md-icon material-icons">video_call</i>
+                                <!--  <div class="md-card-dropdown md-list-action-dropdown"
+                                     data-uk-dropdown="{pos:'bottom-right'}">
+                                    <i class="md-icon material-icons">settings_applications</i>
+                                    <div class="uk-dropdown uk-dropdown-small">
+                                        <ul class="uk-nav">
+                                            <li><a href="javascript:void(0)" ng-click="updateGroup(room)">Update</a>
+                                            </li>
+                                            <li><a href="javascript:void(0)" ng-click="deleteRoom(room)"
+                                                   class="uk-text-danger">Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div>-->
+                                <i ng-click="closePanel()" class="md-icon material-icons">&#xE5CD;</i>
+                            </div>
+                            <h3 class="md-card-toolbar-heading-text large"
+                                ng-if="fr.lutUser.id!=profile.id && room.conType==true"
+                                ng-repeat="fr in room.participantsList">
+                                <span class="uk-text-muted">Chat with</span>
+                                <span class="md-color-pink-200">{{fr.lutUser.firstName}} -
+                                    {{fr.lutUser.lastName}}</span>
+                            </h3>
+                            <h3 class="md-card-toolbar-heading-text large" ng-if="room.conType==false">
+                                <span class="uk-text-muted">Chat with</span>
+                                <span class="md-color-pink-200">{{room.title}}</span>
+                            </h3>
+                        </div>
+                        <div class="md-card-content padding-reset" ng-show="mainPanel">
+                            <div
+                                class="chat__bg app-fixed-height chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0 sidebar-spacer--wide flex items-center justify-center">
+                                <div class="flex flex-col items-center">
+                                    <span
+                                        class="md-btn md-btn-wave p-8 shadow-md rounded-full feather-icon select-none relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-message-square w-16 h-16">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+                                            </path>
+                                        </svg></span>
+                                    <h4 class="md-btn md-btn-wave py-2 px-4 bg-white shadow-md rounded-full cursor-pointer"
+                                        style="font: 500 18px/31px Montserrat,sans-serif!important;text-transform: capitalize !important;;">
+                                        Start Conversation</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md-card-content padding-reset" ng-show="!mainPanel">
+                            <div class="chat_box_wrapper" style="background-color: #dfdbe5;">
+                                <div class="chat_box touchscroll {{chat_colors}}" id="chat" custom-scrollbar>
+                                    <div style="display: block;text-align: center;">
+                                        <a style="display: inline-block;" ng-show="currentPage<totalPages"
+                                            ng-click="loadMessages()" class="md-fab  md-fab-small md-fab-wave"
+                                            href="javascript:void(0)"><i class="material-icons">arrow_upward</i></a>
+                                    </div>
+                                    <div class="chat_message_wrapper" ng-if="room.id==message.conversationId"
+                                        ng-repeat="message in messages"
+                                        ng-class="username==message.username ? '' : 'flex-row-reverse'" on-last-repeat>
+                                        <div class="flex items-start"
+                                            ng-class="username==message.username ? 'flex-row-reverse' : ''">
+                                            <div data-uk-tooltip="{pos:'bottom'}"
+                                                title="{{message.regDtm | date:'MM/dd/yyyy  HH:mm:ss'}}"
+                                                class="con-vs-avatar border-2 shadow border-solid border-white m-0 flex-shrink-0 40px sm:mr-5 mr-3"
+                                                style="width: 40px; height: 40px; background: rgb(195, 195, 195);">
+                                                <div class="con-img vs-avatar&#45;&#45;con-img"
+                                                    ng-if="username==message.username">
+                                                    <img ng-src="{{profile.profilePicture}}" alt=""
+                                                        style="height: 100%;width:100%;">
+                                                </div>
+                                                <div class="con-img vs-avatar--con-img"
+                                                    ng-if="username!=message.username && partnerImg!=null">
+                                                    <img ng-src="{{partnerImg}}" alt=""
+                                                        style="height: 100%;width:100%;">
+                                                </div>
+                                            </div>
+                                            <div style="color: #626262;" data-uk-tooltip="{pos:'bottom'}"
+                                                title="{{message.regDtm | date:'MM/dd/yyyy  HH:mm:ss'}}"
+                                                ng-class="username==message.username ? 'bg-primary-gradient text-white' : 'border border-solid border-grey-light bg-white'"
+                                                class="msg break-words relative shadow-md rounded py-3 px-4 mb-2 rounded-lg max-w-sm ">
+                                                {{message.message}}
+                                                <span
+                                                    style="display: block; color: #000;font-size: 11px;text-transform: uppercase;text-align: right;"
+                                                    ng-bind="message.regDtm | date:'MM/dd/yyyy  HH:mm:ss'"></span>
+                                            </div>
+                                        </div>
+
+                                        <!--<ul class="media-list">
+                                            <li class="media" ng-repeat="message in activeSession.messages">
+                                                <div class="media-body">
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#">
+                                                            <strong>{{message.from == activeSession.user.username?activeSession.user.username:'you'}}</strong>
+                                                        </a>
+                                                        <div class="media-body">
+                                                            {{message.message}}
+                                                            <br/>
+                                                            <small class="text-muted">{{message.date | date:'mediumTime'}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>-->
+                                    </div>
+                                </div>
+                                <div class="chat_submit_box" id="chat_submit_box">
+                                    <div class="uk-input-group">
+                                        <input type="text" class="md-input" name="submit_message"
+                                            ng-model="activeSession.message"
+                                            ng-keyup="$event.keyCode == 13 ? sendMessage() : startTyping()"
+                                            id="submit_message" placeholder="Send message" md-input>
+                                        <span class="uk-input-group-addon">
+                                            <a href="javascript:void(0)" ng-click="imageMessage()"><i
+                                                    class="material-icons md-24">image</i></a>
+                                            <a href="javascript:void(0)" ng-click="fileMessage()"><i
+                                                    class="material-icons md-24">attach_file</i></a>
+                                            <a href="javascript:void(0)" ng-click="sendMessage()"><i
+                                                    class="material-icons md-24">&#xE163;</i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-medium-3-10" style="background: #fff;">
+                    <div class="md-list-outside-wrapper" style="padding:45px 0 80px 0;" custom-scrollbar list-outside>
+                        <h3 class="text-primary mb-5 px-4 fontMont">
+                            Chats
+                        </h3>
+                        <ul class="chat__contacts bordered-items">
+                            <li class="cursor-pointer" ng-if="friend.conType==true" ng-click="joinToRoom(friend)"
+                                ng-repeat="friend in rooms">
+                                <div class="chat__contact flex items-center p-4 pt-4 pb-2"
+                                    ng-if="fr.lutUser.id!=profile.id" ng-repeat="fr in friend.participantsList">
+                                    <div class="contact__avatar">
+                                        <div class="con-vs-avatar border-2 border-solid border-white 42px"
+                                            style="width: 42px; height: 42px; background: rgb(195, 195, 195);">
+                                            <div ng-if="fr.lutUser.profilePicture==null"
+                                                class="con-img vs-avatar--con-img">
+                                                <img src="/assets/img/avatars/ub_avatar.png" alt=""
+                                                    style="height: 100%;width: 100%;">
+                                            </div>
+                                            <div ng-if="fr.lutUser.profilePicture!=null"
+                                                class="con-img vs-avatar--con-img">
+                                                <img ng-src="{{fr.lutUser.profilePicture}}" alt=""
+                                                    style="height: 100%;width: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="contact__container w-full flex items-center justify-between overflow-hidden">
+                                        <div class="contact__info flex flex-col truncate w-5/6">
+                                            <h5 style="margin:0;text-transform: capitalize;"
+                                                class="font-semibold fontMont">{{fr.lutUser.firstName}} -
+                                                {{fr.lutUser.lastName}} </h5>
+                                            <span class="truncate fontMont" ng-if="friend.lastMessage!=null">
+                                                {{friend.lastMessage}}
+                                            </span>
+                                            <span class="truncate fontMont" ng-if="friend.lastMessage==null">
+                                                Say hi to your new friend
+                                            </span>
+                                        </div>
+                                        <div class="chat__contact__meta flex self-start flex-col items-end w-1/6"
+                                            style="position: absolute;right: 14px;padding-right: 20px;">
+                                            <div>
+                                                <span class="element-status element-status-success"></span>
+                                                <span class="element-status element-status-success"
+                                                    ng-if="item.username==fr.lutUser.name"
+                                                    ng-repeat="item in participants"
+                                                    style="background: rgba(40,199,111,1)"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <h3 class="text-primary mb-5 px-4 fontMont">
+                            Group conversations
+                        </h3>
+                        <ul class="chat__contacts bordered-items">
+                            <li class="cursor-pointer" ng-if="friend.conType==false" ng-click="joinToRoom(friend)"
+                                ng-repeat="friend in rooms">
+                                <div class="chat__contact flex items-center p-4 pt-4 pb-2">
+                                    <div class="contact__avatar">
+                                        <div class="con-vs-avatar border-2 border-solid border-white 42px"
+                                            style="width: 42px; height: 42px; background: rgb(195, 195, 195);">
+                                            <div ng-if="friend.proPicUrl==null" class="con-img vs-avatar--con-img">
+                                                <img style="height: 100%;width: 100%;"
+                                                    src="/assets/img/avatars/ub_avatar.png" alt="">
+                                            </div>
+                                            <div ng-if="friend.proPicUrl!=null" class="con-img vs-avatar--con-img">
+                                                <img style="height: 100%;width: 100%;" ng-src="{{friend.proPicUrl}}"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="contact__container w-full flex items-center justify-between overflow-hidden">
+                                        <div class="contact__info flex flex-col truncate w-4/6">
+                                            <h5 style="margin-bottom: 5px;text-transform: capitalize;"
+                                                class="font-semibold fontMont">{{friend.title}} </h5>
+                                            <span class="truncate fontMont" ng-if="friend.participantsList.length==0">
+                                                Say hi to your new friend, <small>({{friend.title}})</small>.
+                                            </span>
+                                            <span class="truncate fontMont" ng-if="friend.participantsList.length>0">
+                                                <span ng-repeat="item in friend.participantsList">
+                                                    {{item.lutUser.name}} <span ng-if="!$last">,</span>
+                                                </span>
+                                            </span>
+                                        </div>
+
+                                        <div class="chat__contact__meta flex self-start flex-col items-end w-2/6"
+                                            style="position: relative;padding-right: 20px;">
+                                            <div ng-repeat="pp in friend.participantsList">
+                                                <span class="element-status element-status-danger"></span>
+                                                <span ng-if="item.username==pp.lutUser.name"
+                                                    ng-repeat="item in participants"
+                                                    style="background: rgba(40,199,111,1)"
+                                                    class="element-status element-status-success"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <h3 class="text-primary mb-5 px-4 fontMont">
+                            More Contacts ({{contacts.length}})
+                        </h3>
+                        <ul class="chat__contacts bordered-items">
+                            <li class="cursor-pointer" ng-click="createPrivateRoom(friend)"
+                                ng-repeat="friend in contacts">
+                                <div class="chat__contact flex items-center p-4 pt-4 pb-2">
+                                    <div class="contact__avatar">
+                                        <div class="con-vs-avatar border-2 border-solid border-white 42px"
+                                            style="width: 42px; height: 42px; background: rgb(195, 195, 195);">
+                                            <div ng-if="friend.profilePicture==null" class="con-img vs-avatar--con-img">
+                                                <img style="height: 100%;width: 100%;"
+                                                    src="/assets/img/avatars/ub_avatar.png" alt="">
+                                            </div>
+                                            <div ng-if="friend.profilePicture!=null" class="con-img vs-avatar--con-img">
+                                                <img style="height: 100%;width: 100%;"
+                                                    ng-src="{{friend.profilePicture}}" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="contact__container w-full flex items-center justify-between overflow-hidden">
+                                        <div class="contact__info flex flex-col truncate w-4/6">
+                                            <h5 style="margin-bottom: 5px;text-transform: capitalize;"
+                                                class="font-semibold fontMont">{{friend.firstName}} -
+                                                {{friend.lastName}}</h5>
+                                        </div>
+                                        <div class="chat__contact__meta flex self-start flex-col items-end w-2/6"
+                                            style="position: relative;padding-right: 20px;">
+                                            <div>
+                                                <span class="element-status element-status-success"></span>
+                                                <span class="element-status element-status-success"
+                                                    ng-if="item.username==friend.name" ng-repeat="item in participants"
+                                                    style="background: rgba(40,199,111,1)"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chat__profile-search flex p-4" style="margin-top: -80px;">
+                        <div class="vs-component vs-con-input-label vs-input w-full">
+                            <div style="position: relative; margin: 5px 10px;">
+                                <input id="customers" k-options="autoOption" k-data-text-field="'name'"
+                                    k-data-value-field="'id'" k-data-source="ddlDataSource" kendo-auto-complete
+                                    ng-model="country"
+                                    style="width: 100%;padding-right: 40px; text-indent: 20px;line-height:31px;" />
+                                <button data-uk-tooltip title="Create group" class="k-button k-button-icontext"
+                                    ng-click="createGroup()"
+                                    style="position: absolute; right: 7px; top:6px; padding: 4px 6px;">
+                                    <span style="margin-right: -2px;" class="k-icon k-i-add"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="sidebar_secondary" sidebar-secondary toggle-hidden="large" custom-scrollbar>
+    <div class="sidebar_secondary_wrapper uk-margin-remove">
+        <ul class="md-list md-list-addon md-list-outside">
+            <li ng-repeat="user in chat_users">
+                <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
+                    <i class="md-icon material-icons">&#xE5D4;</i>
+                    <div class="uk-dropdown uk-dropdown-small">
+                        <ul class="uk-nav">
+                            <li><a href="#">Add to chat</a></li>
+                            <li><a href="#" class="uk-text-danger">Remove</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="md-list-addon-element">
+                    <span class="element-status element-status-danger" ng-if="user.status == 'offline'"></span>
+                    <span class="element-status element-status-success" ng-if="user.status == 'online'"></span>
+                    <span class="element-status element-status-warning" ng-if="user.status == 'afk'"></span>
+                    <img class="md-user-image md-list-addon-avatar" ng-src="{{user.avatar}}" alt="" />
+                </div>
+                <div class="md-list-content">
+                    <div class="md-list-action-placeholder"></div>
+                    <span class="md-list-heading">{{user.username}}</span>s
+                    <span class="uk-text-small uk-text-muted uk-text-truncate">{{user.description}}</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<script type="text/ng-template" id="itemTemplate">
+    <div class="users-list">
+        <span class="k-state-default"><img src="/assets/img/avatars/ub_avatar.png" alt=""></span>
+        <span class="k-state-default"><p>#: data.name #</p></span>
+    </div>
+</script>
+<script type="text/ng-template" id="tagTemplate">
+    <span class="k-state-default"><img src="/assets/img/avatars/ub_avatar.png" alt=""></span>
+    <span class="k-state-default"><p>#: data.name #</p></span>
+</script>
+
+<div id="modal_group" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="formHeader">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-2 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0px;">Create Group</h3>
+                </div>
+                <div class="uk-width-medium-1-2 uk-text-right"><button type="button"
+                        class="uk-modal-close uk-close"></button></div>
+            </div>
+        </div>
+        <form id="form_group" ng-submit="createRoom()" class="uk-form-stacked uk-margin-large-top">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1">
+                    <div class="parsley-row">
+                        <div class="uk-input-group">
+                            <span class="uk-input-group-addon">
+                                <div class="user_heading_avatar fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-new thumbnail">
+                                        <img ng-src="{{user.data.imageUrl}}" alt="user avatar" />
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div class="user_avatar_controls">
+                                        <span class="btn-file">
+                                            <span class="fileinput-new"><i class="material-icons">&#xE2C6;</i></span>
+                                            <span class="fileinput-exists"><i class="material-icons">&#xE86A;</i></span>
+                                            <input type="file" name="user_edit_avatar_control" ngf-select
+                                                ng-model="excelFile">
+                                        </span>
+                                        <a href="#" class="btn-file fileinput-exists" data-dismiss="fileinput"><i
+                                                class="material-icons">&#xE5CD;</i></a>
+                                    </div>
+                                </div>
+                            </span>
+                            <label for="fullname">Name your group</label>
+                            <input id="fullname" type="text" name="fullname" ng-model="grp.title" required
+                                class="md-input" md-input />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1">
+                    <div class="parsley-row">
+                        <select kendo-multi-select k-options="selectOptions" k-ng-model="grp.selectedIds"></select>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="submit" class="md-btn md-btn-mini md-btn-primary">Create</button>
+                    <button type="reset" ng-click="cancelGroup()" class="md-btn md-btn-mini">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="changeProfile" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <div class="formHeader">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-2 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0px;">User
+                        profile</h3>
+                </div>
+                <div class="uk-width-medium-1-2 uk-text-right">
+                    <button type="button" class="uk-modal-close uk-close"></button>
+                </div>
+            </div>
+        </div>
+        <form id="form_profile" name="formFileNew" class="uk-form-stacked uk-margin-large-top"
+            ng-submit="submitUserInfoChange()">
+            <div class="uk-grid uk-margin-large-bottom" data-uk-grid-margin>
+                <div class="uk-width-large-1-1">
+                    <div class="md-card">
+                        <div class="user_content">
+                            <div class="uk-grid" data-uk-grid-margin>
+                                <div class="uk-width-medium-1-1">
+                                    <div class="user_heading" data-uk-sticky="{ top: 48, media: 960 }">
+                                        <div class="user_heading_avatar fileinput fileinput-new"
+                                            data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail">
+                                                <img ng-src="{{ user.data.imageUrl?user.data.imageUrl:'assets/img/gcom-2.png'}}"
+                                                    alt="user avatar" />
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                            <div class="user_avatar_controls">
+                                                <span class="btn-file">
+                                                    <span class="fileinput-new"><i
+                                                            class="material-icons">&#xE2C6;</i></span>
+                                                    <span class="fileinput-exists"><i
+                                                            class="material-icons">&#xE86A;</i></span>
+                                                    <input ng-files="getUserAvatar($files)" required type="file"
+                                                        accept="image/*" name="file" id="profile_avatar_control">
+                                                </span>
+                                                <a href="#" class="btn-file fileinput-exists" data-dismiss="fileinput">
+                                                    <i class="material-icons">&#xE5CD;</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="user_heading_content">
+                                            <h2 class="heading_b">
+                                                <span class="uk-text-truncate"
+                                                    id="user_edit_uname">{{user.data.name}}</span>
+                                                <span class="sub-heading"
+                                                    id="user_edit_position">{{user.data.position.comCdNm}}</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-grid uk-margin-large-top" data-uk-grid-margin>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label for="username1">Username<span class="req">*</span></label>
+                                        <input id="username1" type="text" name="username" data-parsley-trigger="change"
+                                            required disabled class="md-input" md-input ng-model="usr.username" />
+                                    </div>
+                                </div>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label for="email1">Email<span class="req">*</span></label>
+                                        <input id="email1" type="email" name="email" data-parsley-trigger="change"
+                                            required disabled class="md-input" md-input ng-model="usr.email" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-grid" data-uk-grid-margin>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label for="firstname1">First Name <span class="req">*</span></label>
+                                        <input id="firstname1" type="text" name="firstname" required class="md-input"
+                                            md-input ng-model="usr.firstname" />
+                                    </div>
+                                </div>
+                                <div class="uk-width-medium-1-2">
+                                    <div class="parsley-row">
+                                        <label for="lastname1">Last Name <span class="req">*</span></label>
+                                        <input id="lastname1" type="text" name="lastname" required class="md-input"
+                                            md-input ng-model="usr.lastname" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin-bottom: -24px;">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="submit" class="md-btn md-btn-mini md-btn-primary">Update</button>
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div id="modal_group_update" class="uk-modal">
+    <<div class="uk-modal-dialog">
+        <div class="formHeader">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-2 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0px;">Update Group</h3>
+                </div>
+                <div class="uk-width-medium-1-2 uk-text-right"><button type="button"
+                        class="uk-modal-close uk-close"></button></div>
+            </div>
+        </div>
+        <form id="form_group_update" ng-submit="updateRoom()" class="uk-form-stacked uk-margin-large-top">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1">
+                    <div class="parsley-row">
+                        <div class="uk-input-group">
+                            <span class="uk-input-group-addon">
+                                <div class="user_heading_avatar fileinput fileinput-new" data-provides="fileinput">
+                                    <div ng-if="grp.proPicUrl==null" class="fileinput-new thumbnail">
+                                        <img ng-src="assets/img/avatars/ub_avatar.png" alt="user avatar" />
+                                    </div>
+                                    <div ng-if="grp.proPicUrl!=null" class="fileinput-new thumbnail">
+                                        <img ng-src="{{grp.proPicUrl}}" alt="user avatar" />
+                                    </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                    <div class="user_avatar_controls">
+                                        <span class="btn-file">
+                                            <span class="fileinput-new"><i class="material-icons">&#xE2C6;</i></span>
+                                            <span class="fileinput-exists"><i class="material-icons">&#xE86A;</i></span>
+                                            <input type="file" name="user_edit_avatar_control" ngf-select
+                                                ng-model="excelFile" id="user_edit_avatar_control">
+                                        </span>
+                                        <a href="#" class="btn-file fileinput-exists" data-dismiss="fileinput"><i
+                                                class="material-icons">&#xE5CD;</i></a>
+                                    </div>
+                                </div>
+                            </span>
+                            <label for="groupname">Name your group</label>
+                            <input id="groupname" type="text" name="groupname" ng-model="grp.title" required
+                                class="md-input" md-input />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1">
+                    <div class="parsley-row">
+                        <select kendo-multi-select k-options="selectOptions" k-ng-model="grp.selectedIds"></select>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="submit" class="md-btn md-btn-mini md-btn-primary">Update</button>
+                    <button type="reset" ng-click="cancelGroup()" class="md-btn md-btn-mini">Cancel</button>
+                </div>
+            </div>
+        </form>
+</div>
+</div>
+
+
+<style>
+    .dropdown-header {
+        border-width: 0 0 1px 0;
+        text-transform: uppercase;
+    }
+
+    .dropdown-header>span {
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .dropdown-header>span:first-child {
+        width: 50px;
+    }
+
+    .k-list-container>.k-footer {
+        padding: 10px;
+    }
+
+    #customers-list .k-item {
+        line-height: 1em;
+        min-width: 300px;
+    }
+
+    /* Material Theme padding adjustment*/
+
+    .k-material #customers-list .k-item,
+    .k-material #customers-list .k-item.k-state-hover,
+    .k-materialblack #customers-list .k-item,
+    .k-materialblack #customers-list .k-item.k-state-hover {
+        padding-left: 5px;
+        border-left: 0;
+    }
+
+    #customers-list .k-item>span {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: top;
+        margin: 20px 10px 10px 5px;
+    }
+
+    #customers-list .k-item>span:first-child {
+        -moz-box-shadow: inset 0 0 30px rgba(0, 0, 0, .3);
+        -webkit-box-shadow: inset 0 0 30px rgba(0, 0, 0, .3);
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, .3);
+        margin: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+
+    #customers-list h3 {
+        font-size: 1.2em;
+        font-weight: normal;
+        margin: 0 0 1px 0;
+        padding: 0;
+    }
+
+    #customers-list p {
+        margin: 0;
+        padding: 0;
+        font-size: .8em;
+    }
+</style>

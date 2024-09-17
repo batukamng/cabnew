@@ -1,0 +1,237 @@
+<div class="flex">
+    <kendo-grid id="appData" ng-attr-data-id="{{filterKey}}" class="uk-text-small" k-scope-field="grid"
+                k-data-source="appData" options="mainGrid"></kendo-grid>
+</div>
+
+<style>
+    .bg-active {
+        background-color: #4f46e5;
+        border-color: #4f46e5 !important;
+    }
+
+    .with-sidebar {
+        width: calc(100% - 300px) !important;
+    }
+
+    .custom-select {
+        display: flex;
+        width: 100%;
+        height: 42px;
+        border-radius: 5px;
+        padding: 4px;
+        background: #eef1f4;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .custom-select .item.active {
+        background: white;
+        font-weight: 600;
+    }
+
+    .custom-select .item {
+        border-radius: 5px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .filterCheckbox {
+        padding: 20px;
+        width: 100%;
+        border-bottom: 2px solid #eef1f4;
+        box-sizing: border-box;
+    }
+
+    .filterCheckbox .title {
+        color: #2563eb;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .filterCheckbox .scroll {
+        width: 100%;
+        height: 100%;
+        max-height: 100px;
+        overflow: auto;
+        padding-right: 15px;
+    }
+
+    .filterCheckbox .showAllBtn {
+        text-decoration: underline;
+        font-weight: 300;
+        cursor: pointer;
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .filterCheckbox ul li {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .customCheckbox {
+        display: block;
+        position: relative;
+        padding-left: 32px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: left;
+    }
+
+    /* Hide the browser's default checkbox */
+    .customCheckbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .customCheckbox .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        border-radius: 4px;
+        border: 1px solid #eef1f4;
+        background: #fff;
+    }
+
+    /* On mouse-over, add a grey background color */
+    /* .customCheckbox:hover input ~ .checkmark {
+        background-color: #ccc;
+      } */
+
+    /* When the checkbox is checked, add a blue background */
+    .customCheckbox input:checked ~ .checkmark {
+        background-color: #2563eb;
+    }
+
+    .customCheckbox .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .customCheckbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .customCheckbox .checkmark:after {
+        left: 6px;
+        top: 1px;
+        width: 4px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .customRadioBtn {
+        display: block;
+        position: relative;
+        padding-left: 32px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default radio button */
+    .customRadioBtn input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .customRadioBtn .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        border: 1px solid #eef1f4;
+        background: #fff;
+        border-radius: 50%;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .customRadioBtn:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .customRadioBtn input:checked ~ .checkmark {
+        background-color: #fff;
+        border: 1px solid #2563eb;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .customRadioBtn .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .customRadioBtn input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .customRadioBtn .checkmark:after {
+        left: 3px;
+        top: 3px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #2563eb;
+    }
+
+    .filterSearchBtn {
+        width: 90%;
+        padding: 10px;
+        background: white;
+        border: 1px solid #eef1f4;
+        border-radius: 4px;
+        color: #515965;
+        font-weight: 400;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        cursor: pointer;
+        opacity: 100%;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .filterSearchBtn:hover {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    .k-state-selected {
+        background-color: #F4F4F5;
+    }
+
+    .returned, .k-alt.returned {
+        background-color: #fff1f2 !important;
+    }
+</style>

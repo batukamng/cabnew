@@ -1,0 +1,417 @@
+<script src="/assets/js/owl-carousel/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="/assets/js/owl-carousel/assets/owl.carousel.min.css" type="text/css"/>
+<link rel="stylesheet" href="/assets/js/owl-carousel/assets/owl.theme.default.min.css" type="text/css"/>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+<div id="page_content" class="bg-white">
+    <div id="page_content_inner" class="dashboard-container ">
+        <div id="main_content">
+
+            <div ng-if="!fromData" class="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                <div class="border-[#F0F2F5] border-solid border rounded-lg flex p-4 gap-2 bg-white"
+                     ng-repeat="r in repeat">
+                    <div class="animate-pulse rounded-full p-4 w-[26px] h-[26px] bg-slate-200">
+                    </div>
+                    <div class="flex flex-col justify-center gap-2">
+                        <div class="animate-pulse bg-slate-200 rounded h-5 w-40"></div>
+                        <div class="animate-pulse bg-slate-200 rounded h-6 w-20"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" ng-if="fromData.data.name!='Нийт төсөл'">
+                <span class="uppercase text-xl font-semibold" style="color: #332d77" ng-bind="fromData.data.name"></span>
+            </div>
+            <div class="grid mt-4 grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-4" data-uk-sortable>
+
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-blue-200">
+                                <div class="nimis-icon profile_outline bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Нийт албан хаагч</span>
+                                <span class="text-xl font-medium">{{(dataItem.userCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-indigo-200">
+                                <div class="nimis-icon rating bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Стратегийн зорилтын тоо</span>
+                                <span class="text-xl font-medium">{{(dataItem.strategyCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container" style="background: #ddd6fe">
+                                <div class="nimis-icon building bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">зорилтын тоо</span>
+                                <span class="text-xl font-medium">{{(dataItem.objectiveCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-purple-200">
+                                <div class="nimis-icon doc bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Нийт арга хэмжээ</span>
+                                <span class="text-xl font-medium">{{(dataItem.eventCnt).toLocaleString() || 0}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-cyan-200">
+                                <div class="nimis-icon doc bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Батласан төлөвлөгөө</span>
+                                <span class="text-xl font-medium">{{(dataItem.aprPlanCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-emerald-200">
+                                <div class="nimis-icon brush bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Нийт явцын тайлан</span>
+                                <span class="text-xl font-medium">{{(dataItem.repCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-lime-200">
+                                <div class="nimis-icon pencil bg-black w-7 h-7"></div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Батласан тайлан</span>
+                                <span class="text-xl font-medium">{{(dataItem.aprRepCnt).toLocaleString() || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-amber-200">
+                                <div class="w-7 h-7 rounded-full  flex items-center justify-center font-normal">
+                                    <div class="custom-icon promotion update bg-black w-7 h-7"></div>
+                                </div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Ажлын гүйцэтгэл</span>
+                                <span class="text-xl font-medium">{{(dataItem.ttlAprPer).toLocaleString() || 0}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+               <!-- <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-orange-200">
+                                <div class="w-7 h-7 rounded-full  flex items-center justify-center font-normal">
+                                    <div class="custom-icon promotion update bg-black w-7 h-7"></div>
+                                </div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Гүйцэтгэл хувь / <span class="text-sm">{{fromData.data.updTime}}</span>/</span>
+                                <span class="text-xl font-medium">{{fromData.data.fisPer | number:2 || 0}} %</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-hover custom-card mt-0 !px-[20px]" style="height: 96px">
+                        <div class="box-border flex items-center gap-4 h-full col-span-1">
+                            <div class="icon-container bg-red-200">
+                                &lt;!&ndash; <div class="nimis-icon profile_outline bg-black w-7 h-7"></div>&ndash;&gt;
+                                <div class="w-7 h-7 rounded-full border-solid border-[2px] text-2xl border-black text-black flex items-center justify-center font-normal">
+                                    ₮
+                                </div>
+                            </div>
+                            <div class="grid gap-[5px]" style="width: calc(100% - 100px)">
+                                <span class="text-base font-normal">Үлдэгдэл дүн / <span class="text-sm">сая ₮</span>/</span>
+                                <span class="text-xl font-medium">{{(fromData.data.fisRemAmt | number:1) || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+            </div>
+            <div ng-if="fromData" class="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1">
+                <div class="md-card md-card-hover custom-card rounded-2xl mt-4">
+                    <p class="mb-4 font-normal text-indigo-900">Тайлан <span class="text-xs text-warning">- Сараар</span></p>
+                    <div id="chartDivMonthly" style="width: 100%; height: 400px"></div>
+                </div>
+            </div>
+
+
+
+
+            <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1 md:grid-cols-1">
+                <div class="md-card md-card-hover custom-card rounded-2xl mt-4">
+                    <p class="mb-4 font-normal text-indigo-900">Тайлан <span class="text-xs text-warning">- Албан хаагчаар</span></p>
+                    <div id="inv-carousel" class="owl-carousel owl-theme grid grid-cols-4 gap-4 mt-2 ">
+                        <div class="item border-[#F0F2F5] border-solid border rounded-lg"
+                             ng-repeat="invCat in userReports">
+                            <div class="bg-cover bg-no-repeat !bg-center w-full h-[150px] rounded-xl"
+                                 style="background-image: url({{(invCat.imageUrl!=null)?invCat.imageUrl:'/assets/img/banner.png'}})">
+                                <div class="bg-[#000] bg-opacity-30  w-full h-full  rounded-xl text-center flex flex-col justify-center items-center font-medium text-xl gap-2 text-white">
+                                    {{invCat.userNm}}
+                                </div>
+                            </div>
+                            <div class="bg-white p-4">
+                                <div class="flex justify-between">
+                                    <span class="text-base font-normal">Тайлан тоо</span>
+                                    <span class="text-base font-normal">{{(invCat.sentCnt+invCat.aprCnt)}}</span>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-base font-normal">Илгээсэн</span>
+                                    <span class="text-base font-normal">{{invCat.sentCnt}}</span>
+                                </div>
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-base font-normal">Баталсан</span>
+                                    <span class="text-base font-normal">{{invCat.aprCnt}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-approved-1" style="height: 100px;"></div>
+    </div>
+</div>
+
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-approved-1'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+<style>
+    .sidebar_mini .custom-icon.promotion {
+        -webkit-mask: url(/assets/icons/menu-icons/ic_menu_promotion.svg) no-repeat center !important;
+        mask: url(/assets/icons/menu-icons/ic_menu_promotion.svg);
+    }
+    .icon-container {
+        border-radius: 10px;
+        display: flex;
+        height: 60px;
+        width: 60px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-card {
+        border: 1px solid #e4e4e7;
+        box-shadow: none;
+        border-radius: 10px;
+        background: white;
+        padding: 30px;
+        font-size: 18px;
+        color: #212121;
+        box-sizing: border-box;
+    }
+
+    .circle_container .inner .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #941b36;
+    }
+
+    .round-text {
+        background: #ffe1e3;
+        border-radius: 14px;
+        height: 28px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .description {
+        font-weight: 300;
+        font-size: 12px;
+        text-align: center;
+        height: 64px;
+        overflow: hidden;
+    }
+
+    .k-grid-header-sticky.k-header.k-grid-no-left-border.k-first {
+        border-left-width: 1px !important;
+    }
+
+    .greenBg {
+        background-color: #f0fdf4 !important;
+    }
+
+    .beigeBg {
+        background-color: #fff7ed;
+    }
+
+    .k-floatwrap {
+        border-bottom: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    .image-content {
+        position: relative;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+
+    .custom-file-upload {
+        background: linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #c2976f, #312e81) border-box;
+        border: 1px dashed white;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 126px;
+        cursor: pointer;
+        font-size: 80px;
+        color: #c2976f;
+        font-weight: 200;
+    }
+
+    .custom-file-upload i {
+        color: #c2976f;
+        font-size: 70px;
+    }
+
+    .imgContainer:hover .k-button {
+        display: block !important;
+    }
+
+    .imgContainer:hover {
+        opacity: 10;
+    }
+
+    .imgContainer:hover img {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
+
+    .custom-file-upload .k-widget.k-upload.k-upload-async {
+        display: none;
+    }
+
+    .k-widget.k-upload.k-upload-async {
+        display: none;
+    }
+
+    .lg-backdrop.in {
+        z-index: 1305;
+    }
+
+    .lg-outer {
+        z-index: 1307;
+    }
+
+
+    .custom-card .small-text {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color: #515965;
+    }
+
+    .custom-card .small-card {
+        border: 1px solid #F0F2F5;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        height: 100%;
+    }
+
+    .circle_container {
+        width: 100%;
+        height: 0;
+        border-radius: 999px;
+        border: 16px solid #DDDCF6;
+        position: relative;
+        padding-bottom: calc(100% - 32px);
+        box-sizing: border-box;
+    }
+
+    .circle_container .inner {
+        width: calc(100% + 22px);
+        padding-bottom: calc(100% + 10px);
+        height: 0;
+        top: -11px;
+        left: -11px;
+        border-radius: 999px;
+        border: 6px solid #686EF5;
+        position: relative;
+    }
+
+    .circle_container .inner .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+        color: #686EF5;
+    }
+</style>

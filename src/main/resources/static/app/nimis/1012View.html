@@ -1,0 +1,87 @@
+<div id="page_content">
+  <div id="page_content_inner">
+    <div id="main_content">
+      <kendo-grid id="app1Data" k-scope-field="grid" k-data-source="dataSource" options="mainGrid" class="uk-text-small">
+      </kendo-grid>
+    </div>
+  </div>
+</div>
+
+<div class="uk-modal" id="modal_application">
+  <div class="uk-modal-dialog uk-modal-dialog-large custom-modal" style="margin-bottom:0;padding: 0; width: 98%;">
+    <div class="formHeader" style="display: block;margin: 0 -24px;padding:24px">
+      <div class="uk-grid">
+        <div class="uk-width-medium-1-1 uk-text-left">
+          <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px;">
+            <span>Баримт бичиг холбох</span>
+            <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <form class="k-form k-form-vertical" style="margin: 0 -24px; padding-right: 24px; padding-left: 24px;" id="myFormCreate" ng-submit="submitProject($event)">
+      <div class="uk-grid uk-grid-small" data-uk-grid-margin >
+        <div class="uk-width-1-2">
+          <label for="docId" class="k-form-label">Баримт бичиг</label>
+          <div class="k-form-field-wrap">
+            <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                    k-placeholder="'Сонгох'" id="docId" name="docId"
+                    k-data-text-field="'name'" k-data-value-field="'id'"
+                    k-filter="'startswith'" ng-model="app.docId" k-auto-bind="true"
+                    k-on-change="docChanged()"
+                    k-data-source="policyDocDataSource" style="width: 100%">
+            </select>
+          </div>
+        </div>
+        <div class="uk-width-1-2">
+          <label for="relationDocId" class="k-form-label">Холбох баримт бичиг</label>
+          <div class="k-form-field-wrap">
+            <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                    k-placeholder="'Сонгох'" id="relationDocId" name="relationDocId"
+                    k-data-text-field="'name'" k-data-value-field="'id'"
+                    k-filter="'startswith'" ng-model="app.relationDocId" k-auto-bind="true"
+                    k-on-change="relationDocChanged()"
+                    k-data-source="relationDocDataSource" style="width: 100%">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+        <div class="uk-width-1-2" ng-show="docStepHide">
+          <kendo-grid k-scope-field="grid" k-data-source="docGroupDataSource" options="mainGridGroup" id="mainGridGroup">
+            <div id="template">
+              <div>
+                <div class="orders"></div>
+              </div>
+            </div>
+          </kendo-grid>
+        </div>
+        <div class="uk-width-1-2" ng-show="docRelationStepHide">
+          <kendo-grid k-scope-field="grid" k-data-source="docGroupRelationDataSource" options="mainGridRelationGroup" id="mainGridRelationGroup">
+            <div id="templateRelation">
+              <div>
+                <div class="ordersRelation"></div>
+              </div>
+            </div>
+          </kendo-grid>
+        </div>
+      </div>
+      <div class="formFooter" style="margin: 0;padding:12px">
+        <div class="uk-grid">
+          <div class="uk-width-1-1 uk-text-right">
+            <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button" >БОЛИХ</button>
+            <button type="submit" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+  <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+    <img src="assets/img/loader-8.gif">
+  </div>
+</div>

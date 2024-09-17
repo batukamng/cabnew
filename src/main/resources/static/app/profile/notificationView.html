@@ -1,0 +1,122 @@
+<div id="page_content">
+  <div id="page_content_inner">
+    <div class="notif-container">
+      <div class="md-card md-card-hover custom-card rounded-2xl">
+        <div style="padding: 30px">
+          <div class="flex justify-between">
+            <p class="font-normal from-indigo-900 mb-8 text-2xl">Таны сонорт</p>
+          <!--  <button class="outlined-button mt-0 hover:shadow-lg from-indigo-900 rounded-full float-right" ng-click="showAllNotif()">Бүгдийг харах</button>-->
+          </div>
+
+          <div style="height: 100%; overflow-y: auto">
+            <div
+              ng-repeat="notif in notifs"
+              style="padding: 20px 30px; display: flex; gap: 20px; align-items: center; border-bottom: 1px solid #eef1f4; color: #2563eb; cursor: pointer"
+              ng-click="showNotification(notif)"
+            >
+              <div class="icon-container" style="background: #e7e9fa">
+                <i style="color: #2563eb; transform: rotate(-27deg)" class="material-icons">notifications_none_outlined</i>
+              </div>
+              <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: stretch; height: 60px; width: calc(100% - 60px - 20px)">
+                <span style="font-size: 14px; color: #2563eb; font-weight: 600">{{notif.title}}</span>
+                <span style="font-size: 12px; font-weight: 400; display: inline-block; width: unset; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis">{{notif.body}} </span>
+                <span style="font-size: 9px; color: #515965; font-weight: 400">{{notif.createdAt | date:'MM/dd/yyyy HH:mm' }}</span>
+              </div>
+              <div class="notif-status" ng-if="notif.seen == 1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="uk-modal" id="modal_notif">
+  <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0; width: 400px">
+    <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+      <div class="uk-grid">
+        <div class="uk-width-medium-1-1 uk-text-left">
+          <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+            <span>Таны сонорт</span>
+            <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div custom-scrollbar class="notification-modal py-6">
+      <img src="assets/img/apple-touch-icon.png" class="rounded-xl" height="80" width="80" />
+      <p class="title">{{modalData.title}}</p>
+      <div>{{modalData.body}}</div>
+      <div class="date">{{modalData.createdAt | date:'MM/dd/yyyy HH:mm'}}</div>
+    </div>
+  </div>
+</div>
+<style>
+  .notif-container {
+    margin: 0 20%;
+    width: auto;
+  }
+  .icon-container {
+    border-radius: 10px;
+    display: flex;
+    height: 60px;
+    width: 60px;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-container > i {
+    font-size: 24px !important;
+  }
+  .notification-modal .icon-container {
+    border-radius: 999px;
+    display: flex;
+    height: 100px;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background: #e7e9fa;
+  }
+
+  .notification-modal .icon-container .material-icons {
+    font-size: 60px;
+    color: inherit;
+    transform: rotate(-27deg);
+  }
+
+  .notification-modal .scroll-content {
+    color: #2563eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-weight: 400;
+    height: 100%;
+    text-align: center;
+  }
+
+  .notification-modal .title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .notification-modal .date {
+    background: #eef1f4;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #515965;
+    margin-top: 10px;
+  }
+  .notif-status {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    vertical-align: middle;
+    background-color: #2563eb;
+  }
+  @media (min-width: 1600px) {
+    .notif-container {
+      margin: 0 20%;
+    }
+  }
+</style>

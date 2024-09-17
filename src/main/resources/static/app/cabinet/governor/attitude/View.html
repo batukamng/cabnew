@@ -1,0 +1,132 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" k-scope-field="grid" k-data-source="dataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Хандлага, ёс зүй, ур чадварын үнэлгээ бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container attitude" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label>Байгууллага</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="orgId"
+                                        k-data-text-field="'name'" k-data-value-field="'id'" ng-model="dataItem.orgId"
+                                        k-data-source="orgDatasource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Нэгжийн дарга</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="userId" k-cascade-from="'orgId'"  k-cascade-from-field="'orgId'"
+                                        k-data-text-field="'name'" k-data-value-field="'id'" ng-model="dataItem.userId"
+                                        k-data-source="userDatasource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="attitude">Хандлага, ёс зүй</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="attitude"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.attitude"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label">
+                                <label for="responsibility"> Удирдан зохион байгуулах</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="responsibility"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.responsibility"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="k-edit-label">
+                                <label for="solving">Асуудал шийдвэрлэх</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="solving"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.solving"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="k-edit-label">
+                                <label for="lead">Манлайлах</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="lead"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.leadVal"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="k-edit-label">
+                                <label for="teamwork">Багаар ажиллах</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="teamwork"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.teamwork"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="k-edit-label">
+                                <label for="communication">Харилцаа</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="communication"
+                                        k-data-text-field="'text'" k-data-value-field="'value'" ng-model="dataItem.comVal"
+                                        k-data-source="scoreDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БУЦАХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .attitude .k-edit-label{
+        width:45%;
+    }
+    .attitude .k-edit-field{
+        width:50%;
+    }
+</style>

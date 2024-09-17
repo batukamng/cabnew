@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="ic_menu_16" transform="translate(-140 -317)">
+    <g id="Rounded_Rectangle_63" data-name="Rounded Rectangle 63" transform="translate(140 319)" fill="none" stroke="#959595" stroke-width="1">
+      <rect width="16" height="14" rx="2" stroke="none"/>
+      <rect x="0.5" y="0.5" width="15" height="13" rx="1.5" fill="none"/>
+    </g>
+    <rect id="Rectangle_34_copy_3" data-name="Rectangle 34 copy 3" width="16" height="1" transform="translate(140 323)" fill="#959595"/>
+    <rect id="Rectangle_34_copy_4" data-name="Rectangle 34 copy 4" width="1" height="2" transform="translate(143 317)" fill="#959595"/>
+    <rect id="Rectangle_34_copy_5" data-name="Rectangle 34 copy 5" width="1" height="2" transform="translate(152 317)" fill="#959595"/>
+  </g>
+</svg>

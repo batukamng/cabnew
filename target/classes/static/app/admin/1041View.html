@@ -1,0 +1,25 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <div kendo-pivot-configurator k-height="580" k-data-source="dataSource" id="configurator" class="hidden-on-narrow"></div>
+                <div kendo-pivot-grid k-options="options" id="pivotgrid" class="hidden-on-narrow"></div>
+                <div class="responsive-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #pivotgrid {
+        width: 74%;
+        float: right;
+    }
+
+    #configurator{
+        width: 25%;
+    }
+    .hidden-on-narrow {
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>

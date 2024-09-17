@@ -1,0 +1,632 @@
+<div id="page_content">
+    <div id="page_content_inner" ng-class="!isAdmin && '!p-0'">
+        <div class="bg-white box-border" ng-if="!isAdmin">
+            <div style="height: calc(100vh - 60px)" class="grid grid-cols-5 2xl:px-16 px-8 gap-2">
+                <div class="col-span-3 lg:col-span-2 border-box border-0 border-r-[2px] border-solid border-[#eef1f4]">
+                    <h2 class="font-normal text-indigo-900 m-8">Санал хүсэлт илгээх</h2>
+                    <form id="sendFeedback" ng-submit="send()" style="height: calc(100vh - 200px);overflow-x:hidden" custom-scrollbar>
+                        <div class="grid grid-cols-3 gap-4 mx-8">
+                            <div class="col-span-3">
+                                <label class="text-indigo-900 uppercase text-xs font-normal" for="feedbackType">Төрөл</label>
+                                <div class="k-edit-field">
+                                    <select
+                                            kendo-combo-box
+                                            validationMessage="шаардлагатай"
+                                            k-placeholder="'Сонгох'"
+                                            id="feedbackType"
+                                            name="feedbackType"
+                                            k-data-text-field="'comCdNm'"
+                                            k-data-value-field="'id'"
+                                            k-filter="'startswith'"
+                                            ng-model="app.typeId"
+                                            k-auto-bind="true"
+                                            k-data-source="feedbackTypeSource"
+                                            style="width: 100%"
+                                            required
+                                    ></select>
+                                </div>
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-indigo-900 uppercase text-xs font-normal">Санал хүсэлтийн агуулга</label>
+                                <textarea kendo-text-area required ng-model="app.senderData" style="width: 100%" rows="6"></textarea>
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-indigo-900 uppercase text-xs font-normal">Хавсралт файл</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <label class="custom-file-upload !h-[168px] !w-[168px] shrink-0">
+                                        <input ng-show="false" class="hidden" style="display: none" type="file" accept="image/*" name="file" id="attach" k-options="fileOptions" kendo-upload />
+                                        <i class="material-icons">add</i>
+                                    </label>
+                                    <div class="relative shrink-0 rounded-sm border-[1px] border-[#F0F2F5] border-solid !h-[168px] !w-[168px]" ng-repeat="img in images">
+                                        <img alt="preview" id="imgPreview" style="height: 168px; width: 100%" class="object-cover object-center rounded-sm" ng-src="{{img.uri}}" />
+                                        <i class="material-icons absolute right-[10px] top-[10px] cursor-pointer" ng-click="deleteImg(img.id)">cancel_rounded</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr class="border-zinc-100 border-[2px]" />
+                    <div class="col-span-3 text-right mx-6 mt-3">
+                        <button class="md-btn gradient-button uppercase" ng-click="send()">Илгээх</button>
+                    </div>
+                </div>
+                <div class="col-span-3 p-8 pr-0 2xl:pr-8 border-box" style="height: calc(100% - 120px)">
+                    <h2 class="font-normal text-indigo-900 mb-8">Хүсэлтийн мэдээлэл</h2>
+                    <div class="grid grid-cols-3 gap-6">
+
+
+
+                        <div ng-repeat="item in feedbackSource">
+                            <div class="p-6 pb-2 border-solid border-[1px] border-zinc-300 rounded-xl" ng-click="clickItem(item)">
+                                <div class="bg-cover bg-no-repeat !bg-center w-full h-[150px] rounded-xl" style="background-image: url({{item.fileStr}})">
+                                    <div class="bg-[#000] bg-opacity-30  w-full h-full  rounded-xl text-center flex flex-col justify-center items-center font-medium text-xl gap-2 text-white ng-binding">
+                                        <span class="k-status-waiting" ng-if="item.status==1">Хүлээгдэж буй</span>
+                                        <span class="k-status-reply" ng-if="item.status==2">Хариу илгээсэн</span>
+                                    </div>
+                                </div>
+                                <p class="mb-0 mt-4 text-xs text-zinc-500">{{item.createdAt || '-'}}<span class="font-bold float-right"></span></p>
+                                <p class="font-bold mt-1">{{item.typeName || '-'}}<span class="font-bold float-right"></span></p>
+                                <p>{{item.senderData || '-'}}<span class="font-bold float-right"></span></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main_content" ng-if="isAdmin">
+            <kendo-grid id="app1Data" k-scope-field="grid" k-data-source="dataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_view">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0; width: 700px">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Санал хүсэлтийн дэлгэрэнгүй</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container">
+                    <div class="uk-grid uk-grid-small inner custom-scroll" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <label class="text-indigo-900 uppercase text-xs font-normal">Ирсэн огноо</label>
+                            <div>{{item.createdAt}}</div>
+                            <hr class="uk-grid-divider w-full" />
+                        </div>
+                        <div class="uk-width-1-1" style="padding-top: 10px">
+                            <label class="text-indigo-900 uppercase text-xs font-normal">Хэрэглэгч</label>
+                            <div>{{item.senderName}}</div>
+                            <hr class="uk-grid-divider uk-width-1-1" />
+                        </div>
+                        <div class="uk-width-1-1" style="padding-top: 10px">
+                            <label class="text-indigo-900 uppercase text-xs font-normal">Утасны дугаар</label>
+                            <div>{{item.senderPhone}}</div>
+                            <hr class="uk-grid-divider uk-width-1-1" />
+                        </div>
+                        <div class="uk-width-1-1" style="padding-top: 10px">
+                            <label class="text-indigo-900 uppercase text-xs font-normal">Агуулга</label>
+                            <div>{{item.senderData}}</div>
+                            <hr class="uk-grid-divider uk-width-1-1" />
+                        </div>
+                        <div class="uk-width-1-1" style="padding-top: 10px">
+                            <label class="text-indigo-900 uppercase text-xs font-normal">Хавсаргасан файл</label>
+                            <div class="flex flex-wrap gap-2" ng-if="item.fileStr!=null">
+                                <div style="border-radius: 5px"
+                                    class="imgContainer col-span-1 relative rounded-sm border-[1px] border-[#eef1f4] border-solid box-border shrink-0"
+                                    ng-repeat="img in fileArr(item.fileStr) track by $index">
+                                    <img ng-src="{{img}}" style="height: 168px; width: 168px" class="object-cover object-center rounded-sm" />
+                                    <div lightgallery style="height: 100%; width: 100%" class="!absolute !left-0 !top-0 w-full h-full !bg-black/[.06]">
+                                        <a style="display: flex; height: 100%; align-items: center; justify-content: center" data-sub-html=".caption{{$index}}" href="{{img}}">
+                                            <i class="material-icons text-white text-3xl">visibility</i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr class="uk-grid-divider uk-width-1-1" />
+                            </div>
+                            <div class="uk-width-1-1" style="padding-top: 10px" ng-if="item.status == 2">
+                                <label class="text-indigo-900 uppercase text-xs font-normal">Илгээсэн хариу</label>
+                                <div>{{item.replyData}}</div>
+                                <hr class="uk-grid-divider uk-width-1-1" />
+                            </div>
+                            <div class="uk-width-1-1" style="padding-top: 10px" ng-if="item.status == 1 && isAdmin">
+                                <label class="text-indigo-900 uppercase text-xs font-normal">Хариу бичих</label>
+                                <textarea kendo-text-area required ng-model="app.replyData" style="width: 100%" rows="5" data-required-msg="Хариу бөглөнө үү"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding: 12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ</button>
+                    <button class="md-btn md-btn-mini !text-sm gradient-button px-4" ng-click="reply()" ng-show="item.status != 2">Илгээх</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+        <div id="main-loader-app" style="height: 100px"></div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_pdf">
+    <div class="uk-modal-dialog uk-modal-dialog-large">
+        <div class="formHeader">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="heading_a" style="margin-bottom: 0">
+                        {{viewItem.name}}
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="uk-margin-large-top" style="overflow-x: hidden; height: 75vh">
+            <div id="pdfViewer"></div>
+        </div>
+        <div class="formFooter" style="margin-bottom: -24px; margin-top: 20px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #tabstrip h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
+
+    #tabstrip h2 span {
+        background: none;
+        padding-left: 5px;
+        font-size: 0.3em;
+        vertical-align: top;
+    }
+
+    #tabstrip p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .customSelectedButton {
+        padding: 0.25rem !important;
+        background-color: #f6f7f8 !important;
+        border-color: #eef1f4 !important;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .customSelectedButton .customButton:active {
+        background-color: white !important;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .customSelectedButton .customButton span {
+        color: grey;
+        font-weight: 700;
+    }
+
+    .customSelectedButton .customButton:hover {
+        border: none !important;
+    }
+
+    .customSelectedButton .customButton {
+        border-radius: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        font-weight: 400;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .customSelectedButton .customButton:focus {
+        box-shadow: unset;
+    }
+
+    .customSelectedButton .customButton span {
+        font-weight: 300;
+    }
+
+    .customSelectedButton .customButton .customButton.active {
+        background: #fff !important;
+        font-weight: 600;
+        box-shadow: 0px 4px 8px 4px rgb(0 0 0 / 5%);
+    }
+
+    .k-checkbox:checked + label {
+        background-color: #312e81 !important;
+        border-color: #312e81 !important;
+        color: #fff !important;
+    }
+
+    .k-checkbox:checked + label i {
+        color: #fff !important;
+    }
+    .custom-table {
+        width: 100%;
+        border-spacing: 0;
+    }
+
+    .custom-table td {
+        width: 50%;
+        padding: 10px;
+    }
+
+    .custom-table td,
+    .custom-table th {
+        border: 1px solid #eef1f4;
+        border-bottom: 0px;
+        border-right: 0;
+    }
+    .custom-table th {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #515965;
+        font-weight: 400;
+        font-size: 12px;
+    }
+    .custom-table td:last-child {
+        border-right: 1px solid #eef1f4;
+    }
+
+    .custom-table tr:first-child td:first-child {
+        border-top-left-radius: 5px;
+    }
+
+    .custom-table tr:first-child td:last-child {
+        border-top-right-radius: 5px;
+    }
+
+    .custom-table tr:last-child td:first-child,
+    .custom-table tr.border-bt td:first-child {
+        border-bottom-left-radius: 5px;
+    }
+
+    .custom-table tr:last-child td:last-child,
+    .custom-table tr.border-bt td:last-child {
+        border-bottom-right-radius: 5px;
+    }
+
+    .custom-table tr:last-child td,
+    .custom-table tr.border-bt td {
+        border-bottom: 1px solid #eef1f4;
+    }
+
+    .k-form-field-wrap {
+        padding-top: 5px;
+        display: block;
+        background-color: #d7d7d7;
+        border: 1px solid #ccc;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .custom-file-upload {
+        background: linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #002060, #941b36) border-box;
+        border: 1px dashed white;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 250px;
+        width: 180px;
+        cursor: pointer;
+    }
+
+    .custom-file-upload i {
+        color: #941b36;
+        font-size: 70px;
+        font-weight: 400;
+    }
+    .uk-grid-divider:empty {
+        margin-top: 10px;
+    }
+    .uk-grid-small {
+        padding-left: 0px !important;
+    }
+    #attach {
+        display: none;
+    }
+    .imgContainer:hover .k-button {
+        display: block !important;
+    }
+    .imgContainer:hover {
+        opacity: 10;
+    }
+    .imgContainer:hover img {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
+    #replyFeedback .inner {
+        height: calc(100vh - 240px);
+        padding-right: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-left: 0;
+        display: block;
+        width: 100% !important;
+    }
+    .k-window {
+        left: 10vw !important;
+        top: 85px !important;
+    }
+    .uk-grid-divider {
+        margin: 8px 0 !important;
+    }
+
+    .uk-grid-divider:empty {
+        margin: 10px 5px;
+    }
+
+    .k-dropzone-hint {
+        display: none;
+    }
+    .green {
+        color: #2acb7f !important;
+    }
+    .yellow {
+        color: #ffc705 !important;
+    }
+    .red {
+        color: #ff1010 !important;
+    }
+    .item-card {
+        padding: 20px;
+        box-sizing: border-box;
+        border: 1px solid #f0f2f5;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: 600;
+        height: 98px;
+    }
+    .item-card .label {
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #515965;
+    }
+    .budgetChip {
+        padding: 3px 18px;
+        border-radius: 999px;
+        color: white;
+        background: #2acb7f;
+        font-weight: 600;
+        margin: auto;
+        width: max-content;
+    }
+    .k-grid td {
+        position: relative;
+    }
+    .k-edit-label {
+        width: 100%;
+        text-align: left;
+        line-height: normal;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #515965;
+        font-size: 12px;
+        height: 14px;
+    }
+    .k-edit-field {
+        width: 100%;
+        margin: 0;
+    }
+    .custom-modal .md-btn {
+        height: 36px;
+    }
+    .page-button {
+        border-radius: 999px;
+        height: 40px;
+        width: 40px;
+        background: #fff;
+        cursor: pointer;
+    }
+    .page-button:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    }
+
+    .page-button.prev {
+        transform: translateX(-50%);
+    }
+    .page-button.next {
+        transform: translateX(50%);
+    }
+    .tez-text {
+        display: inline-block;
+        text-transform: lowercase;
+    }
+    .tez-text:first-letter {
+        text-transform: uppercase;
+    }
+    .panel.active {
+        background-color: #312e81 !important;
+        color: white !important;
+    }
+    .panel:active,
+    .panel:hover {
+        -webkit-box-shadow: 0 10px 6px -5px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 0 10px 6px -5px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 10px 6px -5px rgba(0, 0, 0, 0.25);
+    }
+    .panelList li .k-edit-label {
+        margin-top: 20px;
+    }
+    .orgList {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .orgList li {
+        height: 36px;
+    }
+
+    .orgList::-webkit-scrollbar {
+        background-color: #fff;
+        width: 5px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #fff;
+    }
+
+    /* Handle */
+    .orgList::-webkit-scrollbar-thumb {
+        background: #fff;
+        border-radius: 10px;
+        position: absolute;
+    }
+    .orgList:hover::-webkit-scrollbar-thumb {
+        background: #6c6e71;
+    }
+
+    .spinner {
+        display: block;
+        border: 4px solid rgb(0, 0, 0, 0.4);
+        border-top: 4px solid rgb(0, 0, 0, 0.1);
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        margin: auto;
+        animation: spin 2s linear infinite;
+    }
+    .fileView {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+        padding: 0 10px;
+        border-radius: 16px;
+        color: white;
+        background-color: #686ef5;
+        height: 32px;
+    }
+    .k-upload .k-dropzone {
+        padding: 2px;
+    }
+    .wizardContainer {
+        display: flex;
+        height: 250px;
+        justify-content: center;
+        align-items: center;
+    }
+    .k-stepper .k-step-current .k-step-indicator,
+    .k-stepper .k-step-current:hover .k-step-indicator,
+    .k-stepper .k-step-current.k-step-focus .k-step-indicator,
+    .k-stepper .k-step-done .k-step-indicator,
+    .k-stepper .k-step-done.k-step-focus .k-step-indicator,
+    .k-progressbar .k-state-selected,
+    .k-stepper .k-step-done.k-step-hover .k-step-indicator,
+    .k-stepper .k-step-done:hover .k-step-indicator {
+        border-color: #ccc;
+        background-color: #ccc;
+    }
+
+    .k-stepper .k-step-label,
+    .k-stepper .k-step-label .k-step-text,
+    .k-step-list-horizontal .k-step-link {
+        max-width: 20em;
+    }
+    .k-stepper .k-step-current .k-step-label {
+        font-weight: 400;
+    }
+    .k-step-text,
+    .k-step-indicator-text {
+        font-size: 10px;
+    }
+    .k-step-text {
+        color: #ccc;
+    }
+    .k-step-list-horizontal ~ .k-progressbar {
+        top: 12px;
+    }
+    .k-stepper .k-step-success .k-step-label .k-icon {
+        display: none;
+    }
+    /* .k-stepper .k-step-indicator {
+              height: 18px;
+              width: 18px;
+              margin: 8px;
+            } */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .k-status-waiting {
+        text-align: center;
+        line-height: normal;
+        background-color: #2563eb;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        outline: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+
+    .k-status-reply {
+        text-align: center;
+        line-height: normal;
+        background-color: #419287;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        outline: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+</style>
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-app"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-view"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "PIMIS", // optional
+    });
+</script>

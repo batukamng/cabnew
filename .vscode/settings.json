@@ -1,0 +1,7 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "redHatDependencyAnalytics.docker.executable.path": "",
+    "redHatDependencyAnalyticsServer.trace.server": "off"
+}

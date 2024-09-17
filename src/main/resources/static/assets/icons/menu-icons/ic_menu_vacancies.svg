@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="menu_vacancies" transform="translate(3622 -8003)">
+    <path id="Path_4337" data-name="Path 4337" d="M15,12h6a1,1,0,0,0,1-1V1a1,1,0,0,0-1-1H1A1,1,0,0,0,0,1s0,9.533,0,10a.919.919,0,0,0,1,1H7" transform="translate(-3621 8008)" fill="none" stroke="#ce9f95" stroke-width="2"/>
+    <g id="Rectangle_2207" data-name="Rectangle 2207" transform="translate(-3615 8017)" fill="none" stroke="#ce9f95" stroke-width="2">
+      <rect width="10" height="6" rx="1" stroke="none"/>
+      <rect x="1" y="1" width="8" height="4" fill="none"/>
+    </g>
+    <g id="Rectangle_2208" data-name="Rectangle 2208" transform="translate(-3616 8003)" fill="none" stroke="#ce9f95" stroke-width="2">
+      <path d="M1,0H11a1,1,0,0,1,1,1V6a0,0,0,0,1,0,0H0A0,0,0,0,1,0,6V1A1,1,0,0,1,1,0Z" stroke="none"/>
+      <path d="M1,1H11a0,0,0,0,1,0,0V4a1,1,0,0,1-1,1H2A1,1,0,0,1,1,4V1A0,0,0,0,1,1,1Z" fill="none"/>
+    </g>
+    <path id="Path_4336" data-name="Path 4336" d="M18,1V7a1,1,0,0,1-1,1H1A1,1,0,0,1,0,7V1" transform="translate(-3619 8018)" fill="none" stroke="#ce9f95" stroke-width="2"/>
+  </g>
+</svg>

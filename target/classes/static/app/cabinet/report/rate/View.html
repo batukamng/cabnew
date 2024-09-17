@@ -1,0 +1,379 @@
+<div id="page_content">
+    <div id="page_content_inner" style="padding:24px 24px;">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" options="mainGrid" data-source="dataSource">
+               <!-- <div k-detail-template>
+                    <div class="uk-text-small" id="tab1DetGrid" kendo-grid k-options="detailGridTab1(dataItem)"></div>
+                </div>-->
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<footer id="footer" class="mt-6 box-border bg-white border-solid border-0 !border-t-[2px] border-zinc-200"
+        style="padding: 0 12px !important;z-index: 100">
+    <div class="grid grid-cols-3 gap-4">
+        <div >
+
+        </div>
+        <div class="col-span-2 text-right"> <!--&& user.level.name=='Мэргэжилтэн-->
+            <button ng-if="app.userStatusNm=='Баталсан'" ng-click="rejectContract(app)" style="padding: 0"
+                    class="md-btn md-btn-warning px-4 rounded-md !text-sm">Буцаах
+            </button>
+            <button class="md-btn px-4 rounded-md !text-sm bg-[#10b981] text-white hover:bg-[#059669]"
+                    ng-click="changeStatus(app)"
+                    ng-if="app.userStatusNm=='Илгээсэн'"
+            >
+                Батлах
+            </button>
+            <button class="md-btn px-4 rounded-md !text-sm outlined-button" back-button>Буцах</button>
+        </div>
+    </div>
+</footer>
+
+<div class="uk-modal" id="modal_form_detail">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:800px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Арга хэмжээ бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form name="detailForm" class="k-form k-form-vertical" id="validatorDetail" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formDetailSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label>Төрөл</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="custom-select w-full">
+                                    <div class="item text-sm" style="width: 50%"
+                                         ng-class="detailItem.objType == '01' ? 'active' : ''"
+                                         ng-click="objChange('01')">Үндсэн арга хэмжээ
+                                    </div>
+                                    <div class="item text-sm" style="width: 50%"
+                                         ng-class="detailItem.objType == '02' ? 'active' : ''"
+                                         ng-click="objChange('02')">Дэд арга хэмжээ
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li ng-if="detailItem.objType == '02'">
+                            <div class="k-edit-label"><label for="userId">Үндсэн арга хэмжээ</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box ng-required="detailItem.objType == '02'" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="userId"
+                                        k-data-text-field="'title'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="detailItem.parentId"
+                                        k-data-source="detailDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="title">Арга хэмжээ</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                 <textarea kendo-text-area id="title" required k-ng-model="detailItem.title" style="width: 100%;"
+                                           rows="3"></textarea>
+                            </div>
+                        </li>
+
+                        <li ng-repeat="item in detailItem.criterias">
+                            <div class="k-edit-label">
+                                <div class="grid grid-cols-1 gap-1">
+                                    <div>
+                                        <label for="criteria">Шалгуур үзүүлэлт</label>
+                                    </div>
+                                    <div>
+                                        <div class="cursor-pointer" ng-click="detailItem.criterias.push({})" ng-show="$last"><i class="material-icons md-24">&#xE146;</i></div>
+                                        <div class="cursor-pointer" ng-click="detailItem.criterias.splice($index,1)" ng-show="!$last"><i class="material-icons md-24">&#xE872;</i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <textarea kendo-text-area id="criteria" required k-ng-model="item.criteria" style="width: 100%;" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="k-edit-label"><label class="pt-6" style="display: block;">Хүрэх түвшин (хагас жилээр)</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label for="baseline">Суурь үзүүлэлт</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input  kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="1" id="baseline" required ng-model="item.baseline" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="firstHalf">Эхний хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" id="firstHalf" required ng-model="item.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="secondHalf">Сүүлийн хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" id="secondHalf" required ng-model="item.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="k-edit-label"><label class="pt-6" style="display: block;" >Үргэлжлэх хугацаа</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="startDate">Эхлэх</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input
+                                                    validationMessage="шаардлагатай"
+                                                    kendo-date-picker
+                                                    k-format="'yyyy-MM-dd'"
+                                                    id="startDate"
+                                                    required
+                                                    ng-model="item.srtDt"
+                                                    style="width: 100%"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="endDate">Дуусах </label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input
+                                                    validationMessage="шаардлагатай"
+                                                    id="endDate"
+                                                    kendo-date-picker
+                                                    k-format="'yyyy-MM-dd'"
+                                                    required
+                                                    ng-model="item.endDt"
+                                                    style="width: 100%"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="k-edit-label"><label for="fullDesc">Хүрэх түвшин (хагас жилээр)</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="firstHalf">Эхний хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="firstHalf" required ng-model="detailItem.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="secondHalf">Сүүлийн хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="secondHalf" required ng-model="detailItem.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                    <button type="button" ng-click="formDetailSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_reject">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:600px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0">
+                        Төлөвлөгөө цуцлах
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" style="margin: 0" id="rejectForm" kendo-validator="rejectForm"
+              ng-submit="rejectSubmit()">
+            <div style="padding: 0" custom-scrollbar>
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <div class="grid grid-cols-1 mt-4 gap-4">
+                        <div>
+                            <div class="error-panel" style="border-radius: 0 !important;">
+                                <span class="font-semibold">Анхааруулга</span>
+                                <p class="text-[#212121] font-light mb-0 mt-2"> Та төлөвлөгөөг цуцалснаар албан хаагчыг
+                                    үнэлэх боломжгүй болохыг анхаарна уу!!!</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="uppercase text-xs text-zinc-600">Үндэслэл</label>
+                            <div style="display: block">
+                                <div class="k-edit-field k-form-field-wrap" style="width:100% !important;">
+                                  <textarea kendo-text-area k-placeholder="'...'" required
+                                            k-ng-model="rejectItem.description"
+                                            id="rejDesc" style="width: 100%" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0; padding-top: 20px !important;">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                        </button>
+                        <button type="button" ng-click="rejectSubmit()"
+                                class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form_criteria">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:800px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Үнэлэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form name="criteriaForm" class="k-form k-form-vertical" id="validatorCriteria" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formCriteriaSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label for="title">Зорилт</label></div>
+                            <div class="k-edit-field pt-2 k-form-field-wrap">
+                                {{criteriaItem.title}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label">
+                                <label> хэрэгжүүлэх арга хэмжээ</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <textarea disabled kendo-text-area required k-ng-model="criteriaItem.criteria" style="width: 100%;" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-label">
+                                <label>Арга хэмжээний гүйцэтгэл</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0" required ng-model="criteriaItem.baseline" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="criteriaItem.objType=='01'" class="k-edit-label">
+                                <label>Төлөвлөсөн хугацаанд гүйцэтгэсэн</label>
+                            </div>
+                            <div ng-show="criteriaItem.objType=='01'" class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0" required ng-model="criteriaItem.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-label">
+                                <label ng-show="criteriaItem.objType=='01'">Нийлбэр оноо</label>
+                                <label ng-show="criteriaItem.objType=='02'">Нийт (15 хүртэл оноогоор)</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input disabled kendo-numeric-text-box k-format="'n0'" k-max="100" k-min="0" required ng-model="criteriaItem.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="k-edit-label">
+                                <label>Үнэлгээний багийн хянан баталгаажуулж, дахин үнэлсэн оноо</label>
+                            </div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-format="'#.##'" required ng-model="criteriaItem.fulfillment" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="k-edit-label"><label for="fullDesc">Хүрэх түвшин (хагас жилээр)</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="firstHalf">Эхний хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="firstHalf" required ng-model="detailItem.firstHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="secondHalf">Сүүлийн хагас</label>
+                                        <div class="k-edit-field k-form-field-wrap w-full">
+                                            <input kendo-numeric-text-box k-max="100" k-min="0"  id="secondHalf" required ng-model="detailItem.secondHalf" style="width: 100%;"  />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                    <button type="button" ng-click="formCriteriaSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .k-edit-label{
+        width:30%;
+    }
+    .k-edit-field{
+        width:68%;
+    }
+</style>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <g id="Group_8820" data-name="Group 8820" transform="translate(-20 -20)">
+    <circle id="Ellipse_2133" data-name="Ellipse 2133" cx="35" cy="35" r="35" transform="translate(20 20)" fill="#dbeafe"/>
+    <g id="Group_8819" data-name="Group 8819" transform="translate(1 6)">
+      <path id="Union_1" data-name="Union 1" d="M3.375,27H0A28.784,28.784,0,0,1,27,0V14.85H20.925V7.408A22.772,22.772,0,0,0,7.408,20.925H27V27Z" transform="translate(25 20)" fill="#2563eb"/>
+      <path id="Union_2" data-name="Union 2" d="M3.375,27H0A28.784,28.784,0,0,1,27,0V14.85H20.925V7.408A22.772,22.772,0,0,0,7.408,20.925H27V27Z" transform="translate(83 20) rotate(90)" fill="#edc52a"/>
+      <path id="Union_3" data-name="Union 3" d="M3.375,27H0A28.784,28.784,0,0,1,27,0V14.85H20.925V7.408A22.772,22.772,0,0,0,7.408,20.925H27V27Z" transform="translate(83 78) rotate(180)" fill="#2563eb"/>
+      <path id="Union_4" data-name="Union 4" d="M3.375,27H0A28.784,28.784,0,0,1,27,0V14.85H20.925V7.408A22.772,22.772,0,0,0,7.408,20.925H27V27Z" transform="translate(25 78) rotate(-90)" fill="#2563eb"/>
+    </g>
+  </g>
+</svg>

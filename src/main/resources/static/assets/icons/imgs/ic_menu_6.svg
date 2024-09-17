@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="ic_menu_6" transform="translate(-28 -404)">
+    <g id="Rounded_Rectangle_29_copy_5" data-name="Rounded Rectangle 29 copy 5" transform="translate(3 64)" fill="none">
+      <path d="M25,340H38l3,3v13H25Z" stroke="none"/>
+      <path d="M 26.00000381469727 340.9997863769531 L 26.00000381469727 354.9996032714844 L 39.99989700317383 354.9996032714844 L 39.99989700317383 343.413818359375 L 37.58580017089844 340.9997863769531 L 26.00000381469727 340.9997863769531 M 25.00000381469727 339.9997863769531 L 38.00000381469727 339.9997863769531 L 40.99989700317383 342.9996032714844 L 40.99989700317383 355.9996032714844 L 25.00000381469727 355.9996032714844 L 25.00000381469727 339.9997863769531 Z" stroke="none" fill="#959595"/>
+    </g>
+    <line id="Shape_18" data-name="Shape 18" y2="8" transform="translate(36 408)" fill="none" stroke="#959595" stroke-width="1"/>
+    <path id="Shape_19" data-name="Shape 19" d="M30,349l3,3,3-3" transform="translate(3 64)" fill="none" stroke="#959595" stroke-width="1"/>
+  </g>
+</svg>

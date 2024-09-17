@@ -1,0 +1,68 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" k-scope-field="grid" k-data-source="dataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Үнэлгээний баг бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label for="targetStr">Багийн нэр</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <textarea kendo-text-area id="targetStr" k-ng-model="dataItem.title" style="width: 100%;" rows="4"></textarea>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label"><label>Албан хаагч</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <div class="k-form-field-wrap my-2 inline-block">
+                                    <input type="checkbox" id="{{item.id}}-{{$index}}-allPriv" class="k-checkbox hidden" style="display: none !important" ng-click="selectAll($event.target.checked)" />
+                                    <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer" for="{{item.id}}-{{$index}}-allPriv"
+                                    ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>Бүгд</label>
+                                </div>
+                                <div class="my-2 mr-1 inline-block" ng-repeat="eco in workers">
+                                    <input type="checkbox" ng-value="eco.id" ng-model="bagObj[eco.id]" class="k-checkbox hidden" style="display: none !important" id="{{eco.id}}-{{$index}}" />
+                                    <label class="w-6 bg-white text-[#6C757D] border-[#6C757D] border-[1px] border-solid rounded-2xl py-1 px-3 bg-white text-sm cursor-pointer capitalize" for="{{eco.id}}-{{$index}}"
+                                    ><i class="material-icons mr-2 text-[#6C757D]">check_outlined</i>{{eco.name}}</label
+                                    >
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БУЦАХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

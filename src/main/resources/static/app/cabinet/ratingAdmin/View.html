@@ -1,0 +1,91 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" k-scope-field="grid" k-data-source="appDataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Үнэлгээний удирдлага бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container attitude" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label for="planYr">Тайлант он</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                                <select kendo-combo-box required validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="planYr" ng-model="dataItem.planYr" style="width: 100%">
+                                    <option value="2025">2025</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                </select>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label"><label for="objPer">Гүйцэтгэлийн зорилт арга хэмжээ</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <input kendo-numeric-text-box id="objPer" name="objPer"
+                                       ng-required="fnd.supType=='02'"
+                                       validationMessage="Овог шаардлагатай" ng-model="dataItem.objPer"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="skillPer">Мэдлэг ур чадвар</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <input kendo-numeric-text-box id="skillPer" name="skillPer"
+                                       ng-required="fnd.supType=='02'"
+                                       validationMessage="Овог шаардлагатай" ng-model="dataItem.skillPer"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="attitudePer">Хандлага ёс зүй, ур чадвар</label></div>
+                            <div class="k-edit-field k-form-field-wrap" style="margin-bottom: 0">
+                                <input kendo-numeric-text-box id="attitudePer" name="attitudePer"
+                                       ng-required="fnd.supType=='02'"
+                                       validationMessage="Овог шаардлагатай" ng-model="dataItem.attitudePer"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БУЦАХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .attitude .k-edit-label{
+        width:45%;
+    }
+    .attitude .k-edit-field{
+        width:50%;
+    }
+</style>

@@ -1,0 +1,32 @@
+<div class="layout-margin ">
+    <div class="grid grid-cols-1 gap-4">
+        <div ng-if="gridCode=='tab1'">
+            <kendo-grid id="appData471" k-data-source="dataSource471" class="uk-text-small"  k-ng-delay="mainGrid471" options="mainGrid471"></kendo-grid>
+        </div>
+        <div ng-if="gridCode=='tab2'">
+            <kendo-grid id="appData472" k-data-source="dataSource472" class="uk-text-small"  k-ng-delay="mainGrid472" options="mainGrid472"></kendo-grid>
+        </div>
+        <div ng-if="gridCode=='tab3'">
+            <kendo-grid id="appData473" k-data-source="dataSource473" class="uk-text-small"  k-ng-delay="mainGrid473" options="mainGrid473"></kendo-grid>
+        </div>
+        <div>
+            <div class="flex justify-between">
+                <div>
+                <div>
+                    <div class="custom-select ">
+                        <div class="item text-left px-4" ng-click="activeTab({code:'tab1',id:'01'})"  ng-class="gridActive == '01' ? 'active' : ''">
+                            <p class="text-sm" style="margin-bottom: 0"> Санхүүгийн тайлангийн түвшинд</p>
+                        </div>
+                        <div class="item text-left px-4" ng-click="activeTab({code:'tab2',id:'02'})"  ng-class="gridActive == '02' ? 'active' : ''">
+                            <p class="text-sm" style="margin-bottom: 0">Батламж мэдэгдлийн түвшинд</p>
+                        </div>
+                        <div class="item text-left px-4" ng-click="activeTab({code:'tab3',id:'03'})"  ng-class="gridActive == '03' ? 'active' : ''">
+                            <p class="text-sm" style="margin-bottom: 0">Ач холбогдолтой биш эрсдэл</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

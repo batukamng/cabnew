@@ -1,0 +1,39 @@
+<div class="layout-margin text-center">
+    <div class="grid grid-cols-1 gap-3 text-xl font-normal">
+        <div>
+            <div custom-scrollbar
+                 style="padding: 0.5em;overflow-x: hidden;height: calc(100vh - 90px) !important;">
+                <div class="print_bg" id="html1Viewer"></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="custom-select" style="width:300px; margin: -8px -8px -10px 0;"
+             ng-if="item.formNo=='plan' || item.formNo=='report'">
+            <div class="item w-1/4" ng-class="{'active' : repType=='html'}"
+                 ng-click="downloadReport(1,item.formNo,item.id)">Html
+            </div>
+            <a class="item w-1/4" ng-class="{'active' : repType=='xlsx'}"
+               ng-click="downloadReport(2,item.formNo,item.id)"
+               ng-href="/api/audit/registration/export/xlsx/{{app.id}}/{{item.formNo}}/{{item.id}}">Excel</a>
+            <a class="item w-1/4" ng-class="{'active' : repType=='docx'}"
+               ng-click="downloadReport(3,item.formNo,item.id)"
+               ng-href="/api/audit/registration/export/docx/{{app.id}}/{{item.formNo}}/{{item.id}}">Word</a>
+            <a class="item w-1/4" ng-class="{'active' : repType=='pdf'}"
+               ng-click="downloadReport(4,item.formNo,item.id)"
+               ng-href="/api/audit/registration/export/pdf/{{app.id}}/{{item.formNo}}/{{item.id}}">Pdf</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .jrPage {
+        min-width: calc(70vw) !important;
+    }
+
+    .jrPage td span {
+        padding: 10px;
+        font-size: 14px !important;
+        font-family: 'Roboto', sans-serif !important;
+    }
+</style>

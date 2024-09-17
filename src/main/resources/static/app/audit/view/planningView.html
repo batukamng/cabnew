@@ -1,0 +1,478 @@
+<div id="stat03">
+    <div class="layout-paddingl w-full h-full py-5 flex flex-col gap-4" style="background-color: #eef2fe">
+        <div class="dashboard-container" style="padding: 0 24px;">
+            <p class="mx-auto text-2xl font-medium uk-text-center" style="margin: 0">{{app.code}}</p>
+        </div>
+        <div ng-if="app.status == 'done'"
+             class="rounded-full w-fit px-5 text-xs py-2 mx-auto uppercase text-white font-bold"
+             style="background-color: #c29671">Хадгалсан
+        </div>
+        <!--ng-if="app.status == 'approved'"-->
+        <div
+             class="rounded-full w-fit px-5 text-xs py-2 mx-auto uppercase text-white font-bold"
+             style="background-color: #f0425b">Баталсан
+        </div>
+    </div>
+    <div id="page_content_inner" class="dashboard-container">
+        <div id="main_content" class="mb-16">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
+                <div>
+                    <div class="rounded-md border border-solid border-[#e4e4e7] bg-white">
+                        <div class="px-4 py-2 font-semibold text-xl border-[#e4e4e7] border-solid border-0 border-b">
+                            Ерөнхий мэдээлэл
+                        </div>
+                        <div  class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Аудитын нэр</span>
+                            <span class="font-medium">{{app.auditTypeNm}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Тайлант хугацаа</span>
+                            <span class="font-medium">{{app.planYr}}</span>
+                        </div>
+
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Эхэлсэн огноо</span>
+                            <span class="font-medium">{{app.strDt}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Дуусах огноо</span>
+                            <span class="font-medium">{{app.endDt}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>ТЕЗ Регистрийн дугаар</span>
+                            <span class="font-medium">{{app.orgTezNo}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Төсвийн ерөнхийлөн захирагч</span>
+                            <span class="font-medium">{{ app.orgTezNm || '-' }} </span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>ТТЗ Регистрийн дугаар</span>
+                            <span class="font-medium">{{ app.orgTtzNo || '-' }}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Төсвийн төвлөрүүлэн захирагч</span>
+                            <span class="font-medium">{{ app.orgTtzNm || '-' }}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Төсөв захирагчийн ангилал</span>
+                            <span class="font-medium">{{ app.orgTypeNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Шалгагдагч байгууллагын нэр</span>
+                            <span class="font-medium">{{app.orgRegNo || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Аудит хийх хэлбэр</span>
+                            <span class="font-medium">{{app.formTypeNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Аудит хийх байгууллагын төрөл</span>
+                            <span class="font-medium">{{app.exeTypeNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>Аудит хийх байгууллага,нэгжийн нэр</span>
+                            <span class="font-medium">{{app.depNm || '-'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="rounded-md border border-solid border-[#e4e4e7] bg-white">
+                        <div class="px-4 py-2 font-semibold text-xl border-[#e4e4e7] border-solid border-0 border-b">
+                            Нэмэлт мэдээлэл
+                            <a ng-click="updateOther(app)"
+                               style="float:right;max-height: 24px !important; height: 24px !important; min-height: 24px !important; line-height: 24px !important;"
+                               class="md-btn outlined-button mt-0 md-btn !text-xs !rounded-full">Засах</a>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Баг</span>
+                            </div>
+                            <span class="font-medium">{{app.conNm}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Багийн ахлах</span>
+                            </div>
+                            <span class="font-medium">{{app.leadNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Багийн гишүүд</span>
+                            </div>
+                            <span class="font-medium">{{app.creOrgNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Батлах хэрэглэгчид</span>
+                            </div>
+                            <span class="font-medium">{{app.x || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>I түвшин</span>
+                            <span class="font-medium">{{app.firstLvlNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>II түвшин</span>
+                            <span class="font-medium">{{app.secondLvlNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <span>III түвшин</span>
+                            <span class="font-medium">{{app.thirdLvlNm || '-'}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Гүйцэтгэлийн хувь</span>
+                            </div>
+                            <span class="font-medium">{{app.perCnt | number:0}}%</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Мэдэгдэл</span>
+                            </div>
+                            <span class="font-medium">{{app.notCnt  | number:0}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Баталсан ажлын тоо</span>
+                            </div>
+                            <span class="font-medium">{{app.notCnt  | number:0}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Хянасан ажлын тоо</span>
+                            </div>
+                            <span class="font-medium">{{app.notCnt  | number:0}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Илгээсэн ажлын тоо</span>
+                            </div>
+                            <span class="font-medium">{{app.notCnt  | number:0}}</span>
+                        </div>
+                        <div class="border-[#F0F2F5] border-solid border-0 border-t px-4 py-4 flex justify-between">
+                            <div>
+                                <span>Төлөв</span>
+                            </div>
+                            <span class="font-medium" ng-if="app.batch==0" ng-bind="app.tenderNo || '-'"></span>
+                            <span class="font-medium" ng-if="app.batch==1">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id class="overflow-hidden flex basis-1/2">
+                <div class="w-1/2" style="transition: all 0.5s ease-in-out;">
+                    <grid-view key="'filterNegtgelUnselected'" custom="[{'field':'stepCode','operator':'eq','value':'Нэгтгэл'},{'field':'customMofSelectedEq','operator':'eq','value':0}]" controller-as="vm"></grid-view>
+                </div>
+                <div class="w-1/2" style="transition: all 0.5s ease-in-out;">
+                    <grid-view key="'filterNegtgel'" custom="[{'field':'stepCode','operator':'eq','value':'Нэгтгэл'},{'field':'customMofSelectedEq','operator':'eq','value':1}]" controller-as="vm"></grid-view>
+                </div>
+            </div>
+           <!-- <div class="grid grid-cols-1 mt-4">
+                <div class="bg-white">
+                    <div class="px-4 py-2 font-semibold text-xl rounded-t-lg border border-solid border-[#e4e4e7]">
+                        Гэрээний мэдээлэл
+                    </div>
+                    <div>
+                        <div custom-scrollbar ng-class="(app.contracts.length>10)?'height500':''">
+                            <table id="contractTable" class="sub-table1 funding-table" style="border-spacing: 0">
+                                <thead>
+                                <tr>
+                                    <th style="padding: 8px" class="uk-text-center"><label
+                                            class="uk-form-label uppercase !text-xs font-normal uk-text-muted">№</label>
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uk-form-label uppercase !text-xs font-normal uk-text-muted uk-text-left">
+                                        Гэрээний дугаар
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Эхлэх
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Дуусах
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uk-form-label uppercase !text-xs font-normal uk-text-muted uk-text-left">
+                                        Гэрээний нэр
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Гүйцэтгэгч
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Хянагч байгууллага
+                                    </th>
+
+                                    <th style="padding: 0 8px"
+                                        class="uk-form-label uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Гэрээний дүн
+                                    </th>
+                                    <th style="padding: 0 8px"
+                                        class="uk-form-label uppercase !text-xs font-normal uk-text-muted uk-text-center">
+                                        Төлөв
+                                    </th>
+                                </tr>
+                                </thead>
+                                <colgroup>
+                                    <col style="width: 50px"/>
+                                    <col style="width: 130px"/>
+                                    <col style="width: 120px"/>
+                                    <col style="width: 120px"/>
+                                    <col />
+                                    <col style="width: 150px"/>
+                                    <col style="width: 150px"/>
+                                    <col style="width: 120px"/>
+                                    <col style="width: 120px"/>
+                                </colgroup>
+                                <tbody>
+                                <tr ng-repeat="item in app.contracts">
+                                    <td class="uk-text-center">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td> {{item.contractCode}}</td>
+                                    <td class="uppercase uk-text-center">
+                                        {{formatDate(item.strDt) | date:'dd-MM-yyyy'}}
+                                    </td>
+                                    <td class="uppercase uk-text-center">
+                                        {{formatDate(item.endDt) | date:'dd-MM-yyyy'}}
+                                    </td>
+                                    <td class="uk-text-justify">
+                                        <a ui-sref="restricted.nms.contractView({id: item.id, ezId: item.ezId, type: 1})"
+                                           ng-bind="item.contractNm"></a>
+                                    </td>
+                                    <td class="uk-text-justify"> {{item.supplierNm}}</td>
+                                    <td class="uk-text-center"> {{item.supervisorNm || '-'}}</td>
+
+                                    <td class="uppercase uk-text-right">{{item.totalAmt | number: 0}}</td>
+                                    <td class="uppercase uk-text-center">{{item.statusNm}}</td>
+                                </tr>
+                                <tr ng-if="app.contracts.length==0">
+                                    <td colspan="9" class="uk-text-center">
+                                        <span class='uk-text-danger'>Гэрээний мэдээллийг баталгаажуулаагүй байна!!!</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="app.batch==0" ng-show="editable">
+                                    <td colspan="9" class="uk-text-center">
+                                        <button type="button" style="width: 160px !important"
+                                                class="md-btn outlined-button mt-0 md-btn !text-xs rounded-full"
+                                                ng-click="createContract()">
+                                            <i style="margin-top: 0" class="material-icons">add</i> Гэрээ бүртгэх
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot class="bg-zinc-100">
+                                <tr>
+                                    <td colspan="8" class="uk-text-bold uk-text-right">Нийт дүн</td>
+                                    <td class="uk-text-center">
+                                        <span class="uk-text-bold uk-text-center">{{app.contracts | sumOfAmount:'totalAmt' | number: 0}}</span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        <div class="mt-6 fixed flex gap-2 w-screen !items-center justify-end !px-12 bottom-0 h-16 box-border bg-white w-screen left-0 border-solid border-0 border-t-[2px] border-zinc-200"
+             style="z-index: 10">
+            <div class="flex"></div>
+            <div class="flex">
+                <button ng-click="transferFromAppr()"
+                        class="md-btn md-btn-success gradient-button rounded-md text-sm box-border !leading-9">
+                    Батлах
+                </button>
+                <button ng-if="showTransferButton()" ng-click="transferFromAppr()"
+                        class="md-btn md-btn-danger gradient-button px-4 !rounded-md !text-sm p-0">
+                    Шилжүүлэх
+                </button>
+                <button type="button" class="md-btn outlined-button" back-button>буцах</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_other">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;width:600px;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Нэмэлт мэдээлэл бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar
+              style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label for="leadId"> </label></div>
+                            <p class="k-edit-field">
+                                Баг
+                            </p>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="leadId">Багийн ахлах</label></div>
+                            <div class="k-edit-field">
+                                <select kendo-combo-box required class="h-full !w-full"
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'startswith'"
+                                        id="leadId" ng-model="dataItem.leadId" k-data-source="teamDataSource"></select>
+                            </div>
+                        </li>
+                        <li >
+                            <div class="k-edit-label"><label>Багийн гишүүд</label></div>
+                            <div class="k-edit-field">
+                                <ul>
+                                    <li>
+                                        <label class="customRadioBtn"
+                                        >Бүгд
+                                            <input type="radio" ng-model="isCheckAll" ng-value="'all'" ng-click="checkAll($event)" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                    <li ng-repeat="item in teamDataSource">
+                                        <label class="customCheckbox"
+                                        >{{item.name}}
+                                            <input type="checkbox" ng-model="teams[item.id]" ng-change="changeCheckbox()" parse-int ng-true-value="1" ng-false-value="0" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label> </label></div>
+                            <p class="k-edit-field">
+                                Батлах хэрэглэгчид
+                            </p>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="firstLvl">I түвшин </label></div>
+                            <div class="k-edit-field">
+                                <select
+                                        kendo-combo-box
+                                        required
+                                        validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'"
+                                        name="firstLvl"
+                                        k-filter="'contains'"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        ng-model="dataItem.firstLvl"
+                                        k-auto-bind="true"
+                                        id="firstLvl"
+                                        k-data-source="user1DataSource"
+                                ></select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="secondLvl">II түвшин </label></div>
+                            <div class="k-edit-field">
+                                <select
+                                        kendo-combo-box
+                                        required
+                                        validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'"
+                                        name="secondLvl"
+                                        k-filter="'contains'"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        ng-model="dataItem.secondLvl"
+                                        k-auto-bind="true"
+                                        id="secondLvl"
+                                        k-data-source="user2DataSource"
+                                ></select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="thirdLvl">III түвшин </label></div>
+                            <div class="k-edit-field">
+                                <select
+                                        kendo-combo-box
+                                        required
+                                        validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'"
+                                        name="thirdLvl"
+                                        k-filter="'contains'"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        ng-model="dataItem.thirdLvl"
+                                        k-auto-bind="true"
+                                        id="thirdLvl"
+                                        k-data-source="user3DataSource"
+                                ></select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_loader_main">
+    <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+        <div id="main-loader-contract-list" style="height: 100px"></div>
+    </div>
+</div>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-contract-list"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+
+<style>
+
+    .batch .k-edit-label {
+        width: 35% !important;
+    }
+
+    .batch .k-edit-field {
+        width: 62% !important;
+    }
+
+    body, #page_content_inner, #page_content_inner {
+        background-color: #fff !important;
+    }
+
+    #page_content {
+        background: #fff;
+    }
+
+    #page_content_inner, #page_content_inner {
+        background-color: #fff !important;
+    }
+    .k-input-md .k-input-inner, .k-picker-md .k-input-inner {
+        padding-block: 0.5rem;
+        padding-inline: 0.75rem;
+    }
+</style>

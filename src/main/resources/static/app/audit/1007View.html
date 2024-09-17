@@ -1,0 +1,216 @@
+<div id="page_content">
+    <div id="collapsible" ng-show="slider!=null" custom-scrollbar style="height:40vh;max-height: 100%; transition: max-height 0.3s ease-out; overflow-y: hidden">
+        <div class="w-full" id="slider" style="height: 100%">
+            <div class="uk-slidenav-position w-full h-full" data-uk-slideshow="{animation:'scroll'}">
+                <ul id="sliderGallery" class="uk-slideshow  w-full h-full">
+                    <li ng-repeat="image in slider.files" class="image-content"  style="background-image: url({{image.uri}})">
+                        <a class="item w-full" data-src="{{image.uri}}" style="float:left;height: 100%;width: 100%">
+                            <img data-src="{{image.uri}}" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+                <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slideshow-item="previous"></a>
+                <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slideshow-item="next"></a>
+                <ul class="uk-dotnav uk-dotnav-contrast uk-position-bottom uk-flex-center" style="bottom: 20px;">
+                    <li data-uk-slideshow-item="{{$index}}" ng-repeat=" item in slider.files"><a href=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <button ng-show="slider!=null" class="bg-gray-200 border-none py-2 px-4 rounded-b-lg cursor-pointer absolute"
+            style="transition: transform 0.2s ease-out; transform: rotate(180deg);right: 24px;margin-top: -37px;z-index: 100" id="info_btn"
+            ng-click="toggleSlider('collapsible', 'info_btn')">
+        <i class="material-icons text-[#212121] text-2xl ">keyboard_arrow_down</i>
+    </button>
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="appData" class="uk-text-small" k-options="mainGrid" k-ng-delay="mainGrid" k-scope-field="grid" k-data-source="appDataSource"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0; width: 700px">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Тулгалт бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container">
+                    <ul class="k-edit-form-container" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label>Байгууллагын төрөл</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        kendo-drop-down-list
+                                        k-auto-bind="false"
+                                        k-data-text-field="'comCdNm'"
+                                        k-data-value-field="'id'"
+                                        k-data-source="orgTypeDataSource"
+                                        ng-model="dataItem.orgTypeId"
+                                        required id="orgTypeId"
+                                        style="width: 50%"
+                                />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Тайлан</label></div>
+                            <div class="k-edit-field">
+                                <select  kendo-drop-down-list
+                                         k-auto-bind="true"   style="width: 100%"
+                                         k-data-text-field="'name'"
+                                         k-data-value-field="'id'"
+                                         options="dropReportOptions"
+                                         k-cascade-from="'orgType'" k-cascade-from-field="'orgTypeId'"
+                                         k-data-source="reportTypeDataSource"
+                                         ng-model="dataItem.repId1"
+                                         required id="repTypeId"></select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Данс</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        kendo-drop-down-list
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'contains'"
+                                        options="subDropDownOptions"
+                                        k-data-source="accountDataSource1"
+                                        k-cascade-from="'repTypeId'" k-cascade-from-field="'reportId'"
+                                        ng-model="dataItem.accId1"
+                                        required id="accId1"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="formula1">Формула 1</label></div>
+                            <div class="k-edit-field">
+                                <textarea id="formula1" kendo-text-area k-placeholder="'...'" k-ng-model="dataItem.formula1" style="width: 100%;" rows="5"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Тулгалт</label></div>
+                            <div class="k-edit-field">
+                                <select  kendo-drop-down-list
+                                         k-auto-bind="false"   style="width: 50%"
+                                         ng-model="dataItem.operator"
+                                         required id="operator">
+                                    <option value="eq">Тэнцүү</option>
+                                    <option value="gte">Их</option>
+                                    <option value="lte">Бага</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Тулгалтын төрөл</label></div>
+                            <div class="k-edit-field">
+                                <select  kendo-drop-down-list
+                                         k-auto-bind="false"   style="width: 50%"
+                                         ng-model="dataItem.valType"
+                                         required id="valType">
+                                    <option value="1">Тайлан хооронд</option>
+                                    <option value="0">Бүртгэл</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Ашиглах эсэх</label></div>
+                            <div class="k-edit-field" style="margin-top: 5px">
+                                <div class="custom-select" style="width: 100%">
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.accPos=='Эцсийн үлдэгдэл'}" ng-click="dataItem.accPos='Эцсийн үлдэгдэл'">Эцсийн үлдэгдэл</div>
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.accPos=='Эхний үлдэгдэл'}" ng-click="dataItem.accPos='Эхний үлдэгдэл'">Эхний үлдэгдэл</div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="k-edit-label"><label>Тайлан</label></div>
+                            <div class="k-edit-field">
+                                <select  kendo-drop-down-list
+                                         k-auto-bind="true"   style="width: 100%"
+                                         k-data-text-field="'name'"
+                                         k-data-value-field="'id'"
+                                         options="dropReportOptions"
+                                         k-cascade-from="'orgType'" k-cascade-from-field="'orgTypeId'"
+                                         k-data-source="reportTypeDataSource"
+                                         ng-model="dataItem.repId2"
+                                         required id="repTypeId2"></select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Данс</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        kendo-drop-down-list
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'contains'"
+                                        options="subDropDownOptions"
+                                        k-data-source="accountDataSource1"
+                                        k-cascade-from="'repTypeId2'" k-cascade-from-field="'reportId'"
+                                        ng-model="dataItem.accId2"
+                                        required id="accId2"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </li>-->
+                        <li>
+                            <div class="k-edit-label"><label for="formula2">Тулгалт хийгдэж буй үзүүлэлт</label></div>
+                            <div class="k-edit-field">
+                                <textarea id="indicator2" kendo-text-area k-placeholder="'...'" k-ng-model="dataItem.indicator2" style="width: 100%;" rows="5"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="formula2">Формула 2</label></div>
+                            <div class="k-edit-field">
+                                <textarea id="formula2" kendo-text-area k-placeholder="'...'" k-ng-model="dataItem.formula2" style="width: 100%;" rows="5"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label>Ашиглах эсэх</label></div>
+                            <div class="k-edit-field" style="margin-top: 5px">
+                                <div class="custom-select" style="width: 50%">
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.useYn==1}" ng-click="dataItem.useYn=1">Тийм</div>
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.useYn==0}" ng-click="dataItem.useYn=0">Үгүй</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding: 12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ</button>
+                    <button type="button" ng-click="formSubmit()" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-approved-1" style="height: 100px;"></div>
+    </div>
+</div>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-approved-1'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>

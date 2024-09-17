@@ -1,0 +1,22 @@
+<div class="layout-margin text-center">
+    <div class="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-2 gap-3 text-xl font-normal">
+        <div class="col-span-4">
+            <kendo-grid id="appData" k-data-source="questionDataSource" options="dataGrid"></kendo-grid>
+        </div>
+    </div>
+    <div>
+        <div class="custom-select mt-4">
+            <div class="item text-left px-4" ng-repeat="item in questions | filter:{parentId: null}"
+                 ng-class="gridActive == item.id ? 'active' : ''"
+                 ng-click="activeTab(item.id)">
+                <p class="text-sm" style="margin-bottom: 0" ng-bind="item.title"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    p {
+        margin: 0 auto;
+    }
+</style>

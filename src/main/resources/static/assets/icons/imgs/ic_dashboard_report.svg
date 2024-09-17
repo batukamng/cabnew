@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="ic_dashboard_report" transform="translate(-1531 -469.999)">
+    <g id="Rounded_Rectangle_29_copy_2" data-name="Rounded Rectangle 29 copy 2" transform="translate(121 362)" fill="none">
+      <path d="M1410,108h32l8,8v32h-40Z" stroke="none"/>
+      <path d="M 1411.999877929688 109.9994354248047 L 1411.999877929688 145.9992980957031 L 1447.999755859375 145.9992980957031 L 1448 116.8283538818359 L 1441.171508789063 110 L 1411.999877929688 109.9994354248047 M 1409.999877929688 107.9994049072266 L 1442 108.0000152587891 L 1450 115.9998931884766 L 1449.999755859375 147.9992980957031 L 1409.999877929688 147.9992980957031 L 1409.999877929688 107.9994049072266 Z" stroke="none" fill="#d7d7d7"/>
+    </g>
+    <path id="Rectangle_37_copy_8" data-name="Rectangle 37 copy 8" d="M1418,140v-2h24v2Zm0-6v-2h24v2Zm0-6v-2h24v2Z" transform="translate(121 362)" fill="#c2c2c2"/>
+  </g>
+</svg>

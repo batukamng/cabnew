@@ -1,0 +1,66 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid id="mainGrid" class="uk-text-small" options="mainGrid">
+                    <div k-detail-template>
+                        <div id="subGrid" class="uk-text-small" kendo-grid k-options="subGridOptions(dataItem)"></div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/x-kendo-template" id="Rud">
+    <button class="k-button k-button-icontext k-grid-custom k-grid-update"><span
+            class="k-icon k-i-edit"></span></button>
+    <button class="k-button k-button-icontext k-grid-remove-command "><span
+            class="k-icon k-i-delete"></span></button>
+</script>
+
+<script type="text/x-kendo-template" id="Radd">
+    <button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span><span translate="Add"></span></button>
+</script>
+
+<script type="text/x-kendo-template" id="orgNm">
+    <span>{{dataItem.lutOrganization.nameMon}}</span>
+</script>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 uk-text-center" style="padding: 40px 0">
+                <img style="width: 200px;height: 200px;" ng-src="assets/img/loader-excel.gif" alt=""/>
+                <span style="display: block;">
+                    Түр хүлээнэ үү...
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .k-icon{
+        margin: 0 !important;
+    }
+</style>
+
+<!--<div id="manageSub" class="uk-modal">
+    <div class="uk-modal-dialog" style="padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left"><h3 class="heading_a" style="margin-bottom: 0;">Excel import <button type="button" class="uk-modal-close uk-float-right uk-close"></button></h3></div>
+            </div>
+        </div>
+        <kendo-grid id="subGrid" class="uk-text-small" options="subGrid"></kendo-grid>
+        <div class="formFooter" style="margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close  ">Хаах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

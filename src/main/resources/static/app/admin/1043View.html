@@ -1,0 +1,82 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid class="uk-text-small" options="mainGrid"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-kendo-template" id="Radd">
+    <button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>{{'Sys10' | translate}}</button>
+</script>
+
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 uk-text-center" style="padding: 40px 0">
+                <md-preloader stroke-width="4" width="96" height="96"></md-preloader>
+                <span style="display: block; margin-top: 20px;">
+                    Түр хүлээнэ үү...
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_upload" class="uk-modal">
+    <div class="uk-modal-dialog" style="padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left"><h3 class="heading_a" style="margin-bottom: 0;">Хурлын өрөө үүсгэх <button type="button" class="uk-modal-close uk-float-right uk-close"></button></h3></div>
+            </div>
+        </div>
+        <form name="formFile" kendo-validator="validator" id="userForm" ng-submit="roomSubmit()">
+            <div style="padding: 24px;">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <label style="display:inline-block; margin: 8px 0;">Өрөөний нэр</label>
+                        <input type="text" class="k-input k-textbox" required ng-model="conf.roomName" style="width: 100%;"/>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <label style="display:inline-block; margin: 8px 0;">Тайлбар</label>
+                        <input type="text" class="k-input k-textbox" required ng-model="conf.roomInfo" style="width: 100%;"/>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <label style="display:inline-block; margin: 8px 0;">Эхлэх хугацаа</label>
+                        <input required kendo-date-time-picker
+                               ng-model="fromDateString"
+                               k-ng-model="fromDateObject"
+                               k-on-change="fromDateChanged()"
+                               style="width: 100%;" />
+                    </div>
+                    <div class="uk-width-1-1">
+                        <label style="display:inline-block; margin: 8px 0;">Дуусах хугацаа</label>
+                        <input required kendo-date-time-picker
+                               ng-model="toDateString"
+                               k-ng-model="toDateObject"
+                               k-min = "minDate"
+                               k-rebind = "minDate"
+                               k-on-change="toDateChanged()"
+                               style="width: 100%;" />
+                    </div>
+                    <div class="uk-width-1-1">
+                        <label style="display:inline-block; margin: 8px 0;">Оролцогч</label>
+                        <select kendo-multi-select k-options="selectOptions" k-ng-model="conf.userIds"
+                                id="lutRoles"
+                                style="width: 100%;"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0;padding:12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="submit" class="md-btn md-btn-mini md-btn-primary">Хадгалах</button>
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

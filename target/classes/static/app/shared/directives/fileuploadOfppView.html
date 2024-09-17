@@ -1,0 +1,15 @@
+<!--<div class="upload-field">
+    {{ fileName }}
+    <input type="file" id="uploadFileInput"/>
+    <button class="icon-folder"></button>
+</div>
+<button class="upload-file-button" ng-click="uploadFile()">Import</button>-->
+<div id="file_upload-drop" class="uk-file-upload">
+    <p class="uk-text">Drop file to upload</p>
+    <p class="uk-text-muted uk-text-small uk-margin-small-bottom">or</p>
+    <span class="uk-form-file md-btn">choose file<input id="file_upload-select" type="file"
+                                                        ng-model="req.addfile"></span>
+</div>
+<div id="file_upload-progressbar" class="uk-progress uk-hidden">
+    <div class="uk-progress-bar" style="width:0">0%</div>
+</div>

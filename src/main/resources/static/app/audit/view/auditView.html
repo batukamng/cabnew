@@ -1,0 +1,176 @@
+<div id="page_content">
+    <!--<div class="layout-paddingl w-full h-full py-5 flex flex-col gap-4" style="background-color: #eef2fe">
+        <div class="dashboard-container uk-text-center" style="padding: 0 24px;">
+            <div ng-if="app.status == 'done'"
+                 class="rounded-full w-fit px-5 text-xs py-2 mx-auto uppercase text-white font-bold"
+                 style="background-color: #c29671">
+                Хадгалсан
+            </div>
+            <div class="rounded-full w-fit px-5 text-xs py-2 mx-auto uppercase text-white font-bold"
+                 style="background-color: #f0425b">
+                Баталсан
+            </div>
+            <p class="mx-auto mt-4 text-2xl font-medium " style="margin: 0">{{app.code}}  {{selectedItem.formNo}}</p>
+        </div>
+    </div>-->
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5">
+        <div class="bg-orange-50 md:!border-solid md:border-zinc-200 md:border-0 md:!border-r-[1px]">
+            <div custom-scrollbar style="height: calc(100vh - 60px)">
+                <div ng-class="item.id==selectedItem.id?'border-[#FFFFFF]':'border-[#dee2e6]'"
+                     ng-click="viewWork(item)" ng-repeat="item in formNotes">
+                    <div ng-class="item.id==selectedItem.id?'bg-indigo-100':''" class="grid grid-cols-4 gap-2 py-3 border-[#dee2e6] hover:bg-[#dee2e6] cursor-pointer border-solid border-0 border-b px-2 py-2">
+                        <div>
+                            <div ng-if="item.lvl!=0" class="bg-blue-400 text-white rounded-md flex items-center px-2 py-2 dark:text-indigo-400">
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="mr-1 stroke-current dark:stroke-indigo-500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 9C10.5523 9 11 8.55228 11 8C11 7.44772 10.5523 7 10 7C9.44772 7 9 7.44772 9 8C9 8.55228 9.44772 9 10 9Z" fill="currentColor"/>
+                                    <path d="M15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7C14.4477 7 14 7.44772 14 8C14 8.55228 14.4477 9 15 9Z" fill="currentColor"/>
+                                    <path d="M5 9C5.55228 9 6 8.55228 6 8C6 7.44772 5.55228 7 5 7C4.44772 7 4 7.44772 4 8C4 8.55228 4.44772 9 5 9Z" fill="currentColor"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18 1H2C1.44772 1 1 1.44772 1 2V14C1 14.5523 1.44772 15 2 15H5.17157C5.96722 15 6.73028 15.3161 7.29289 15.8787L9.29289 17.8787C9.68342 18.2692 10.3166 18.2692 10.7071 17.8787L12.7071 15.8787C13.2697 15.3161 14.0328 15 14.8284 15H18C18.5523 15 19 14.5523 19 14V2C19 1.44772 18.5523 1 18 1ZM2 0C0.895431 0 0 0.895431 0 2V14C0 15.1046 0.89543 16 2 16H5.17157C5.70201 16 6.21071 16.2107 6.58579 16.5858L8.58579 18.5858C9.36683 19.3668 10.6332 19.3668 11.4142 18.5858L13.4142 16.5858C13.7893 16.2107 14.298 16 14.8284 16H18C19.1046 16 20 15.1046 20 14V2C20 0.895431 19.1046 0 18 0H2Z" fill="currentColor"/>
+                                </svg>
+                                <span class="font-normal">{{item.formNo}}</span>
+                            </div>
+                        </div>
+                        <div class="col-span-3"><!--font-medium-->
+                            <p style="display: inline" ng-class="item.id==selectedItem.id?'':''" class="uk-margin-small-bottom">{{item.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="md:col-span-3 lg:col-span-4 bg-white">
+            <div class="grid p-4 grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-1">
+                <div ng-show="selectedItem.formNo=='3.1'">
+                    <form-31-view dataItem="selectedItem" controller-as="vm"></form-31-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='ex-1'" style="height: calc(100vh - 200px)">
+                    <form-32-view dataItem="selectedItem" controller-as="vm"></form-32-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='plan'" style="height: calc(100vh - 200px)">
+                    <form-33-view dataItem="selectedItem" controller-as="vm"></form-33-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='3.4'">
+                    <form-34-view dataItem="selectedItem" controller-as="vm"></form-34-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='3.5'">
+                    <form-35-view dataItem="selectedItem" controller-as="vm"></form-35-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='3.7'">
+                    <form-37-view dataItem="selectedItem" controller-as="vm"></form-37-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='3.8'">
+                    <form-38-view dataItem="selectedItem" controller-as="vm"></form-38-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='3.9'">
+                    <form-39-view dataItem="selectedItem" controller-as="vm"></form-39-view>
+                </div>
+                <!-- <div ng-show="selectedItem.formNo=='3.10'">
+                     <form-40-view dataItem="selectedItem" controller-as="vm"></form-40-view>
+                 </div>
+                 <div ng-show="selectedItem.formNo=='3.11'">
+                     <form-41-view dataItem="selectedItem" controller-as="vm"></form-41-view>
+                 </div>
+                 <div ng-show="selectedItem.formNo=='3.12'">
+                     <form-42-view dataItem="selectedItem" controller-as="vm"></form-42-view>
+                 </div>-->
+                <div ng-show="selectedItem.formNo=='ex-2'" style="height: calc(100vh - 200px)">
+                    <form-40-view dataItem="selectedItem" controller-as="vm"></form-40-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.1'">
+                    <form-41-view dataItem="selectedItem" controller-as="vm"></form-41-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.2'">
+                    <form-42-view dataItem="selectedItem" controller-as="vm"></form-42-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.3'">
+                    <form-43-view dataItem="selectedItem" controller-as="vm"></form-43-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.4'">
+                    <form-44-view dataItem="selectedItem" controller-as="vm"></form-44-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.5'">
+                    <form-45-view dataItem="selectedItem" controller-as="vm"></form-45-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.6'">
+                    <form-46-view dataItem="selectedItem" controller-as="vm"></form-46-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.7'">
+                    <form-47-view dataItem="selectedItem" controller-as="vm"></form-47-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.8'">
+                    <form-48-view dataItem="selectedItem" controller-as="vm"></form-48-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='4.9'">
+                    <form-49-view dataItem="selectedItem" controller-as="vm"></form-49-view>
+                </div>
+                <div ng-show="selectedItem.formNo=='report'">
+                    <form-50-view dataItem="selectedItem" controller-as="vm"></form-50-view>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_loader_main">
+    <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+        <div id="main-loader-contract-list" style="height: 100px"></div>
+    </div>
+</div>
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-contract-list"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+
+<style>
+    .k-toolbar-overflow-button{
+        display:none;
+    }
+    .k-pager-mobile-md .k-pager-info, .k-pager-mobile-sm .k-pager-info, .k-pager-mobile-sm .k-pager-sizes, .k-pager-mobile-sm .k-pager-numbers{
+        display:block !important;
+    }
+    .k-pager-mobile-sm .k-pager-numbers-wrap select.k-dropdown-list, .k-pager-mobile-sm .k-pager-numbers-wrap select.k-dropdown, .k-pager-mobile-sm .k-pager-numbers-wrap select.k-dropdownlist{
+        display:none !important;
+    }
+    .outlined-button {
+        --tw-text-opacity: 1;
+        color: rgb(49 46 129/1);
+        background: linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#c2976f,#312e81) border-box!important;
+    }
+    .custom-button {
+        display: flex;
+        align-items: center;
+        border-radius: 9999px;
+        padding: 0.5rem 1rem;
+    }
+    .batch .k-edit-label {
+        width: 35% !important;
+    }
+
+    .batch .k-edit-field {
+        width: 62% !important;
+    }
+
+    body, #page_content_inner, #page_content_inner {
+        background-color: #fff !important;
+    }
+
+    #page_content {
+        background: #fff;
+    }
+
+    #page_content_inner, #page_content_inner {
+        background-color: #fff !important;
+    }
+
+    .k-input-md .k-input-inner, .k-picker-md .k-input-inner {
+        padding-block: 0.5rem;
+        padding-inline: 0.75rem;
+    }
+</style>

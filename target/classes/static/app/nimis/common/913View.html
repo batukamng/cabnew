@@ -1,0 +1,179 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content" kendo-tab-strip k-options="tabStrip">
+            <ul>
+                <li class="k-state-active">Зардлын ангилал</li>
+                <li>Зардал</li>
+            </ul>
+            <div style="padding: 0;border: none;">
+                <kendo-grid options="main2Grid" id="parent" class="uk-text-small" k-data-source="data2Source">
+                    <div k-detail-template>
+                        <div id="detGrid" class="uk-text-small" kendo-grid k-options="detailGridOptions(dataItem)"></div>
+                    </div>
+                </kendo-grid>
+            </div>
+            <div style="padding: 0;border: none;">
+                <kendo-grid id="app1Data" k-scope-field="grid" k-data-source="data1Source" class="uk-text-small" options="main1Grid">
+                    <div k-detail-template>
+                        <div id="typeSecondGrid" class="uk-text-small" kendo-grid k-options="typeSecondGridOptions(dataItem)">
+                            <div k-detail-template>
+                                <div id="typeThirdGrid" class="uk-text-small" kendo-grid k-options="typeThirdGridOptions(dataItem)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog" style="padding: 0 !important;">
+        <button type="button" class="uk-modal-close uk-close"></button>
+        <h3 class="uk-modal-title uk-text-center" style="border-bottom: 3px solid #ddd;padding: 12px;">
+            Бүтээгдэхүүн <span ng-bind="dataItem.id==null?'нэмэх':'засах'"></span>
+        </h3>
+        <form kendo-validator="validator" id="userForm" class="uk-overflow-container" style="padding: 16px;" ng-submit="dataSubmit()">
+            <div class="uk-grid" data-uk-grid-margin>
+                <div class="uk-width-medium-1-2">
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="catId">Үндсэн ангилал сонгоно уу</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input kendo-drop-down-list k-auto-bind="true" k-data-text-field="'name'" required
+                                       k-data-value-field="'id'"
+                                       k-data-source="categoryDataSource" ng-model="dataItem.catId" id="catId"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="subCatId">Дэд ангилал сонгоно уу</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input kendo-drop-down-list k-auto-bind="true" k-data-text-field="'name'" required
+                                       k-data-value-field="'id'" k-cascade-from="'catId'" k-cascade-from-field="'parentId'"
+                                       k-data-source="subCategoryDataSource" ng-model="dataItem.subCatId" id="subCatId"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1 nimis-form ">
+                            <div class="gap-4" style="width: 100%;height: 300px;">
+                                <label for="userAvatar" style="position: relative; width:100%; height: 100%;" class="custom-file-upload">
+                                    <i style="position: absolute;z-index: 3;font-size: 100px;" class="material-icons">add</i>
+                                    <input ng-files="getUserAvatar($files)"  type="file" accept="image/*"  name="file" id="userAvatar" />
+                                    <img
+                                            ng-src="{{user.user.imageUrl!=null?__env.url+user.user.imageUrl:'assets/img/transparent.png'}}"
+                                            alt="product image"
+                                            id="previewAvatar"
+                                            style="height: 100%; width: 100%;z-index:0;position: relative"
+                                            class="object-cover object-center rounded-sm"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uk-width-medium-1-2">
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="name">Бүтээгдэхүүний нэр</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input type="text" class="k-input k-textbox" required ng-model="dataItem.name" id="name"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="brand">Брэнд (заавал биш)</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input type="text" class="k-input k-textbox" ng-model="dataItem.brand" id="brand"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;"><label for="price">Үнэ</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input type="number" class="k-input k-textbox" required ng-model="dataItem.price" id="price"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="longDesc">Нэмэлт мэдээлэл (заавал биш)</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <textarea kendo-text-area k-placeholder="'...'" id="longDesc" k-ng-model="dataItem.longDesc" style="width: 100%; height: 120px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div class="k-edit-label uk-text-left" style="margin-bottom: 0;"><label for="active">Төлөв</label></div>
+                            <div class="k-edit-field" style="width: 100%;">
+                                <input class="switchery switchery-small" ui-switch  type="checkbox" required ng-model="dataItem.active" id="active"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="uk-modal-footer uk-text-right" style="margin: 0 !important;padding-top: 0;">
+            <button type="button" ng-click="dataSubmit()" class="md-btn md-btn-mini md-btn-primary">Хадгалах</button>
+            <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nimis-form .form-field label {
+        font-weight: 300;
+        font-size: 14px;
+    }
+
+    .nimis-form .form-field input {
+        margin-top: 0;
+    }
+
+    .custom-card .panel {
+        margin: 30px 120px;
+    }
+
+    .spinner {
+        display: block;
+        border: 6px solid rgb(256, 256, 256, 0.5);
+        border-top: 6px solid #fff;
+        border-radius: 50%;
+        width: 13px;
+        height: 13px;
+        margin: auto;
+        animation: spin 2s linear infinite;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        background: #f6f7f8;
+        border: 1px solid #eef1f4;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 150px;
+        width: 150px;
+        cursor: pointer;
+    }
+
+    .custom-file-upload i {
+        color: #515965;
+        font-size: 70px;
+    }
+</style>

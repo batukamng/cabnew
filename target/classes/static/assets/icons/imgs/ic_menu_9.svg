@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="ic_menu_9" transform="translate(-25 -536)">
+    <g id="Rounded_Rectangle_63_copy_3" data-name="Rounded Rectangle 63 copy 3" transform="translate(27 536)" fill="none" stroke="#959595" stroke-width="1">
+      <path d="M2,0h8a2,2,0,0,1,2,2V16a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V2A2,2,0,0,1,2,0Z" stroke="none"/>
+      <path d="M2,.5h8A1.5,1.5,0,0,1,11.5,2V15a.5.5,0,0,1-.5.5H1A.5.5,0,0,1,.5,15V2A1.5,1.5,0,0,1,2,.5Z" fill="none"/>
+    </g>
+    <g id="Rounded_Rectangle_63_copy_4" data-name="Rounded Rectangle 63 copy 4" transform="translate(0 -82)" fill="none">
+      <path d="M33,627h0a2,2,0,0,1,2,2v5H31v-5A2,2,0,0,1,33,627Z" stroke="none"/>
+      <path d="M 33 627.9998168945313 C 32.44860076904297 627.9998168945313 32 628.4483032226563 32 628.9995727539063 L 32 632.9996948242188 L 33.99990081787109 632.9996948242188 L 33.99990081787109 628.9995727539063 C 33.99990081787109 628.4483032226563 33.55134963989258 627.9998168945313 33 627.9998168945313 M 33 626.9998168945313 C 34.10449981689453 626.9998168945313 34.99990081787109 627.8950805664063 34.99990081787109 628.9995727539063 L 34.99990081787109 633.9996948242188 L 31 633.9996948242188 L 31 628.9995727539063 C 31 627.8950805664063 31.89540100097656 626.9998168945313 33 626.9998168945313 Z" stroke="none" fill="#959595"/>
+    </g>
+    <rect id="Rectangle_34_copy_14" data-name="Rectangle 34 copy 14" width="16" height="1" transform="translate(25 551)" fill="#959595"/>
+    <rect id="Rectangle_34_copy_15" data-name="Rectangle 34 copy 15" width="4" height="1" transform="translate(31 542)" fill="#959595"/>
+    <rect id="Rectangle_34_copy_16" data-name="Rectangle 34 copy 16" width="4" height="1" transform="translate(31 539)" fill="#959595"/>
+  </g>
+</svg>

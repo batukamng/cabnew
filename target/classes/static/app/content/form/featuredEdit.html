@@ -1,0 +1,412 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-width-medium-9-10 uk-container-center reset-print">
+            <div class="uk-grid" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="md-card">
+                        <div class="md-card-content" style="padding: 8px;">
+                            <div custom-scrollbar style="overflow-x: hidden; height: calc(100vh - 186px);">
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Ерөнхий мэдээлэл
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin id="stepOne">
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                            <div class="uk-width-1-1">
+                                                <div class="k-form-field-wrap">
+                                                    <label for="title" class="uk-form-label uk-text-muted">Гарчиг</label>
+                                                    <textarea kendo-text-area k-options="areaOptions"
+                                                              id="title" k-placeholder="'Гарчиг...'"
+                                                              required ng-model="featured.title" style="width: 100%;"
+                                                              rows="2"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                            <div class="uk-width-1-3">
+                                                <label for="useYn" class="k-form-label">Төлөв</label>
+                                                <div class="k-form-field-wrap">
+                                                    <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                                            k-placeholder="'Сонгох'" name="useYn" id="useYn"
+                                                            k-filter="'startswith'" ng-model="featured.useYn" k-auto-bind="true" style="width: 100%">
+                                                        <option value="true">Нийтлэх</option>
+                                                        <option value="false">Нийтлэхгүй</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-1-3">
+                                                <label for="useYn" class="k-form-label">Шаардлагатай санхүүжилтийн дүн (сая.төг)</label>
+                                                <div class="k-form-field-wrap">
+                                                    <input required kendo-text-box k-ng-model="featured.budgetAmount" type="number" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-1-3" ng-if="featured.appId!=null">
+                                                <label for="useYn" class="k-form-label">Хэрэгжих боломжит хугацаа (жил)</label>
+                                                <div class="k-form-field-wrap">
+                                                    <input kendo-text-box k-ng-model="featured.durationYr" type="number" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                            <div class="uk-width-2-3">
+                                                <div class="k-form-field-wrap">
+                                                    <label for="subtitle" class="uk-form-label uk-text-muted">Товч тайлбар</label>
+                                                    <textarea kendo-text-area k-options="areaOptions"
+                                                              id="subtitle" k-placeholder="'Товч тайлбар...'"
+                                                              required ng-model="featured.subtitle" style="width: 100%;"
+                                                              rows="9"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-1-3">
+                                                <div class="k-form-field-wrap" style="width: 90%">
+                                                    <label style="line-height:21px;" for="input-file-a">Ковер зураг</label>
+                                                    <input type="file" id="input-file-a" accept="image/*"
+                                                           ng-files="getTheUFilesAttach($files)"
+                                                           ng-model="featured.thumbnail.uri" class="dropify"/>
+                                                    <span class="k-invalid-msg" data-for="status"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Төсөл хэрэгжүүлэгч байгууллагууд
+                                    <button class="k-button k-button-icontext k-grid-add" ng-click="addRow('orgData')" style="float:right;">
+                                        <span class="k-icon k-i-plus"></span>Нэмэх
+                                    </button>
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <kendo-grid id="orgData" class="uk-text-small" options="orgGrid"></kendo-grid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    ng-if="featured.apprId!=null"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Техник үзүүлэлтүүд
+                                    <button class="k-button k-button-icontext k-grid-add" ng-click="addRow('parameterData')" style="float:right;">
+                                        <span class="k-icon k-i-plus"></span>Нэмэх
+                                    </button>
+                                </h2>
+                                <div class="uk-grid uk-grid-small" ng-if="featured.apprId!=null" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <kendo-grid id="parameterData" class="uk-text-small" options="parameterGrid"></kendo-grid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Давуу талууд
+                                    <button class="k-button k-button-icontext k-grid-add" ng-click="addRow('advantageData')" style="float:right;">
+                                        <span class="k-icon k-i-plus"></span>Нэмэх
+                                    </button>
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <kendo-grid id="advantageData" class="uk-text-small" options="advantageGrid"></kendo-grid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    ng-if="featured.appId!=null"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Хэн юу хэлэв
+                                    <button class="k-button k-button-icontext k-grid-add" ng-click="addRow('quoteData')" style="float:right;">
+                                        <span class="k-icon k-i-plus"></span>Нэмэх
+                                    </button>
+                                </h2>
+                                <div class="uk-grid uk-grid-small" ng-if="featured.appId!=null" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <kendo-grid id="quoteData" class="uk-text-small" options="quoteGrid"></kendo-grid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Холбогдох мэдээнүүд
+                                    <button class="k-button k-button-icontext k-grid-add" ng-click="showNews()" style="float:right;">
+                                        <span class="k-icon k-i-plus"></span>Нэмэх
+                                    </button>
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <kendo-grid id="newsData" class="uk-text-small" options="newsGrid"></kendo-grid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Зурагнууд
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-4 uk-width-small-1-4" ng-repeat="(index, image) in featured.gallery track by $index">
+                                        <div class="image-card">
+                                            <img class="image" ng-src="{{image.uri}}">
+                                            <div class="middle">
+                                                <button class="uk-button" ng-click="deleteImg(index, image.id)">x</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-medium-1-4 uk-width-small-1-4" id="galleryAttach">
+                                        <div class="k-form-field-wrap" style="width: 90%">
+                                            <input type="file" id="input-file-b" accept="image/png,image/jpeg,image/jpg"
+                                                   ng-files="getTheUFilesAttach2($files)"
+                                                   class="dropify2"/>
+                                            <span class="k-invalid-msg" data-for="status"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    ng-if="featured.appId!=null"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Холбоотой бичиг баримтууд
+                                </h2>
+                                <div class="uk-grid uk-grid-small" ng-if="featured.appId!=null" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <table class="uk-table uk-table-condensed uk-table-hover">
+                                                <thead>
+                                                <th style="width: 5%;" class="uk-text-center"><label
+                                                        class="k-form-label">№</label></th>
+                                                <th style="width: 30%"><label class="k-form-label">Нэр</label>
+                                                </th>
+                                                <th style="width: 30%"><label class="k-form-label">Файл</label></th>
+                                                <th style="width: 5%"></th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="(index, item) in featured.documents track by $index">
+                                                    <td class="uk-text-center">
+                                                        {{$index+1}}
+                                                    </td>
+                                                    <td>
+                                                        <span class="k-form-field-wrap" style="padding: 0">
+                                                            {{item.name}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{item.uri}}">Татах</a>
+                                                    </td>
+                                                    <td class="uk-text-center">
+                                                        <button class="uk-button uk-button-mini"
+                                                                ng-click="deleteFile(index,item,'document')">
+                                                            <span class="material-icons my-1" style="font-size: 14px;">remove</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot style="border: 1px solid #ddd;">
+                                                <tr>
+                                                    <td class="uk-text-center"></td>
+                                                    <td>
+                                                        <span class="k-form-field-wrap" style="padding: 0">
+                                                            <input required kendo-text-box k-ng-model="document.name" style="width: 100%;" />
+                                                        </span>
+                                                    </td>
+                                                    <td style="padding: 0">
+                                                        <input name="file" accept="*" id="uploaderdocument"
+                                                               type="file" k-options="fileOptions"
+                                                               k-localization="{ select: 'Бичиг баримт хасваргах' }"
+                                                               kendo-upload />
+                                                    </td>
+                                                    <td class="uk-text-center">
+                                                        <button class="uk-button uk-button-mini"
+                                                                ng-click="saveFile(fileId, 'document')">
+                                                            <span class="material-icons my-1" style="font-size: 14px;">+</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 class="uk-text-muted uk-form-header uk-margin-small-bottom uk-margin-top"
+                                    style="font: 400 18px/35px Roboto,sans-serif;margin:0 5px;">
+                                    Холбоотой бичлэгнүүд
+                                </h2>
+                                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-1 uk-width-small-1-1">
+                                        <div class="k-form-field-wrap">
+                                            <table class="uk-table uk-table-condensed uk-table-hover">
+                                                <thead>
+                                                <th style="width: 5%;" class="uk-text-center"><label
+                                                        class="k-form-label">№</label></th>
+                                                <th style="width: 30%"><label class="k-form-label">Нэр</label>
+                                                </th>
+                                                <th style="width: 30%"><label class="k-form-label">Файл</label></th>
+                                                <th style="width: 5%"></th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="(index, item) in featured.video track by $index">
+                                                    <td class="uk-text-center">
+                                                        {{$index+1}}
+                                                    </td>
+                                                    <td>
+                                                        <span class="k-form-field-wrap" style="padding: 0">
+                                                            {{item.name}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{item.uri}}">Татах</a>
+                                                    </td>
+                                                    <td class="uk-text-center">
+                                                        <button class="uk-button uk-button-mini"
+                                                                ng-click="deleteFile(index,item,'video')">
+                                                            <span class="material-icons my-1" style="font-size: 14px;">remove</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot style="border: 1px solid #ddd;">
+                                                <tr>
+                                                    <td class="uk-text-center"></td>
+                                                    <td>
+                                                        <span class="k-form-field-wrap" style="padding: 0">
+                                                            <input required kendo-text-box k-ng-model="video.name" style="width: 100%;" />
+                                                        </span>
+                                                    </td>
+                                                    <td style="padding: 0">
+                                                        <input name="file" accept="video/*" id="uploadervideo"
+                                                               type="file" k-options="fileOptions"
+                                                               k-localization="{ select: 'Видео хасваргах' }"
+                                                               kendo-upload />
+                                                    </td>
+                                                    <td class="uk-text-center">
+                                                        <button class="uk-button uk-button-mini"
+                                                                ng-click="saveFile(video, 'video')">
+                                                            <span class="material-icons my-1" style="font-size: 14px;">+</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1 uk-text-right">
+                    <button ng-click="saveAppMain()" class="uk-button"
+                            style="margin-left: 5px;color:white;background: rgba(34,197,94 , 1) !important;">Хадгалах</button>
+                    <button ng-click="back()" class="uk-button uk-button-danger" style="margin-left: 5px; color:#fff;">Буцах</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalForm3" class="uk-modal">
+    <div class="uk-modal-dialog" style="width: 80%; padding: 0!important;">
+        <div class="formHeader" style="display: block;margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left"><h3 class="heading_a" style="margin-bottom: 0;">
+                    Мэдээ сонгох
+                    <button type="button" class="uk-modal-close uk-float-right uk-close"></button></h3></div>
+            </div>
+        </div>
+        <div class="k-form k-form-vertical">
+            <div class="uk-form-stacked" style="padding: 12px">
+                <kendo-grid class="uk-text-small" options="newsGrid2"></kendo-grid>
+            </div>
+            <div class="formFooter" style="margin: 0;padding:12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="button" ng-click="selectNews()" class="uk-modal-close md-btn md-btn-mini md-btn-success">Сонгох</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-app" style="height: 100px;"></div>
+    </div>
+</div>
+
+<span kendo-notification="notf1" k-options="notf1Options"></span>
+<script id="notificationTemplate" type="text/x-kendo-template">
+    <p style="width: 16em; padding:1em;white-space:nowrap;margin-bottom: 0"> #= message # </p>
+</script>
+<style>
+    .k-window {
+        left: 10vw !important;
+        top: 85px !important;
+    }
+    .uk-grid-divider{
+        margin:8px 0 !important;
+    }
+    .k-form-field-wrap {
+        padding: 5px !important;
+    }
+
+    .uk-grid-divider:empty {
+        margin: 10px 5px;
+    }
+
+    .k-dropzone-hint {
+        display: none;
+    }
+    #newsData .k-grid-edit {
+        display: none;
+    }
+
+    .k-pager-wrap {
+        display: none;
+    }
+
+.image-card {
+  position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.image-card:hover .image {
+  opacity: 0.3;
+}
+
+.image-card:hover .middle {
+  opacity: 1;
+}
+</style>

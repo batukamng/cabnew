@@ -1,0 +1,315 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-data-source="gridDataSource">
+                    <div k-detail-template>
+                        <div id="detGrid" class="uk-text-small" kendo-grid
+                             k-options="detailGridOptions(dataItem)"></div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_funding">
+    <div class="uk-modal-dialog uk-modal-dialog-large custom-modal" style="margin-bottom: 0; padding: 0; width: 40%">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>{{modalType == 'add' ? 'Эх үүсвэрийн төрөл бүртгэх' : 'Эх үүсвэрийн төрөл засах'}}</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form id="validator" class="k-form k-form-vertical" style="margin: 0" ng-submit="formSubmit($event)">
+            <div style="padding: 0" custom-scrollbar>
+                <div class="uk-overflow-container">
+                    <div class="uk-width-1-1">
+                        <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Эх үүсвэрийн
+                            төрөл</label>
+                        <div class="custom-select">
+                            <div class="item w-1/2" ng-show="!isActive" ng-class="{'active' : mainSystemDisable}"
+                                 ng-click="changeSystemType(1)">Үндсэн
+                            </div>
+                            <div class="item w-1/2" ng-class="{'active' : subSystemDisable}"
+                                 ng-click="changeSystemType(0)">Дэд
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <div class="uk-grid uk-grid-small" data-uk-grid-margin ng-if="subSystemDisable">
+                            <div class="uk-width-1-1" style="margin-top: 10px">
+                                <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">үндсэн эх
+                                    үүсвэр сонгоно уу</label>
+                                <div>
+                                    <input
+                                            kendo-drop-down-list
+                                            id="status"
+                                            k-placeholder="'Сонгох'"
+                                            k-data-text-field="'name'"
+                                            k-data-value-field="'id'"
+                                            k-on-change="sourceTypeChanged(code)"
+                                            k-data-source="sourceTypeDataSource"
+                                            ng-model="app.sourceId"
+                                            style="width: 100%"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <div class="uk-grid uk-grid-small">
+                            <div class="uk-width-1-1" style="margin-top: 10px">
+                                <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">эх үүсвэрийн
+                                    нэр</label>
+                                <input type="text" class="k-input k-textbox" required ng-model="app.name" id="name"
+                                       style="width: 100%"/>
+                            </div>
+
+                            <div class="uk-width-1-2" style="margin-top: 10px">
+                                <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Код</label>
+                                <div class="flex">
+                                    <span ng-if="subSystemDisable" class="k-form-field-wrap">{{budgetType}}</span>
+                                    <input type="text" class="k-input k-textbox" required ng-model="app.code" id="code"
+                                           style="width: 100%"/>
+                                </div>
+                            </div>
+
+                            <div class="uk-width-1-2" style="margin-top: 10px">
+                                <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Эрэмбэ</label>
+                                <div class="flex">
+                                    <input type="number" class="k-input k-textbox" required ng-model="app.orderId"
+                                           id="orderId" style="width: 100%"/>
+                                </div>
+                            </div>
+
+
+                            <div class="uk-width" style="margin-top: 10px" ng-if="mainSystemDisable">
+                                <div class="custom-tab flex p-0 text-center">
+                                    <div class="item w-1/2" ng-click="changeTab(1)" ng-class="tab == 1 && 'active'">
+                                        Санхүүжилт
+                                    </div>
+                                    <div class="item w-1/2" ng-click="changeTab(2)" ng-class="tab == 2 && 'active'">
+                                        Төлөвлөлт
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="uk-width-1-1" style="margin-top: 10px" ng-if="mainSystemDisable">
+                                <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">ХОЛБОГДОХ
+                                    САНХҮҮЖИЛТИЙН АЛХМУУД</label>
+                                <table class="custom-table mt-4">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 40px">Алхмууд</th>
+                                        <th style="width: 40px">Холбох эсэх</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in stepTypeDataSource">
+                                    <div>
+                                        <div class="my-2 mr-1">
+                                            <tr>
+                                                <td>{{item.name}}</td>
+                                                <td style="text-align: center; width: 40px">
+                                                    <label for="tezFilter{{$index}}" class="inline-label"
+                                                           ng-bind="'Үгүй'" style="display: inline-block">Label</label>
+                                                    <input class="switchery switchery-small" type="checkbox"
+                                                           id="tezFilter{{$index}}" ui-switch
+                                                           ng-model="privileges[item.id]"/>
+                                                    <label for="tezFilter{{$index}}" class="inline-label"
+                                                           ng-bind="'Тийм'" style="display: inline-block">Label</label>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1 my-5">
+                        <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">төлөв</label>
+                        <div class="custom-select">
+                            <div class="item w-1/2" ng-class="{'active' : app.useYn}" ng-click="app.useYn=1">Идэвхтэй
+                            </div>
+                            <div class="item w-1/2" ng-class="{'active' : !app.useYn}" ng-click="app.useYn=0">Идэвхгүй
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0; padding: 12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ
+                        </button>
+                        <button type="submit" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none; box-shadow: none; text-align: center; width: 100%">
+        <div id="main-loader-app" style="height: 100px"></div>
+    </div>
+</div>
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById("main-loader-view"), // required
+        path: "assets/img/loader.json", // required
+        renderer: "svg", // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "PIMIS", // optional
+    });
+</script>
+<style>
+    #tabstrip h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
+
+    #tabstrip h2 span {
+        background: none;
+        padding-left: 5px;
+        font-size: 0.3em;
+        vertical-align: top;
+    }
+
+    #tabstrip p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .customSelectedButton {
+        padding: 0.25rem !important;
+        background-color: #f6f7f8 !important;
+        border-color: #eef1f4 !important;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .customSelectedButton .customButton:active {
+        background-color: white !important;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .customSelectedButton .customButton span {
+        color: grey;
+        font-weight: 700;
+    }
+
+    .customSelectedButton .customButton:hover {
+        border: none !important;
+    }
+
+    .customSelectedButton .customButton {
+        border-radius: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        font-weight: 400;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .customSelectedButton .customButton:focus {
+        box-shadow: unset;
+    }
+
+    .customSelectedButton .customButton span {
+        font-weight: 300;
+    }
+
+    .customSelectedButton .customButton .customButton.active {
+        background: #fff !important;
+        font-weight: 600;
+        box-shadow: 0px 4px 8px 4px rgb(0 0 0 / 5%);
+    }
+
+    .k-checkbox:checked + label {
+        background-color: #312e81 !important;
+        border-color: #312e81 !important;
+        color: #fff !important;
+    }
+
+    .k-checkbox:checked + label i {
+        color: #fff !important;
+    }
+
+    .custom-table {
+        width: 100%;
+        border-spacing: 0;
+    }
+
+    .custom-table td {
+        width: 50%;
+        padding: 10px;
+    }
+
+    .custom-table td,
+    .custom-table th {
+        border: 1px solid #eef1f4;
+        border-bottom: 0px;
+        border-right: 0;
+    }
+
+    .custom-table th {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #515965;
+        font-weight: 400;
+        font-size: 12px;
+    }
+
+    .custom-table td:last-child {
+        border-right: 1px solid #eef1f4;
+    }
+
+    .custom-table tr:first-child td:first-child {
+        border-top-left-radius: 5px;
+    }
+
+    .custom-table tr:first-child td:last-child {
+        border-top-right-radius: 5px;
+    }
+
+    .custom-table tr:last-child td:first-child,
+    .custom-table tr.border-bt td:first-child {
+        border-bottom-left-radius: 5px;
+    }
+
+    .custom-table tr:last-child td:last-child,
+    .custom-table tr.border-bt td:last-child {
+        border-bottom-right-radius: 5px;
+    }
+
+    .custom-table tr:last-child td,
+    .custom-table tr.border-bt td {
+        border-bottom: 1px solid #eef1f4;
+    }
+
+    .k-form-field-wrap {
+        padding-top: 5px;
+        display: block;
+        background-color: #d7d7d7;
+        border: 1px solid #ccc;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>

@@ -1,0 +1,162 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-scope-field="grid" k-data-source="appDataSource">
+                <!--<div k-detail-template>
+                    <div id="detGrid" class="uk-text-small" kendo-grid k-options="detailGridOptions(dataItem)">
+                        <div k-detail-template>
+                            <div id="thirdGrid" class="uk-text-small" kendo-grid k-options="thirdGridOptions(dataItem)"></div>
+                        </div>
+                    </div>
+                </div>-->
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0; width: 700px">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Хууль бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container">
+                    <ul class="k-edit-form-container" style="display: inline-block; width: 100%">
+                        <li>
+                            <div class="k-edit-label"><label>Төрөл</label></div>
+                            <div class="k-edit-field" style="margin-top: 5px">
+                                <div class="custom-select" style="width: 50%">
+                                    <div class="item w-1/3" ng-class="{'active' : dataItem.main==0}" ng-click="dataItem.main=0">Хууль</div>
+                                    <div class="item w-1/3" ng-class="{'active' : dataItem.main==1}" ng-click="dataItem.main=1">Зүйл</div>
+                                    <div class="item w-1/3" ng-class="{'active' : dataItem.main==2}" ng-click="dataItem.main=2">Заалт</div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li ng-show="dataItem.main==1 || dataItem.main==2">
+                            <div class="k-edit-label"><label>Хууль сонгох</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'startswith'"
+                                        k-data-source="appFormDataSource"
+                                        ng-model="dataItem.lawId"
+                                        ng-required="dataItem.main==1 || dataItem.main==2"
+                                        id="law"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </li>
+
+                        <li ng-show="dataItem.main==2">
+                            <div class="k-edit-label"><label>Зүйл</label></div>
+                            <div class="k-edit-field">
+                                <input
+                                        kendo-drop-down-list
+                                        k-auto-bind="true"
+                                        k-data-text-field="'name'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'startswith'"
+                                        k-cascade-from="'law'"
+                                        k-cascade-from-field="'parentId'"
+                                        k-data-source="appDetDataSource"
+                                        ng-model="dataItem.parentId"
+                                        ng-required="dataItem.main==2"
+                                        id="mstCd"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </li>
+                        <li ng-if="dataItem.main==2">
+                            <div class="k-edit-label"><label for="name">Заалт</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="dataItem.zlt" id="zlt" style="width: 100%" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="name">Нэр</label></div>
+                            <div class="k-edit-field">
+                                <textarea id="name" kendo-text-area k-placeholder="'...'" k-ng-model="dataItem.name" style="width: 100%;" rows="5"></textarea>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label"><label>Ашиглах эсэх</label></div>
+                            <div class="k-edit-field" style="margin-top: 5px">
+                                <div class="custom-select" style="width: 50%">
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.useYn==1}" ng-click="dataItem.useYn=1">Тийм</div>
+                                    <div class="item w-1/2" ng-class="{'active' : dataItem.useYn==0}" ng-click="dataItem.useYn=0">Үгүй</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding: 12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БОЛИХ</button>
+                    <button type="button" ng-click="formSubmit()" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <div id="main-loader-approved-1" style="height: 100px;"></div>
+    </div>
+</div>
+
+<script>
+    var animation = bodymovin.loadAnimation({
+        // animationData: { /* ... */ },
+        container: document.getElementById('main-loader-approved-1'), // required
+        path: 'assets/img/loader.json', // required
+        renderer: 'svg', // required
+        loop: true, // optional
+        autoplay: true, // optional
+        name: "Demo Animation", // optional
+    });
+</script>
+
+<style>
+    .k-checkbox:checked + label {
+        background-color: #312e81 !important;
+        border-color: #312e81 !important;
+        color: #fff !important;
+    }
+
+    .k-checkbox:checked + label i {
+        color: #fff !important;
+    }
+
+    .k-edit-field {
+        overflow: hidden;
+    }
+
+    .custom-icon {
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+        background-color: #2563eb;
+    }
+
+    .custom-icon:hover,
+    .custom-icon.active {
+        background-color: #f3c30e !important;
+    }
+</style>

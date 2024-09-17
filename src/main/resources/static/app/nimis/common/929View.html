@@ -1,0 +1,109 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-data-source="gridDataSource">
+                    <div k-detail-template>
+                        <div id="detGrid" class="uk-text-small" kendo-grid k-options="detailGridOptions(dataItem)">
+                            <div k-detail-template>
+                                <div id="thirdGrid" class="uk-text-small" kendo-grid k-options="thirdGridOptions(dataItem)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom:0; padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0 -24px;padding:24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px;">
+                        <span>Засаг захиргааны нэгж бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form kendo-validator="validator" id="userForm" class="uk-overflow-container" style="margin-bottom: 0;" ng-submit="dataSubmit()">
+            <div style="padding:0;">
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="name">Нэр</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.cdNm" id="name"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="staCode">ҮСХ код</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.staCode" id="staCode"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="asCd">Kод</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.asCd" id="asCd"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="cdNmEng">Англи</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.cdNmEng" id="cdNmEng"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="longitude">Уртраг</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.longitude" id="longitude"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label for="latitude">Өргөрөг</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <input type="text" class="k-input k-textbox" required ng-model="dataItem.latitude" id="latitude"
+                                   style="width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width:100%;"><label for="staff">Зураг</label></div>
+                        <div class="k-edit-field" style="width: 100%;">
+                            <div style="width: 100%">
+                                <input name="file" accept="image/*" type="file" id="staff" k-options="fileOptions" kendo-upload k-select="onSelect" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0;padding:12px">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button" >БОЛИХ</button>
+                    <button type="button" ng-click="dataSubmit()" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

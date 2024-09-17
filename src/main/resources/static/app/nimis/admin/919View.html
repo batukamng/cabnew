@@ -1,0 +1,161 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-1-1 iconBtn">
+                <kendo-grid options="mainGrid" id="parent" class="uk-text-small" k-data-source="appDataSource"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog uk-modal-dialog-medium" style="padding: 0 !important">
+        <button type="button" class="uk-modal-close uk-close"></button>
+        <h3 class="uk-modal-title" style="border-bottom: 2px solid #ddd; padding: 12px">Баннер бүртгэх</h3>
+        <form kendo-validator="validator" id="userForm" class="uk-overflow-container" style="padding: 16px" ng-submit="dataSubmit()">
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-field" style="width: 100%">
+                        <div class="custom-select w-full" id="fundingType">
+                            <div class="item text-sm" style="width: 50%" ng-class="dataItem.code == '01' ? 'active' : ''" ng-click="dataItem.code = '01'; dataItem.fileType = '02'">Сурталчилгаа</div>
+                            <div class="item text-sm" style="width: 50%" ng-class="dataItem.code == '02' ? 'active' : ''" ng-click="dataItem.code = '02'">Мэдээлэл</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.code=='01'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Төрөл</label></div>
+                    <div class="k-edit-field" style="width: 100%">
+                        <div class="custom-select w-full">
+                            <div class="item text-sm" style="width: 25%" ng-class="dataItem.bannerType == '01' ? 'active' : ''" ng-click="dataItem.bannerType = '01'">Сайт үндсэн</div>
+                            <div class="item text-sm" style="width: 25%" ng-class="dataItem.bannerType == '02' ? 'active' : ''" ng-click="dataItem.bannerType = '02'">Сайт нэвтрэх</div>
+                            <div class="item text-sm" style="width: 25%" ng-class="dataItem.bannerType == '03' ? 'active' : ''" ng-click="dataItem.bannerType = '03'">Апп үндсэн</div>
+                            <div class="item text-sm" style="width: 25%" ng-class="dataItem.bannerType == '04' ? 'active' : ''" ng-click="dataItem.bannerType = '04'">Апп жижиг</div>
+                            <div class="item text-sm" style="width: 25%" ng-class="dataItem.bannerType == '05' ? 'active' : ''" ng-click="dataItem.bannerType = '05'">Дотоод</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.code=='01'" data-uk-grid-margin>
+                <div class="uk-width-1-2 uk-grid-margin">
+                    <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Эхлэх огноо:</label>
+                    <input
+                            validationMessage="шаардлагатай"
+                            k-ng-model="fromDateObject"
+                            k-on-change="fromDateChanged()"
+                            kendo-date-picker
+                            id="startDate"
+                            ng-required="dataItem.code=='01'"
+                            ng-model="dataItem.srtDt"
+                            style="width: 100%"
+                    />
+                </div>
+                <div class="uk-width-1-2 uk-grid-margin">
+                    <label class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Дуусах огноо:</label>
+                    <input
+                            validationMessage="шаардлагатай"
+                            id="endDate"
+                            kendo-date-picker
+                            ng-required="dataItem.code=='01'"
+                            k-min="minDate"
+                            k-rebind="minDate"
+                            k-on-change="toDateChanged()"
+                            ng-model="dataItem.endDt"
+                            style="width: 100%"
+                    />
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted" for="title">Гарчиг</label></div>
+                    <div class="k-edit-field" style="width: 100%">
+                        <input type="text" class="k-input k-textbox" required ng-model="dataItem.title" id="title" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.code=='02'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%"><label class="uk-form-label uppercase !text-xs font-normal uk-text-muted" for="description">Тайлбар</label></div>
+                    <div class="k-edit-field" style="width: 100%">
+                        <textarea kendo-text-area k-placeholder="'...'" k-ng-model="dataItem.description" id="description" style="width: 100%" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.code=='02'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <!-- <div class="k-edit-label uk-text-left" style="margin-bottom: 0;width: 100%"><label>Төрөл</label></div>-->
+                    <div class="k-edit-field" style="width: 100%">
+                        <div class="custom-select w-full mt-[1rem]" id="fileType">
+                            <div class="item text-sm" style="width: 50%" ng-class="dataItem.fileType == '01' ? 'active' : ''" ng-click="dataItem.fileType = '01'">Зураг</div>
+                            <div class="item text-sm" style="width: 50%" ng-class="dataItem.fileType == '02' ? 'active' : ''" ng-click="dataItem.fileType = '02'">Бичлэг</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.fileType=='02'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%"><label for="url" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Хаяг /URL/</label></div>
+                    <div class="k-edit-field" style="width: 100%">
+                        <input type="text" class="k-input k-textbox" id="url" ng-model="dataItem.url" id="url" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.fileType=='01' || dataItem.code=='01'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%"><label for="staff" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">Файл</label></div>
+                    <div class="k-edit-field" style="width: 100%">
+                        <div style="width: 100%">
+                            <input name="file" accept="image/*" type="file" id="staff" k-options="fileOptions" kendo-upload k-select="onSelect" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-grid uk-grid-small" ng-show="dataItem.fileType=='01' || dataItem.code=='01'" data-uk-grid-margin>
+                <div class="uk-width-medium-1-2" ng-if="dataItem.bannerType == '05'">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%">
+                        <label for="staff" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">түвшин сонгоно уу</label>
+                    </div>
+                    <div class="k-edit-field w-full">
+                        <input
+                                kendo-drop-down-list
+                                k-auto-bind="true"
+                                k-data-text-field="'name'"
+                                ng-required="dataItem.bannerType == '05'"
+                                k-filter="'contains'"
+                                k-ng-model="level"
+                                k-data-value-field="'id'"
+                                k-data-source="levels"
+                                ng-model="dataItem.lvlId"
+                                id="lvlId"
+                                k-on-change="levelTypeChanged()"
+                                placeholder="Үндсэн түвшин сонгох"
+                                style="width: 100%"
+                        />
+                    </div>
+                </div>
+                <div class="uk-width-medium-1-2" ng-if="dataItem.bannerType == '05'">
+                    <div class="k-edit-label uk-text-left" style="margin-bottom: 0; width: 100%">
+                        <label for="staff" class="uk-form-label uppercase !text-xs font-normal uk-text-muted">төрөл сонгоно уу</label>
+                    </div>
+                    <div class="k-edit-field w-full">
+                        <select
+                                kendo-multi-select
+                                k-data-source="userTypes"
+                                k-options="typeOptions"
+                                ng-required="dataItem.bannerType == '05'"
+                                k-ng-model="dataItem.typeIdArr"
+                                id="typeId"
+                                style="width: 100%"
+                                ng-disabled="dataItem.lvlId == null"
+                        ></select>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="uk-modal-footer uk-text-right" style="margin: 0 !important; padding-top: 0">
+            <button type="button" class="md-btn md-btn-mini uk-modal-close">Хаах</button>
+            <button type="button" ng-click="dataSubmit()" class="md-btn md-btn-mini md-btn-primary">Хадгалах</button>
+        </div>
+    </div>
+</div>

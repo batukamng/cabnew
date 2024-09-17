@@ -1,0 +1,199 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="main_content">
+            <kendo-grid id="app1Data" class="uk-text-small" k-scope-field="grid" k-data-source="dataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_application">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom:0;padding: 0;">
+        <div class="formHeader" style="display: block;margin: 0 -24px;padding:24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px;">
+                        <span>Бүртгэл</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" style="margin: 0"  id="myFormCreate" novalidate kendo-validator="validatorProject" ng-submit="submitProject($event)">
+            <div style="padding:0; height: calc(100vh - 220px);" custom-scrollbar>
+                <div class="uk-overflow-container">
+                    <div class="uk-grid uk-grid-small">
+                        <div class="uk-width-1-1 uk-grid-margin">
+                            <label for="code" class="k-form-label">Код</label>
+                            <div class="k-form-field-wrap">
+                                <input kendo-text-box id="code" name="code" ng-required="true"
+                                       validationMessage="Код шаардлагатай" ng-model="app.code"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-1 uk-grid-margin">
+                            <label for="name" class="k-form-label">Нэр</label>
+                            <div class="k-form-field-wrap">
+                                <input kendo-text-box id="name"  ng-required="true"
+                                       validationMessage="Гарчиг шаардлагатай" ng-model="app.name"
+                                       style="width: 100%;"/>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin">
+                            <label for="typeId" class="k-form-label">Улсын хэмжээнд / Орон нутаг</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="typeId" name="typeId"
+                                        k-data-text-field="'comCdNm'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="app.typeId" k-auto-bind="true"
+                                        k-on-change="fromTypeChanged()"
+                                        k-data-source="typeDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin">
+                            <label for="refDocType" class="k-form-label">Хугацаа</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="refDocType" name="refDocType"
+                                        k-data-text-field="'comCdNm'" k-data-value-field="'id'"
+                                        ng-disabled="docTypeDisable"
+                                        k-filter="'startswith'" ng-model="app.refDocType" k-auto-bind="true"
+                                        k-on-change="fromDocTypeChanged()"
+                                        k-data-source="docTimeDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin" ng-hide="amgHide">
+                            <label for="typeId" class="k-form-label">Аймаг / Хот</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box
+                                        k-placeholder="'Сонгох'" id="amgId" name="amgId"
+                                        k-data-text-field="'cdNm'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="app.amgId" k-auto-bind="true"
+                                        k-on-change="sAmgChanged()"
+                                        k-data-source="sAmgDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin" ng-hide="amgHide">
+                            <label for="typeId" class="k-form-label">Сум / Дүүрэг</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box
+                                        k-placeholder="'Сонгох'" id="soumId" name="soumId"
+                                        k-data-text-field="'cdNm'" k-data-value-field="'id'"
+                                        k-filter="'startswith'" ng-model="app.soumId" k-auto-bind="true"
+                                        k-data-source="sSoumDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-small-1-2 uk-grid-margin">
+                            <label for="startDate" class="k-form-label">Эхлэх</label>
+                            <div class="k-form-field-wrap">
+                                <input
+                                    k-format="'yyyy'"
+                                    validationMessage="шаардлагатай"
+                                    k-ng-model="fromDateObject"
+                                    k-on-change="fromDateChanged()"
+                                    kendo-date-picker
+                                    k-options="yearSelectorOptions"
+                                    id="startDate"
+                                    required
+                                    ng-model="app.sdate"
+                                    style="width: 100%"
+                                    small
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-small-1-2 uk-grid-margin">
+                            <label for="endDate" class="k-form-label">Дуусах</label>
+                            <div class="k-form-field-wrap">
+                                <input
+                                        validationMessage="шаардлагатай"
+                                        id="endDate"
+                                        k-format="'yyyy'"
+                                        kendo-date-picker
+                                        required
+                                        k-max="maxDate"
+                                        k-options="yearSelectorOptions"
+                                        k-min="minDate"
+                                        k-rebind="minDate"
+                                        k-on-change="toDateChanged()"
+                                        ng-model="app.edate"
+                                        style="width: 100%"
+                                />
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-1 uk-width-small-1-1 uk-grid-margin" ng-hide="docStepHide">
+                            <label for="amgAppId" class="k-form-label">Бодлогын баримт бичгийн бүтэц</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-multi-select  validationMessage="шаардлагатай"
+                                        id="amgAppId" name="amgId"
+                                        ng-disabled="docStepDisable"
+                                        k-placeholder="'Сонгох'"
+                                        k-data-text-field="'comCdNm'"
+                                        k-data-value-field="'id'"
+                                        k-filter="'startswith'"
+                                        k-ng-model="app.steps"
+                                        k-data-source="docStepDataSource"
+                                        style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin">
+                            <label for="refDocTypeNew" class="k-form-label">Төрөл</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'" id="refDocTypeNew" name="refDocTypeNew"
+                                        k-data-text-field="'comCdNm'" k-data-value-field="'id'"
+                                        ng-disabled="docTypeDisable"
+                                        k-filter="'startswith'" ng-model="app.refDocTypeNew" k-auto-bind="true"
+                                        k-data-source="docTypeDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-2 uk-grid-margin">
+                            <label class="k-form-label">Баримт бичгийн төрөл</label>
+                            <div class="k-form-field-wrap">
+                                <select kendo-combo-box required="" validationMessage="шаардлагатай"
+                                        k-placeholder="'Сонгох'"  name="docDocType"
+                                        k-data-text-field="'comCdNm'" k-data-value-field="'id'"
+                                        ng-disabled="docTypeDisable"
+                                        k-filter="'startswith'" ng-model="app.docDocType" k-auto-bind="true"
+                                        k-data-source="refDocTypeDataSource" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-1 uk-grid-margin">
+                            <label for="files" class="k-form-label">Бодлогын бичиг баримтын файл хавсаргах</label>
+                            <div class="k-form-field-wrap">
+                                <input required name="file" id="files" accept="image/*,application/pdf"
+                                       type="file" k-options="fileOptions" k-localization="{ select: 'Файл сонгох' }"
+                                       kendo-upload k-select="onSelect" />
+                            </div>
+                        </div>
+                        <div class="uk-width-1-1 uk-grid-margin">
+                            <label for="code" class="k-form-label">Танилцуулга/Заавал биш/</label>
+                            <div class="k-form-field-wrap">
+                                <textarea kendo-text-area k-placeholder="'...'" k-ng-model="app.description" style="width: 100%;" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formFooter" style="margin: 0;padding:12px">
+                <div class="uk-grid">
+                    <div class="uk-width-1-1 uk-text-right">
+                        <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button" >БОЛИХ</button>
+                        <button type="submit" class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_loader">
+    <div class="uk-modal-dialog" style="background: none;box-shadow: none;text-align: center;width: 100%;">
+        <img src="assets/img/loader-8.gif">
+    </div>
+</div>

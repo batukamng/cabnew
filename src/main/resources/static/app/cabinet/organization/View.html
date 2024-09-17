@@ -1,0 +1,81 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div id="uk-main_content">
+            <kendo-grid id="app1Data" class="uk-text-small" k-scope-field="grid"
+                        k-data-source="dataSource" options="mainGrid"></kendo-grid>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_form">
+    <div class="uk-modal-dialog custom-modal" style="margin-bottom: 0; padding: 0;">
+        <div class="formHeader" style="display: block; margin: 0 -24px; padding: 24px">
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1 uk-text-left">
+                    <h3 class="customTitle" style="margin-bottom: 0; padding-top: 5px; padding-bottom: 5px">
+                        <span>Байгууллага бүртгэх</span>
+                        <button type="button" class="uk-modal-close uk-float-right uk-close"></button>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="k-form k-form-vertical" id="validator" custom-scrollbar  style="margin-bottom: 0; overflow-x: hidden;" ng-submit="formSubmit()">
+            <div style="padding: 0">
+                <div class="uk-overflow-container" style="margin-bottom: 0">
+                    <ul class="k-edit-form-container batch" style="display: inline-block; width: 100%">
+
+                        <li>
+                            <div class="k-edit-label"><label for="name">Нэр</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="dataItem.name" id="name"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="k-edit-label"><label for="email">И-мэйл хаяг</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="dataItem.email" data-email-msg="Email format is not valid"  id="email"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="phone">Утас</label></div>
+                            <div class="k-edit-field">
+                                <input kendo-masked-text-box id="phone" required ng-model="dataItem.phone" style="width: 100%;"  />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="address">Хаяг</label></div>
+                            <div class="k-edit-field k-form-field-wrap">
+                        <textarea kendo-text-area id="address" required k-ng-model="dataItem.address" style="width: 100%;"
+                                  rows="3"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="k-edit-label"><label for="web">Веб сайт</label></div>
+                            <div class="k-edit-field">
+                                <input type="text" class="k-input k-textbox" required ng-model="dataItem.web" id="web"
+                                       style="width: 100%"/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="formFooter" style="margin: 0; padding-top: 0 !important;">
+            <div class="uk-grid">
+                <div class="uk-width-1-1 uk-text-right">
+                    <button type="button" class="md-btn md-btn-mini uk-modal-close !text-sm cancel-button">БУЦАХ
+                    </button>
+                    <button type="button" ng-click="formSubmit(1)"
+                            class="md-btn md-btn-mini !text-sm gradient-button px-4">ХАДГАЛАХ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
