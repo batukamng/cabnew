@@ -10,9 +10,9 @@ angular.module("altairApp").controller("profileVerifyCtrl", [
     "step1",
     function ($rootScope, $state, $scope, $timeout, __env, commonDataSource, mainService, Upload, step1) {
         console.log("step", step1);
-        $scope.user = JSON.parse(localStorage.getItem("currentUser"));
-        $scope.token = JSON.parse(localStorage.getItem("currentUser")).token;
-        $scope.currentModule = localStorage.getItem("module");
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
+        $scope.token = JSON.parse(sessionStorage.getItem("currentUser")).token;
+        $scope.currentModule = sessionStorage.getItem("module");
         $scope.notifList = [1, 2, 3, 4, 5, 6];
         $scope.selectedItem = step1 || "info";
         $scope.showPassword = false;
@@ -108,14 +108,14 @@ angular.module("altairApp").controller("profileVerifyCtrl", [
 
         function redirectToMain() {
             $rootScope.$broadcast("loadModule", $scope.currentModule);
-            const menuList = JSON.parse(localStorage.getItem("menuList"));
+            const menuList = JSON.parse(sessionStorage.getItem("menuList"));
             if (menuList == null || menuList == undefined) return;
             var menuByModule = menuList.filter((i) => i.modules.filter((j) => j.id == $scope.currentModule).length > 0);
 
             if (menuByModule.length > 0) {
                 var menuData = menuByModule[0];
-                localStorage.setItem("buttonData", "");
-                localStorage.setItem("menuData", JSON.stringify({}));
+                sessionStorage.setItem("buttonData", "");
+                sessionStorage.setItem("menuData", JSON.stringify({}));
                 $rootScope.$broadcast("loadModule", $scope.currentModule);
             }
         }
@@ -202,7 +202,7 @@ angular.module("altairApp").controller("profileVerifyCtrl", [
                         $scope.user.user.imgId = data.data.imgId;
                         $scope.user.user.firstname = data.data.firstname;
                         $scope.user.user.lastname = data.data.lastname;
-                        localStorage.setItem("currentUser", JSON.stringify($scope.user));
+                        sessionStorage.setItem("currentUser", JSON.stringify($scope.user));
                         $rootScope.alert(true, "Хэрэглэгчийн мэдээлэл амжилттай солигдлоо.");
                         redirectToMain();
                     } else {
@@ -234,7 +234,7 @@ angular.module("altairApp").controller("profileVerifyCtrl", [
                     $rootScope.alert(true, "Хэрэглэгчийн мэдээлэл амжилттай солигдлоо.");
                     $scope.user.user.emailVerified = data.data.emailVerified;
                     $scope.user.user.email = data.data.email;
-                    localStorage.setItem("currentUser", JSON.stringify($scope.user));
+                    sessionStorage.setItem("currentUser", JSON.stringify($scope.user));
                     redirectToMain();
                 } else if (data.status === 418) {
                     $rootScope.alert(true, "Энэ баталгаажуулах кодын хүчинтэй хугаа /10 минут/ дууссан тул дахин код авна уу");
@@ -269,10 +269,10 @@ angular.module("altairApp").controller("profileVerifyCtrl", [
                 $scope.credentials.imgId = resp.data.id;
                 $scope.user.user.imgId = resp.data.id;
                 $scope.user.user.avatar = {uri: resp.data.uri};
-                /*localStorage.removeItem("currentUser");
+                /*sessionStorage.removeItem("currentUser");
                 $scope.user = resp.data;
                 $timeout(function () {
-                  localStorage.setItem(
+                  sessionStorage.setItem(
                     "currentUser",
                     JSON.stringify({
                       username: resp.data.username,

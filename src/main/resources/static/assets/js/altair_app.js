@@ -217,8 +217,8 @@ altairApp
                 lsTest: function () {
                     var test = 'test';
                     try {
-                        localStorage.setItem(test, test);
-                        localStorage.removeItem(test);
+                        sessionStorage.setItem(test, test);
+                        sessionStorage.removeItem(test);
                         return true;
                     } catch (e) {
                         return false;

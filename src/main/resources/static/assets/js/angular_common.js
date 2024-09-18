@@ -48862,7 +48862,7 @@ if (!Array.prototype.indexOf) {
             element.prop("src", imageUrl);
           }
         }
-        function getSessionStorageItem(imageUrl) {
+        function getsessionStorageItem(imageUrl) {
           var item;
           try {
             item = $window.sessionStorage.getItem(imageUrl);
@@ -48872,7 +48872,7 @@ if (!Array.prototype.indexOf) {
           }
           return item;
         }
-        function setSessionStorageItem(imageUrl, imageUrl2x) {
+        function setsessionStorageItem(imageUrl, imageUrl2x) {
           try {
             $window.sessionStorage.setItem(imageUrl, imageUrl2x);
           } catch (e) {
@@ -48882,7 +48882,7 @@ if (!Array.prototype.indexOf) {
         function set2xVariant(imageUrl) {
           var imageUrl2x;
           if (angular.isUndefined(attrs.at2x)) {
-            imageUrl2x = getSessionStorageItem(imageUrl);
+            imageUrl2x = getsessionStorageItem(imageUrl);
           } else {
             imageUrl2x = attrs.at2x;
           }
@@ -48892,11 +48892,11 @@ if (!Array.prototype.indexOf) {
               .head(imageUrl2x)
               .then(function (data, status) {
                 setImgSrc(imageUrl2x);
-                setSessionStorageItem(imageUrl, imageUrl2x);
+                setsessionStorageItem(imageUrl, imageUrl2x);
               })
               .catch(function (data, status, headers, config) {
                 setImgSrc(imageUrl);
-                setSessionStorageItem(imageUrl, imageUrl);
+                setsessionStorageItem(imageUrl, imageUrl);
               });
           } else {
             setImgSrc(imageUrl2x);
@@ -48909,7 +48909,7 @@ if (!Array.prototype.indexOf) {
           if (isDataUri(imageUrl)) {
             return setImgSrc(imageUrl);
           }
-          if (fadeInWhenLoaded && !getSessionStorageItem("fadedIn-" + imageUrl)) {
+          if (fadeInWhenLoaded && !getsessionStorageItem("fadedIn-" + imageUrl)) {
             element.css({
               opacity: 0,
               "-o-transition": "opacity 0.5s ease-out",
@@ -48918,7 +48918,7 @@ if (!Array.prototype.indexOf) {
               transition: "opacity 0.5s ease-out",
             });
             element.on("load", function () {
-              setSessionStorageItem("fadedIn-" + imageUrl, true);
+              setsessionStorageItem("fadedIn-" + imageUrl, true);
               element.css("opacity", 1);
             });
           }

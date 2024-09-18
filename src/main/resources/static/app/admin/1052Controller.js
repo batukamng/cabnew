@@ -25,7 +25,7 @@ angular
                                 type: "POST",
                                 data: {"sort": [{field: 'id', dir: 'asc'}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {

@@ -11,11 +11,11 @@ angular.module("altairApp")
         "Upload",
         "__env",
         function ($rootScope, $state,$stateParams, $scope, $timeout, mainService, commonDataSource, sweet, Upload, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.planYr = JSON.parse(localStorage.getItem("planYr"));
-            // JSON.parse(localStorage.getItem("planYr"));
+            $scope.planYr = JSON.parse(sessionStorage.getItem("planYr"));
+            // JSON.parse(sessionStorage.getItem("planYr"));
             $scope.editable = false;
             $scope.bags = [];
             $scope.workers = [];

@@ -218,7 +218,7 @@ angular
                     if (xhr) {
                         xhr.addEventListener("readystatechange", function (e) {
                             if (xhr.readyState == 1 /* OPENED */) {
-                                xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         });
                     }
@@ -254,7 +254,7 @@ angular
                                 type: "POST",
                                 data: { "sort": [{ field: 'id', dir: 'desc' }] },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -262,7 +262,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -273,7 +273,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -284,7 +284,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -347,13 +347,13 @@ angular
                     }
                 };
 
-                if (localStorage.getItem('buttonData').includes("R")) {
+                if (sessionStorage.getItem('buttonData').includes("R")) {
                     $scope.mainGrid.toolbar = ["excel", "search"];
                 }
-                if (localStorage.getItem('buttonData').includes("C")) {
+                if (sessionStorage.getItem('buttonData').includes("C")) {
                     $scope.mainGrid.toolbar = [{ template: "<button class=\"k-button k-button-icontext \" ng-click=\"createEmail()\"><span class=\"k-icon k-i-email\"></span>Имэйл үүсгэх</button>" }, "search"];
                 }
-                if (localStorage.getItem('buttonData').includes("U")) {
+                if (sessionStorage.getItem('buttonData').includes("U")) {
                     $scope.mainGrid.columns.push({
                         command: [
                             { template: "<button class=\"k-button k-button-icontext\"  ng-click='resend(dataItem)'><span class=\"k-icon k-i-refresh\"></span></button>" },

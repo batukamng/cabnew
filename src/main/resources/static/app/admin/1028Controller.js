@@ -21,7 +21,7 @@ angular
                                 type: "POST",
                                 data: {sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                                 },
                             },
                             update: {
@@ -29,14 +29,14 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                                 }
                             },
                             destroy: {
                                 url: __env.apiUrl() + "/api/nms/contract/milestone",
                                 contentType: "application/json; charset=UTF-8",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                                 },
                                 type: "DELETE"
                             },
@@ -45,7 +45,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                                 },
                             },
                             parameterMap: function (options) {
@@ -105,13 +105,13 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() + "/api/program/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $state.go('login');
                                     }
                                 },
@@ -119,7 +119,7 @@ angular
                                 type: "POST",
                                 data: {"custom":"where useYn=true" ,"sort": [{field: 'id', dir: 'desc'}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -127,7 +127,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -138,7 +138,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -149,7 +149,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -238,20 +238,20 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() + "/api/program/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $state.go('login');
                                     }
                                 },
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -259,7 +259,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function () {
                                     alert();
@@ -271,7 +271,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoTreeList").dataSource.read();
@@ -282,7 +282,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function(options, operation) {
@@ -350,13 +350,13 @@ angular
                 };
 
 
-                if(localStorage.getItem('buttonData').includes("R")){
+                if(sessionStorage.getItem('buttonData').includes("R")){
                     $scope.mainGrid.toolbar = ["excel","search"];
                 }
-                if(localStorage.getItem('buttonData').includes("C")){
+                if(sessionStorage.getItem('buttonData').includes("C")){
                     $scope.mainGrid.toolbar = [{template:"<button class=\"k-button k-button-icontext k-grid-add\"><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>"},"search"];
                 }
-                if(localStorage.getItem('buttonData').includes("U")){
+                if(sessionStorage.getItem('buttonData').includes("U")){
                     $scope.mainGrid.columns.push({
                         command: [
                             {name: "edit", text: {edit: " ", update: " ", cancel: " "}},

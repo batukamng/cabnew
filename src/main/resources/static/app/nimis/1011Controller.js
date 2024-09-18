@@ -9,7 +9,7 @@ angular.module("altairApp").controller("1011NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     $scope.app = { useYn: true };
 
@@ -66,7 +66,7 @@ angular.module("altairApp").controller("1011NmsCtrl", [
         if (xhr) {
           xhr.addEventListener("readystatechange", function (e) {
             if (xhr.readyState == 1 /* OPENED */) {
-              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             }
           });
         }
@@ -125,8 +125,8 @@ angular.module("altairApp").controller("1011NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "asc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -226,13 +226,13 @@ angular.module("altairApp").controller("1011NmsCtrl", [
       },
     };
 
-    if (localStorage.getItem("buttonData").includes("R")) {
+    if (sessionStorage.getItem("buttonData").includes("R")) {
       $scope.mainGrid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("C")) {
+    if (sessionStorage.getItem("buttonData").includes("C")) {
       $scope.mainGrid.toolbar = [{ template: "<button class='k-button k-button-icontext' ng-click='createApp()'><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>" }, "search"];
     }
-    if (localStorage.getItem("buttonData").includes("U")) {
+    if (sessionStorage.getItem("buttonData").includes("U")) {
       $scope.mainGrid.columns.push({
         command: [
           { template: '<button class="k-button k-button-icontext"  ng-click=\'gotoDetail(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },

@@ -25,7 +25,7 @@ angular
                             type: "POST",
                             sort: [{field: "id", dir: "desc"}],
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -54,7 +54,7 @@ angular
                                 data:{"custom":"where "+(options.model.id!=0?'id!='+options.model.id+'':'1=1')+""},
                                 sort: [{field: "id", dir: "desc"}],
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -88,7 +88,7 @@ angular
                                 type: "POST",
                                 data: {"sort": [{field: 'id', dir: 'desc'}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -96,7 +96,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -107,7 +107,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -118,7 +118,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -205,15 +205,15 @@ angular
                     }
                 };
 
-                if(localStorage.getItem('buttonData').includes("read")){
+                if(sessionStorage.getItem('buttonData').includes("read")){
                     $scope.mainGrid.toolbar = ["excel","search"];
                 }
-                if(localStorage.getItem('buttonData').includes("create")){
+                if(sessionStorage.getItem('buttonData').includes("create")){
                     $scope.mainGrid.toolbar = [{template: "<button class='k-button k-button-icontext k-grid-add '><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>"},
                         "excel",
                     ];
                 }
-                if(localStorage.getItem('buttonData').includes("edit")){
+                if(sessionStorage.getItem('buttonData').includes("edit")){
                     $scope.mainGrid.columns.push({
                         command: [
                             {name: "edit", text: {edit: " ", update: " ", cancel: " "}},

@@ -14,7 +14,7 @@ angular
             '__env',
             function ($rootScope, $state, $sce,$scope,Upload,incoming,ongoing, $timeout,__env) {
 
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.incoming=incoming;
                 $scope.ongoing=ongoing;
                 console.log($scope.userRooms);
@@ -107,13 +107,13 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() +"/api/school/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $rootScope.$broadcast('LogoutSuccessful');
                                         $state.go('login');
                                         $rootScope.expire=true;
@@ -122,7 +122,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
 
                             },
@@ -134,7 +134,7 @@ angular
                                     $(".k-grid").data("kendoGrid").dataSource.read();
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             destroy: {
@@ -142,7 +142,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -153,7 +153,7 @@ angular
                                     $(".k-grid").data("kendoGrid").dataSource.read();
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -227,8 +227,8 @@ angular
                         return $(window).height() - 220;
                     }
                 };
-                if(JSON.parse(localStorage.getItem('menuData'))!=null) {
-                    if (JSON.parse(localStorage.getItem('menuData')).rUpdate === '1') {
+                if(JSON.parse(sessionStorage.getItem('menuData'))!=null) {
+                    if (JSON.parse(sessionStorage.getItem('menuData')).rUpdate === '1') {
                         $scope.mainGrid.columns.push({
                             command: [
                                 {name: "edit", text: {edit: " ", update: " ", cancel: " "}},

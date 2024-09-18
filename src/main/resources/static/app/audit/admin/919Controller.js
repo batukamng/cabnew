@@ -9,7 +9,7 @@ angular.module("altairApp").controller("919NmsCtrl", [
     "$http",
     "__env",
     function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
 
         $scope.columnDataSource = new kendo.data.DataSource({
             transport: {
@@ -21,14 +21,14 @@ angular.module("altairApp").controller("919NmsCtrl", [
                         sort: [{field: "id", dir: "desc"}],
                     },
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                 },
                 destroy: {
                     url: __env.apiUrl() + "/api/nms/grid/column",
                     contentType: "application/json; charset=UTF-8",
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                     complete: function () {
                         $("#column").data("kendoGrid").dataSource.read();
@@ -70,7 +70,7 @@ angular.module("altairApp").controller("919NmsCtrl", [
                         sort: [{field: "id", dir: "desc"}],
                     },
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                 },
                 update: {
@@ -78,7 +78,7 @@ angular.module("altairApp").controller("919NmsCtrl", [
                     contentType: "application/json; charset=UTF-8",
                     type: "PUT",
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                     complete: function (e) {
                         if (e.status === 200) {
@@ -97,14 +97,14 @@ angular.module("altairApp").controller("919NmsCtrl", [
                         $("#config").data("kendoGrid").dataSource.read();
                     },
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                 },
                 destroy: {
                     url: __env.apiUrl() + "/api/nms/grid/config",
                     contentType: "application/json; charset=UTF-8",
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                     complete: function (e) {
                         $("#config").data("kendoGrid").dataSource.read();
@@ -410,7 +410,7 @@ angular.module("altairApp").controller("919NmsCtrl", [
             },
         };
 
-        if (localStorage.getItem('buttonData').includes("create")) {
+        if (sessionStorage.getItem('buttonData').includes("create")) {
             $scope.columnGrid.toolbar = [
                 { template: "<button class='k-button k-button-icontext' ng-click='add()'><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>" }
             ];
@@ -449,13 +449,13 @@ angular.module("altairApp").controller("919NmsCtrl", [
             }
         };
 
-        if (localStorage.getItem('buttonData').includes("create")) {
+        if (sessionStorage.getItem('buttonData').includes("create")) {
             $scope.configGrid.toolbar = [
                 { template: "<button class='k-button k-button-icontext k-grid-add'><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>" }
             ];
         }
 
-        if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+        if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
             $scope.configGrid.columns.push({
                 command: [
                     {

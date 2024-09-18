@@ -16,13 +16,13 @@ angular
                     transport: {
                         read: {
                             url: function (e) {
-                                if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                     return __env.apiUrl() + "/api/formSrc/list";
                                 }
                                 else{
-                                    localStorage.removeItem('currentUser');
-                                    localStorage.removeItem('menuList');
-                                    localStorage.removeItem('menuData');
+                                    sessionStorage.removeItem('currentUser');
+                                    sessionStorage.removeItem('menuList');
+                                    sessionStorage.removeItem('menuData');
                                     $state.go('login');
                                 }
                             },
@@ -30,7 +30,7 @@ angular
                             type: "POST",
                             data:{"custom":"where parentId is null",sort: [{field: "id", dir: "desc"}]},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -38,7 +38,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "PUT",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 if (e.status === 200) {
@@ -60,7 +60,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "DELETE",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         create: {
@@ -89,7 +89,7 @@ angular
                                 $("#parent").data("kendoGrid").dataSource.read();
                             },
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -168,8 +168,8 @@ angular
                     }
                 };
 
-                if(JSON.parse(localStorage.getItem('privilege'))!=null){
-                    var privileges=JSON.parse(localStorage.getItem('privilege'));
+                if(JSON.parse(sessionStorage.getItem('privilege'))!=null){
+                    var privileges=JSON.parse(sessionStorage.getItem('privilege'));
                     angular.forEach(privileges, function(value, key) {
                         if(value.name==='READ'){
                             $scope.mainGrid.toolbar = ["create","search"];
@@ -195,7 +195,7 @@ angular
                                     type: "POST",
                                     data:{"custom":"where 1=1",sort: [{field: "id", dir: "desc"}]},
                                     beforeSend: function(req) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                 },
                                 update: {
@@ -203,7 +203,7 @@ angular
                                     contentType: "application/json; charset=UTF-8",
                                     type: "PUT",
                                     beforeSend: function(req) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     },
                                     complete: function (e) {
                                         if (e.status === 200) {
@@ -225,7 +225,7 @@ angular
                                     contentType: "application/json; charset=UTF-8",
                                     type: "DELETE",
                                     beforeSend: function(req) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                 },
                                 create: {
@@ -254,7 +254,7 @@ angular
                                         $("#detGrid").data("kendoGrid").dataSource.read();
                                     },
                                     beforeSend: function(req) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                 },
                                 parameterMap: function (options) {

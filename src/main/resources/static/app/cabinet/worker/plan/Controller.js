@@ -11,10 +11,10 @@ angular.module("altairApp")
         "Upload",
         "__env",
         function ($rootScope, $stateParams,$state, $scope, $timeout, mainService, commonDataSource, sweet, Upload, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
-            $scope.planYr = JSON.parse(localStorage.getItem("planYr"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
+            $scope.planYr = JSON.parse(sessionStorage.getItem("planYr"));
             $scope.selectedTab = 'tab1';
             $scope.editable = false;
             $scope.bags = [];
@@ -101,7 +101,7 @@ angular.module("altairApp")
                                     sort: [{field: "id", dir: "desc"}],
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                                 },
                             },
                             parameterMap: function (options) {
@@ -371,10 +371,10 @@ angular.module("altairApp")
                         }
                     };
 
-                    if (localStorage.getItem("buttonData").includes("read")) {
+                    if (sessionStorage.getItem("buttonData").includes("read")) {
                         $scope.mainGrid.toolbar = ["excel", "search"];
                     }
-                    if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+                    if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
                         $scope.mainGrid.columns.push({
                             command: [
                                 {
@@ -410,9 +410,9 @@ angular.module("altairApp")
                         url: crudServiceBaseUrl + "/list",
                         contentType: "application/json; charset=UTF-8",
                         type: "POST",
-                        data: {filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value: JSON.parse(localStorage.getItem("currentUser")).user.orgId}]},"sort": [{field: 'id', dir: 'desc'}]},
+                        data: {filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value: JSON.parse(sessionStorage.getItem("currentUser")).user.orgId}]},"sort": [{field: 'id', dir: 'desc'}]},
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     create: {
@@ -420,7 +420,7 @@ angular.module("altairApp")
                         contentType: "application/json; charset=UTF-8",
                         type: "POST",
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     parameterMap: function (options) {
@@ -753,7 +753,7 @@ angular.module("altairApp")
                         type: "POST",
                         data: { filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value:$scope.user.orgId}]}, sort: [{ field: "id", dir: "asc" }] },
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     parameterMap: function (options) {

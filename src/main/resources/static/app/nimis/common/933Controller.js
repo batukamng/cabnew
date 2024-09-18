@@ -16,8 +16,8 @@ angular.module("altairApp").controller("933NmsCtrl", [
           type: "POST",
           data: {sort: [{field: "id", dir: "asc"}]},
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -29,7 +29,7 @@ angular.module("altairApp").controller("933NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -243,11 +243,11 @@ angular.module("altairApp").controller("933NmsCtrl", [
     };
 
 /*
-    if (localStorage.getItem("buttonData").includes("create")) {
+    if (sessionStorage.getItem("buttonData").includes("create")) {
       $scope.mainGrid.toolbar = [{template: "<button class='md-btn custom-btn' ng-click='createApp()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>"}];
     }
 
-    if (localStorage.getItem("buttonData").includes("read")) {
+    if (sessionStorage.getItem("buttonData").includes("read")) {
       $scope.mainGrid.columns.push({
         command: [
           {

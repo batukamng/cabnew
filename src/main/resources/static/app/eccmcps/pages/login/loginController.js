@@ -112,16 +112,16 @@ angular.module("altairApp").controller("loginCtrl", [
 
         $scope.credentials = {};
 
-        if (localStorage.getItem("currentUser")) {
-            var loggedUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (sessionStorage.getItem("currentUser")) {
+            var loggedUser = JSON.parse(sessionStorage.getItem("currentUser"));
             var currentDate = new Date(new Date().getTime());
             var pickUpDate = new Date(loggedUser.expires);
             if (currentDate > pickUpDate) {
                 $rootScope.expire = true;
-                let tmp = localStorage.getItem("fcm_token");
-                localStorage.clear();
+                let tmp = sessionStorage.getItem("fcm_token");
+                sessionStorage.clear();
                 if (tmp !== null) {
-                    localStorage.setItem("fcm_token", tmp);
+                    sessionStorage.setItem("fcm_token", tmp);
                 }
                 $state.go("login");
             } else {
@@ -129,10 +129,10 @@ angular.module("altairApp").controller("loginCtrl", [
             }
         }
 
-        let tmp = window.localStorage.getItem("fcm_token");
-        window.localStorage.clear();
+        let tmp = window.sessionStorage.getItem("fcm_token");
+        window.sessionStorage.clear();
         if (tmp !== null) {
-            window.localStorage.setItem("fcm_token", tmp);
+            window.sessionStorage.setItem("fcm_token", tmp);
         }
 
         $scope.guides = [];
@@ -142,7 +142,7 @@ angular.module("altairApp").controller("loginCtrl", [
         $scope.planYrs = [2022, 2023];
 
         mainService.withdomain("get", __env.apiUrl() + "/api/lang/all").then(function (data) {
-            localStorage.setItem("lang", JSON.stringify(data));
+            sessionStorage.setItem("lang", JSON.stringify(data));
         });
 
         $scope.loginFacebook = function () {
@@ -169,13 +169,13 @@ angular.module("altairApp").controller("loginCtrl", [
             var year = currentTime.getFullYear();
             if ($scope.credentials.username && $scope.credentials.password) {
                 loginService.doLogin($scope.credentials.username, $scope.credentials.password);
-                localStorage.setItem("planYr", year);
+                sessionStorage.setItem("planYr", year);
             }
         };
 
         $scope.$on("loggedIn", function (event, data) {
             $scope.loginData = data;
-            localStorage.setItem("currentUser", JSON.stringify({user: $scope.loginData.user}));
+            sessionStorage.setItem("currentUser", JSON.stringify({user: $scope.loginData.user}));
             if (
                 $scope.loginData.user.userType &&
                 ($scope.loginData.user.userType.comCd === "sysAdmin" ||
@@ -242,7 +242,7 @@ angular.module("altairApp").controller("loginCtrl", [
                 });
         };
         $scope.gotoMain = function () {
-            const menuList = JSON.parse(localStorage.getItem("menuList"));
+            const menuList = JSON.parse(sessionStorage.getItem("menuList"));
             var actionStr = "";
             var menuByModule = menuList.filter((i) => i.modules.filter((j) => j.id == $scope.loginData?.user?.modules[0].id).length > 0);
             var tmp = "";
@@ -250,22 +250,22 @@ angular.module("altairApp").controller("loginCtrl", [
             if ($scope.loginData?.user?.level?.code === "001" || $scope.loginData?.user?.emailVerified === 1) {
                 if (menuByModule.length > 0) {
                     var menuData = menuByModule[0];
-                    localStorage.setItem("buttonData", "");
-                    localStorage.setItem("menuData", JSON.stringify({}));
+                    sessionStorage.setItem("buttonData", "");
+                    sessionStorage.setItem("menuData", JSON.stringify({}));
                     if (menuData.lutMenus.length > 0) {
-                        localStorage.setItem(
+                        sessionStorage.setItem(
                             "buttonData",
                             $scope.loginData.user.privileges.filter((i) => i.menuId == menuData.lutMenus[0].id || "")
                         );
-                        localStorage.setItem("menuData", JSON.stringify(menuData.lutMenus[0]));
+                        sessionStorage.setItem("menuData", JSON.stringify(menuData.lutMenus[0]));
                         // $rootScope.$broadcast("loadSubTab", menuData.lutMenus[0], menuData.lutMenus[0].id);
                         tmp = menuData.lutMenus[0].url;
                     } else {
-                        localStorage.setItem(
+                        sessionStorage.setItem(
                             "buttonData",
                             $scope.loginData.user.privileges.filter((i) => i.menuId == menuData.id || "")
                         );
-                        localStorage.setItem("menuData", JSON.stringify(menuData));
+                        sessionStorage.setItem("menuData", JSON.stringify(menuData));
                         tmp = menuData.url;
                     }
                     $scope.broadcastBanner();
@@ -280,12 +280,12 @@ angular.module("altairApp").controller("loginCtrl", [
         };
 
         $scope.getGuide = function () {
-            localStorage.removeItem("guide");
+            sessionStorage.removeItem("guide");
             $scope.guides = [];
             var menuId = null;
 
-            if (JSON.parse(localStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(localStorage.getItem("menuData")).id;
-            else menuId = JSON.parse(localStorage.getItem("menuData")).parentId;
+            if (JSON.parse(sessionStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(sessionStorage.getItem("menuData")).id;
+            else menuId = JSON.parse(sessionStorage.getItem("menuData")).parentId;
 
             var filters = [];
             filters.push({
@@ -326,14 +326,14 @@ angular.module("altairApp").controller("loginCtrl", [
                         });
                     }
                 });
-            localStorage.setItem("guide", JSON.stringify($scope.guides));
+            sessionStorage.setItem("guide", JSON.stringify($scope.guides));
         };
 
         $scope.setBudgetType = function () {
             if ($scope.budgetType != "" && $scope.planYr != "") {
-                localStorage.setItem("budgetType", $scope.budgetType);
-                localStorage.setItem("budgetCode", $scope.budgetCode);
-                localStorage.setItem("planYr", $scope.planYr);
+                sessionStorage.setItem("budgetType", $scope.budgetType);
+                sessionStorage.setItem("budgetCode", $scope.budgetCode);
+                sessionStorage.setItem("planYr", $scope.planYr);
                 $scope.gotoMain();
             } else {
                 UIkit.notify("Эх үүсвэр болон тайлант жилээ сонгоно уу", {status: "error", pos: "top-center"});

@@ -10,9 +10,9 @@ angular.module("altairApp")
         "item",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, item, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
             $scope.app = item;
             $scope.selectedTab = 'tab1';
 
@@ -37,7 +37,7 @@ angular.module("altairApp")
                             sort: [{field: "objTypeNm", dir: "asc"}],
                         },
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                     },
                     parameterMap: function (options) {

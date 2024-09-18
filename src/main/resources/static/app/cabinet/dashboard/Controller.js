@@ -11,11 +11,11 @@ angular.module("altairApp")
         "reportItem",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, mainItem, reportItem, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
-            $rootScope.budgetTp =localStorage.getItem("budgetCode");
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
+            $rootScope.budgetTp =sessionStorage.getItem("budgetCode");
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $rootScope.planYr = JSON.parse(localStorage.getItem("planYr"));
+            $rootScope.planYr = JSON.parse(sessionStorage.getItem("planYr"));
             console.log(mainItem);
             $scope.dataItem = mainItem.mainData[0];
             $scope.repeat = [1,2,3,4];
@@ -59,11 +59,11 @@ angular.module("altairApp")
                     }
                 });
             };
-            $scope.fromData = JSON.parse(localStorage.getItem("fromData"));
+            $scope.fromData = JSON.parse(sessionStorage.getItem("fromData"));
 
 
-            var orgId = JSON.parse(localStorage.getItem("currentUser")).user.orgId;
-            var planYr = JSON.parse(localStorage.getItem("planYr"));
+            var orgId = JSON.parse(sessionStorage.getItem("currentUser")).user.orgId;
+            var planYr = JSON.parse(sessionStorage.getItem("planYr"));
 
             $scope.loadData=function (orgId,planYr){
                 mainService.withdata("get", __env.apiUrl() + "/api/admin/v1/multiple/cab-stat-report/"+planYr+'/'+orgId).then(function (data) {

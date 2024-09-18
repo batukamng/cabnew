@@ -14,7 +14,7 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, fileUpload, commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
 
                 $scope.levelDataSource=[];
              /*   if($scope.user.level!=null && $scope.user.level.levelSubs.length>0){

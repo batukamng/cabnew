@@ -15,13 +15,13 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() + "/api/privilege/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $state.go('login');
                                     }
                                 },
@@ -31,7 +31,7 @@ angular
                                     sort: [{field: "id", dir: "desc"}]
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             update: {
@@ -39,7 +39,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             destroy: {
@@ -47,7 +47,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -55,7 +55,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -119,8 +119,8 @@ angular
                         return $(window).height() - 110;
                     }
                 };
-                if(JSON.parse(localStorage.getItem('privilege'))!=null){
-                    var privileges=JSON.parse(localStorage.getItem('privilege'));
+                if(JSON.parse(sessionStorage.getItem('privilege'))!=null){
+                    var privileges=JSON.parse(sessionStorage.getItem('privilege'));
                     angular.forEach(privileges, function(value, key) {
                         if(value.name==='READ'){
                             $scope.mainGrid.toolbar = ["create","search"];

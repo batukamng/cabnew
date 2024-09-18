@@ -13,9 +13,9 @@ var env = {
 // Import variables if present (from env.js)
 if (window) {
     env = window.__env;
-    localStorage.setItem("apiUrl", "");
-    localStorage.setItem("baseUrl", "/");
-    localStorage.setItem("enableDebug", true);
+    sessionStorage.setItem("apiUrl", "");
+    sessionStorage.setItem("baseUrl", "/");
+    sessionStorage.setItem("enableDebug", true);
 }
 
 var altairApp = angular.module("altairApp", ["ui.router", "oc.lazyLoad", "ngSanitize", "ngRetina", "ncy-angular-breadcrumb", "ngFileUpload", "app.i18n", "hSweetAlert", "ConsoleLogger"]);
@@ -31,12 +31,12 @@ altairApp.constant("variables", {
     return function (options) {
         var deferred = $q.defer(), translations;
         $http({
-         //   headers: {'Authorization': 'Bearer'+JSON.parse(localStorage.getItem('currentUser')).token},
+         //   headers: {'Authorization': 'Bearer'+JSON.parse(sessionStorage.getItem('currentUser')).token},
             method:'GET',
             url:'/api/label/lang/' + options.key
         }).then(function (response) {
-            localStorage.removeItem('langData');
-            localStorage.setItem('langData', JSON.stringify({ langData: response.data}));
+            sessionStorage.removeItem('langData');
+            sessionStorage.setItem('langData', JSON.stringify({ langData: response.data}));
             deferred.resolve(response.data);
         });
 
@@ -70,13 +70,13 @@ altairApp.constant("constants", applicationConstants);
 altairApp.factory("__env", function () {
     return {
         apiUrl: function () {
-            return localStorage.getItem("apiUrl") ? localStorage.getItem("apiUrl") : "";
+            return sessionStorage.getItem("apiUrl") ? sessionStorage.getItem("apiUrl") : "";
         },
         baseUrl: function () {
-            return localStorage.getItem("baseUrl") ? localStorage.getItem("baseUrl") : "/";
+            return sessionStorage.getItem("baseUrl") ? sessionStorage.getItem("baseUrl") : "/";
         },
         enableDebug: function () {
-            return localStorage.getItem("enableDebug") ? localStorage.getItem("enableDebug") : true;
+            return sessionStorage.getItem("enableDebug") ? sessionStorage.getItem("enableDebug") : true;
         },
     };
 });
@@ -91,15 +91,15 @@ altairApp
             return {
                 request: function (config) {
                     config.headers = config.headers || {};
-                    if (localStorage.getItem("currentUser")) {
+                    if (sessionStorage.getItem("currentUser")) {
                         // may also use sessionStorage
-                        config.headers.Authorization = "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token;
+                        config.headers.Authorization = "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token;
                     }
                     return config || $q.when(config);
                 },
                 response: function (response) {
                     if (response.status === 401) {
-                        localStorage.removeItem("currentUser");
+                        sessionStorage.removeItem("currentUser");
 
                         $injector.get("$state").transitionTo("login");
                     }
@@ -155,15 +155,15 @@ altairApp
         "$q",
         "mainService",
         function ($rootScope, $state, $location, $stateParams, $http, $window, $timeout, variables, $transitions, $trace, $q,mainService) {
-            var user = JSON.parse(localStorage.getItem("currentUser"));
+            var user = JSON.parse(sessionStorage.getItem("currentUser"));
             var currentMenu = null;
             if (user == null) {
                 //    $state.go('login');
                 $location.url('/login');
-                let tmp = window.localStorage.getItem("fcm_token");
-                window.localStorage.clear();
+                let tmp = window.sessionStorage.getItem("fcm_token");
+                window.sessionStorage.clear();
                 if (tmp !== null) {
-                    window.localStorage.setItem("fcm_token", tmp);
+                    window.sessionStorage.setItem("fcm_token", tmp);
                 }
             }
             var actionUrls = ["restricted.feedback", "restricted.profileVerify", "restricted.profile", "restricted.notification"];
@@ -178,7 +178,7 @@ altairApp
                 $("#" + formName + " .k-invalid").removeClass("k-invalid");
             };
             $rootScope.isInStep = function (stepId) {
-                let user = JSON.parse(localStorage.getItem("currentUser")).user;
+                let user = JSON.parse(sessionStorage.getItem("currentUser")).user;
                 return user.fundingStepIds.includes(stepId);
             };
             $rootScope.isAmg = function (user) {
@@ -241,30 +241,30 @@ altairApp
                 }
             };
             $rootScope.toLogin = function (transition) {
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("menuList");
-                localStorage.removeItem("menuData");
-                if (localStorage.getItem("version") === null) {
-                    localStorage.clear();
-                    localStorage.setItem("version", "3.1");
+                sessionStorage.removeItem("currentUser");
+                sessionStorage.removeItem("menuList");
+                sessionStorage.removeItem("menuData");
+                if (sessionStorage.getItem("version") === null) {
+                    sessionStorage.clear();
+                    sessionStorage.setItem("version", "3.1");
                 }
                 return transition.router.stateService.target("login");
             };
 
             $transitions.onBefore({}, function ($transition) {
                 const deferred = $q.defer();
-                var user = JSON.parse(localStorage.getItem("currentUser"));
+                var user = JSON.parse(sessionStorage.getItem("currentUser"));
 
                 if (user != null) {
                     try {
-                        const menuList = JSON.parse(localStorage.getItem("menuList"));
+                        const menuList = JSON.parse(sessionStorage.getItem("menuList"));
                         if (menuList) {
                             var menuData = menuList.filter((i) => i.url == $transition.$to().name);
                             if (menuData.length > 0) {
-                                localStorage.setItem("menuData", JSON.stringify(menuData[0]));
+                                sessionStorage.setItem("menuData", JSON.stringify(menuData[0]));
                                 var actionName = user.user.privileges.filter((i) => i.menuId == menuData[0].id)[0].actionName;
                                 if (actionName && actionName.includes("read")) {
-                                    localStorage.setItem("buttonData", actionName);
+                                    sessionStorage.setItem("buttonData", actionName);
                                     return menuData[0];
                                 } else {
                                     return $rootScope.toLogin($transition);
@@ -273,10 +273,10 @@ altairApp
                                 menuList.map((i) => {
                                     let item = i.lutMenus.filter(({url}) => url === $transition.$to().name);
                                     if (item.length > 0) {
-                                        localStorage.setItem("menuData", JSON.stringify(item[0]));
+                                        sessionStorage.setItem("menuData", JSON.stringify(item[0]));
                                         var actionName = user.user.privileges.filter((i) => i.menuId == item[0].id)[0].actionName;
                                         if (actionName && actionName.includes("read")) {
-                                            localStorage.setItem("buttonData", actionName);
+                                            sessionStorage.setItem("buttonData", actionName);
                                             return item;
                                         } else {
                                             return $rootScope.toLogin($transition);
@@ -290,9 +290,9 @@ altairApp
                             // }
                         }
                     } catch (e) {
-                        if (localStorage.getItem("version") === null) {
-                            localStorage.clear();
-                            localStorage.setItem("version", "3.1");
+                        if (sessionStorage.getItem("version") === null) {
+                            sessionStorage.clear();
+                            sessionStorage.setItem("version", "3.1");
                             return $rootScope.toLogin($transition);
                         }
                     }
@@ -322,7 +322,7 @@ altairApp
                     $rootScope.pageLoading = true;
                     $rootScope.pageLoaded = false;
                 }
-                currentMenu = JSON.parse(localStorage.getItem("menuData"));
+                currentMenu = JSON.parse(sessionStorage.getItem("menuData"));
 
                 if (currentMenu !== null) {
                     $rootScope.$broadcast("loadSubTab", currentMenu, currentMenu.id);
@@ -370,7 +370,7 @@ altairApp
                         }
                     });
                 }
-                currentMenu = JSON.parse(localStorage.getItem("menuData"));
+                currentMenu = JSON.parse(sessionStorage.getItem("menuData"));
                 if (currentMenu !== null) {
                     $rootScope.$broadcast("loadSubTab", currentMenu, currentMenu.id);
                 }

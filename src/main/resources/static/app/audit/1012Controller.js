@@ -10,7 +10,7 @@ angular.module("altairApp")
         "Upload",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, Upload, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
 
             var filters=[ {field: "useYn", operator: "eq", value: 1}];
@@ -32,8 +32,8 @@ angular.module("altairApp")
                             },
                         },
                         beforeSend: function (req) {
-                            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                                req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                                req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                             } else {
                                 $state.go("login");
                                 $rootScope.$broadcast("LogoutSuccessful");
@@ -267,7 +267,7 @@ angular.module("altairApp")
                 },
             };
 
-            if (($rootScope.buttonData && localStorage.getItem("buttonData").includes("update")) || localStorage.getItem("buttonData").includes("edit")) {
+            if (($rootScope.buttonData && sessionStorage.getItem("buttonData").includes("update")) || sessionStorage.getItem("buttonData").includes("edit")) {
                 $scope.mainGrid.columns.push({
                     command: [
                         {
@@ -283,7 +283,7 @@ angular.module("altairApp")
             }
 
             $scope.gotoDetail = function (item) {
-                localStorage[$state.current.name + $scope.user.id] = JSON.stringify($scope.grid.getOptions().dataSource.filter);
+                sessionStorage[$state.current.name + $scope.user.id] = JSON.stringify($scope.grid.getOptions().dataSource.filter);
                 $state.go("restricted.adt.auditView", {id: item.id});
             };
         },

@@ -8,8 +8,8 @@ angular.module("altairApp").controller("927NmsCtrl", [
     'mainService',
     '__env',
     function ($rootScope, $state, $scope, $timeout, $translate, commonDataSource,mainService,__env) {
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-        $scope.planYr = localStorage.getItem("planYr");
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+        $scope.planYr = sessionStorage.getItem("planYr");
 
         $scope.hidden = false;
         $scope.toggleSidebar = function() {
@@ -20,18 +20,18 @@ angular.module("altairApp").controller("927NmsCtrl", [
         $scope.sProTypeDataSource = commonDataSource.urlDataSource("/api/nms/common/list", JSON.stringify({ filter: {logic: "and", filters: [{field: "grpCd", operator: "contains", value: "propType"},{field: "parentId", operator: "isNull", value: "false"}]}, sort: [{ field: "orderId", dir: "asc" }] }));
 
         $scope.init = function () {
-            var filters = JSON.parse(localStorage.getItem("filters"));
+            var filters = JSON.parse(sessionStorage.getItem("filters"));
             $scope.dataSource = new kendo.data.DataSource({
                 transport: {
                     read: {
                         url: function (e) {
-                            if (localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).url === $state.current.name) {
+                            if (sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).url === $state.current.name) {
                                 return __env.apiUrl() + "/api/nms/state/prop/list";
                             }
                             else {
-                                localStorage.removeItem('currentUser');
-                                localStorage.removeItem('menuList');
-                                localStorage.removeItem('menuData');
+                                sessionStorage.removeItem('currentUser');
+                                sessionStorage.removeItem('menuList');
+                                sessionStorage.removeItem('menuData');
                                 $state.go('login');
                             }
                         },
@@ -48,7 +48,7 @@ angular.module("altairApp").controller("927NmsCtrl", [
                             req.setRequestHeader(
                                 "Authorization",
                                 "Bearer " +
-                                JSON.parse(localStorage.getItem("currentUser")).token
+                                JSON.parse(sessionStorage.getItem("currentUser")).token
                             );
                         },
                     },
@@ -60,7 +60,7 @@ angular.module("altairApp").controller("927NmsCtrl", [
                             req.setRequestHeader(
                                 "Authorization",
                                 "Bearer " +
-                                JSON.parse(localStorage.getItem("currentUser")).token
+                                JSON.parse(sessionStorage.getItem("currentUser")).token
                             );
                         },
                         complete: function (e) {
@@ -72,7 +72,7 @@ angular.module("altairApp").controller("927NmsCtrl", [
                         contentType: "application/json; charset=UTF-8",
                         type: "DELETE",
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     create: {
@@ -83,7 +83,7 @@ angular.module("altairApp").controller("927NmsCtrl", [
                             req.setRequestHeader(
                                 "Authorization",
                                 "Bearer " +
-                                JSON.parse(localStorage.getItem("currentUser")).token
+                                JSON.parse(sessionStorage.getItem("currentUser")).token
                             );
                         },
                         complete: function (e) {
@@ -305,18 +305,18 @@ angular.module("altairApp").controller("927NmsCtrl", [
                 return $(window).height() - 160;
             },
         };
-        if (localStorage.getItem("buttonData").includes("R")) {
+        if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main1Grid.toolbar = ["excel", "search"];
         }
 
-        if (localStorage.getItem("buttonData").includes("create")) {
+        if (sessionStorage.getItem("buttonData").includes("create")) {
             $scope.main1Grid.toolbar = [
                 { template: "<button class='md-btn custom-btn' ng-click='createApp(0)'><i class='material-icons text-white mr-1'>add</i>Хайх</button>" },
                 "search"
             ];
         }
 
-        if (localStorage.getItem('buttonData').includes("update") || localStorage.getItem('buttonData').includes("edit")) {
+        if (sessionStorage.getItem('buttonData').includes("update") || sessionStorage.getItem('buttonData').includes("edit")) {
             $scope.main1Grid.columns.push({
                 command: [
                     {

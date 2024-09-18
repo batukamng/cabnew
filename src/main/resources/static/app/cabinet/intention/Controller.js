@@ -10,9 +10,9 @@ angular.module("altairApp")
         "Upload",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, Upload, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
 
             $("#datepicker").kendoDatePicker({
                 // Add some basic configuration.

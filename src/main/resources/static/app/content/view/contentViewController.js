@@ -13,7 +13,7 @@ angular
             function ($rootScope, $state, $scope, $timeout,mainService,commonDataSource, __env) {
                 $scope.success=false;
                 $scope.show4=true;
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.planYr=sessionStorage.getItem('planYr');
                 $scope.$on("loadContent", function (event, step,data) {
                     if(data!=0){
                         $scope.tenderId=data.id;

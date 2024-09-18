@@ -8,7 +8,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
   "mainService",
   "__env",
   function ($rootScope, $state, $scope, $timeout, $translate, commonDataSource, mainService, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
     $scope.dataItem = {
       orgType: 0,
     };
@@ -63,8 +63,8 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -76,7 +76,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         parameterMap: function (options) {
@@ -236,7 +236,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
       },
     };
 
-    if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+    if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
       $scope.mainGrid.columns.push({
         command: [{ name: "destroy", text: " ", iconClass: "k-icon k-i-delete mn" }],
         title: "&nbsp;",
@@ -447,8 +447,8 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "asc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -460,7 +460,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -550,8 +550,8 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -563,7 +563,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -597,8 +597,8 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "updatedAt", dir: "desc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -610,7 +610,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -693,8 +693,8 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -706,7 +706,7 @@ angular.module("altairApp").controller("1013NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();

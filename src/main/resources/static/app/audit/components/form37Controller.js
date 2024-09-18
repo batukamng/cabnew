@@ -14,7 +14,7 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, fileUpload, commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
 
                 $scope.$on("formChanged37", function (event, args, data) {
                     $scope.initForm(data,args);
@@ -35,7 +35,7 @@ angular
                                         filters: [{ field: "useYn", operator: "eq", value: 0 },],
                                     },sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function(req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (_) {
                                     $timeout(function ( ){});
@@ -46,7 +46,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $("#appData371").data("kendoGrid").dataSource.read();
@@ -94,7 +94,7 @@ angular
                                         filters: [{ field: "useYn", operator: "eq", value: 0 },],
                                     },sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function(req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (_) {
                                     console.log("test37");
@@ -106,7 +106,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $("#appData37").data("kendoGrid").dataSource.read();
@@ -154,7 +154,7 @@ angular
                                         filters: [{ field: "useYn", operator: "eq", value: 0 },],
                                     },sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function(req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (_) {
                                     console.log("test37");
@@ -166,7 +166,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $("#appData37").data("kendoGrid").dataSource.read();

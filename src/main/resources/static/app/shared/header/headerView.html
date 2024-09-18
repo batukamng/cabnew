@@ -4,7 +4,7 @@
         <nav class="uk-navbar relative">
             <div class="main_logo_top" ng-if="topMenuActive || fullHeaderActive">
                 <a ui-sref="restricted.dashboard">
-                    <img ng-src="assets/img/logo_main_white.png" alt="" add-image-prop/>
+                    <img ng-src="assets/img/logo_main_white.png" alt="logo" add-image-prop/>
                 </a>
             </div>
             <!-- main sidebar switch -->
@@ -249,7 +249,7 @@
                     </li>
                     <li class="header-item" style="cursor: pointer"
                         data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
-                        <img ng-if="currentUser.user.imgId!=null" ng-src="{{currentUser.user.avatar.uri}}"
+                        <img ng-if="currentUser.user.imgId!=null" alt="profile" ng-src="{{currentUser.user.avatar.uri}}"
                              class="w-[32px] h-[32px] rounded-full object-cover"/>
                         <div ng-if="currentUser.user.imgId==null" class="nimis-icon profile"
                              style="height: 33px; width: 32px"></div>
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                     <div custom-scrollbar class="notification-modal py-6">
-                        <img src="assets/img/wdq.png" class="rounded-xl" height="80" width="80"/>
+                        <img src="assets/img/wdq.png" alt="logo" class="rounded-xl" height="80" width="80"/>
                         <p class="title">{{modalData.title}}</p>
                         <div>{{modalData.body}}</div>
                         <div class="date">{{modalData.createdAt | date:'MM/dd/yyyy HH:mm'}}</div>

@@ -10,7 +10,7 @@ angular.module("altairApp").controller("1017NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $stateParams, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     $scope.stepColumns = [
       {
@@ -173,7 +173,7 @@ angular.module("altairApp").controller("1017NmsCtrl", [
         if (xhr) {
           xhr.addEventListener("readystatechange", function (e) {
             if (xhr.readyState == 1 /* OPENED */) {
-              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             }
           });
         }
@@ -269,8 +269,8 @@ angular.module("altairApp").controller("1017NmsCtrl", [
             ],
           },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -314,13 +314,13 @@ angular.module("altairApp").controller("1017NmsCtrl", [
         read: {
           url: function (e) {
             return __env.apiUrl() + "/api/policy/group/byNative";
-            /*                                if (JSON.parse(localStorage.getItem('menuData')).rRead === '1' && JSON.parse(localStorage.getItem('menuData')).link === $state.current.name) {
+            /*                                if (JSON.parse(sessionStorage.getItem('menuData')).rRead === '1' && JSON.parse(sessionStorage.getItem('menuData')).link === $state.current.name) {
                                                         return __env.apiUrl() + "/api/policy/group/byNative";
                                                     }
                                                     else {
-                                                        localStorage.removeItem('currentUser');
-                                                        localStorage.removeItem('menuList');
-                                                        localStorage.removeItem('menuData');
+                                                        sessionStorage.removeItem('currentUser');
+                                                        sessionStorage.removeItem('menuList');
+                                                        sessionStorage.removeItem('menuData');
                                                         $state.go('login');
                                                     }*/
           },
@@ -328,8 +328,8 @@ angular.module("altairApp").controller("1017NmsCtrl", [
           type: "GET",
           data: { sort: [{ field: "id", dir: "asc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -370,13 +370,13 @@ angular.module("altairApp").controller("1017NmsCtrl", [
         read: {
           url: function (e) {
             return __env.apiUrl() + "/api/policy/group/byNative";
-            /*if (JSON.parse(localStorage.getItem('menuData')).rRead === '1' && JSON.parse(localStorage.getItem('menuData')).link === $state.current.name) {
+            /*if (JSON.parse(sessionStorage.getItem('menuData')).rRead === '1' && JSON.parse(sessionStorage.getItem('menuData')).link === $state.current.name) {
                         return __env.apiUrl() + "/api/policy/group/byNative";
                     }
                     else {
-                        localStorage.removeItem('currentUser');
-                        localStorage.removeItem('menuList');
-                        localStorage.removeItem('menuData');
+                        sessionStorage.removeItem('currentUser');
+                        sessionStorage.removeItem('menuList');
+                        sessionStorage.removeItem('menuData');
                         $state.go('login');
                     }*/
           },
@@ -384,8 +384,8 @@ angular.module("altairApp").controller("1017NmsCtrl", [
           type: "GET",
           data: { sort: [{ field: "id", dir: "asc" }] },
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -1000,8 +1000,8 @@ angular.module("altairApp").controller("1017NmsCtrl", [
               type: "POST",
               data: { sort: [{ field: "id", dir: "asc" }] },
               beforeSend: function (req) {
-                if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                  req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                  req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                 } else {
                   $state.go("login");
                   $rootScope.$broadcast("LogoutSuccessful");

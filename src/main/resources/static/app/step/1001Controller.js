@@ -18,7 +18,7 @@ angular
                 $scope.confirmDisable = false;
 
                 $scope.tab = 1;
-                $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+                $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
                 $scope.sEcoDataSource = $scope.user.ecoList;
                 $scope.ecoType = {};
                 $scope.ezDataSource = commonDataSource.urlDataSource("/api/nms/common/list", JSON.stringify({ filter: {logic: "and", filters: [{field: "grpCd", operator: "contains", value: "ecoType"},{field: "parentId", operator: "isNull", value: "false"}]}, sort: [{ field: "orderId", dir: "asc" }] }));
@@ -92,7 +92,7 @@ angular
                                 type: "POST",
                                 data:{sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             update: {
@@ -100,7 +100,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -110,7 +110,7 @@ angular
                                 url: __env.apiUrl() +"/api/nms/step/validation",
                                 contentType: "application/json; charset=UTF-8",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 type: "DELETE",
                                 complete: function (e) {
@@ -122,7 +122,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -230,14 +230,14 @@ angular
                     }
                 };
 
-                if (localStorage.getItem('buttonData').includes("read")) {
+                if (sessionStorage.getItem('buttonData').includes("read")) {
                     $scope.mainGrid.toolbar = ["excel", "search"];
                 }
-                if (localStorage.getItem("buttonData").includes("create")) {
+                if (sessionStorage.getItem("buttonData").includes("create")) {
                     $scope.mainGrid.toolbar = [{template: "<button class='md-btn custom-btn' ng-click='addLevel()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>"}];
                 }
 
-                if (localStorage.getItem('buttonData').includes("edit")) {
+                if (sessionStorage.getItem('buttonData').includes("edit")) {
                     $scope.mainGrid.columns.push({
                         command: [
                             {

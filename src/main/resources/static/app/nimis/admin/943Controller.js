@@ -9,7 +9,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+    $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
     $scope.pol = { useYn: 1, amgId : null };
 
     if($scope.user.user.amgId != null)
@@ -68,7 +68,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
         if (xhr) {
           xhr.addEventListener("readystatechange", function (e) {
             if (xhr.readyState == 1 /* OPENED */) {
-              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             }
           });
         }
@@ -86,7 +86,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         destroy: {
@@ -94,7 +94,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "DELETE",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         parameterMap: function (options) {
@@ -215,7 +215,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
       },
     };
 
-    if (localStorage.getItem("buttonData").includes("create")) {
+    if (sessionStorage.getItem("buttonData").includes("create")) {
       $scope.mainGrid.toolbar = [{ template: "<button class='md-btn custom-btn bg-indigo-900' ng-click='addLevel()'><i class=\"material-icons text-white mr-1\">add</i>Нэмэх</button>" }];
     }
 
@@ -233,7 +233,7 @@ angular.module("altairApp").controller("943NmsCtrl", [
       $scope.modalType = "add";
     };
 
-    if (localStorage.getItem("buttonData").includes("edit")) {
+    if (sessionStorage.getItem("buttonData").includes("edit")) {
       $scope.mainGrid.columns.push({
         command: [
           {

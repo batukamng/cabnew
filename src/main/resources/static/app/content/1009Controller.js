@@ -10,7 +10,7 @@ angular
             'mainService',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.newsList = [];
                 $scope.news = {};
                 mainService.withdata('post', __env.apiUrl() + '/api/cnt/content/list',

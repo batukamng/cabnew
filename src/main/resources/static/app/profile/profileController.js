@@ -7,7 +7,7 @@ angular.module("altairApp").controller("profilenCtrl", [
   "commonDataSource",
   "mainService",
   function ($rootScope, $scope, $state, $timeout, __env, commonDataSource, mainService) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
     $scope.notifList = [1, 2, 3, 4, 5, 6];
     $scope.selectedItem = "email";
     $scope.goToEdit = function (proStep) {
@@ -26,7 +26,7 @@ angular.module("altairApp").controller("profilenCtrl", [
             pushSystem: $scope.user.user.pushSystem ? 1 : 0,
           })
           .then(function (data) {
-            localStorage.setItem("currentUser", JSON.stringify($scope.user));
+            sessionStorage.setItem("currentUser", JSON.stringify($scope.user));
             $rootScope.alert(true, "Амжилттай хадгаллаа.");
           });
     };

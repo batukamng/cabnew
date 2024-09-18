@@ -11,7 +11,7 @@ angular.module("altairApp")
         "orgTypes",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, Upload,orgTypes, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
 
             $scope.subDropDownOptions = {
@@ -76,13 +76,13 @@ angular.module("altairApp")
                             custom: {
                                 logic: "and",
                                 filters: [
-                                    {field: "fundTp", operator: "contains", value: localStorage.getItem("budgetCode")},
+                                    {field: "fundTp", operator: "contains", value: sessionStorage.getItem("budgetCode")},
                                 ],
                             },
                         },
                         beforeSend: function (req) {
-                            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                                req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                                req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                             } else {
                                 $state.go("login");
                                 $rootScope.$broadcast("LogoutSuccessful");
@@ -94,7 +94,7 @@ angular.module("altairApp")
                         contentType: "application/json; charset=UTF-8",
                         type: "DELETE",
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         },
                         complete: function (e) {
                             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -201,13 +201,13 @@ angular.module("altairApp")
                 }
             };
 
-            if (localStorage.getItem("buttonData").includes("read")) {
+            if (sessionStorage.getItem("buttonData").includes("read")) {
                 $scope.mainGrid.toolbar = ["excel", "search"];
             }
-            if (localStorage.getItem("buttonData").includes("create")) {
+            if (sessionStorage.getItem("buttonData").includes("create")) {
                 $scope.mainGrid.toolbar = [{template: "<button class='md-btn custom-btn' ng-click='add()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>"}];
             }
-            if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+            if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
                 $scope.mainGrid.columns.push({
                     command: [
                         {

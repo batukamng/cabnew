@@ -14,11 +14,11 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, fileUpload, commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
                 $scope.item=null;
 
                 $scope.$on("formChanged35", function (event, args, data) {
-                    $scope.item=JSON.parse(localStorage.getItem("adtItem"));
+                    $scope.item=JSON.parse(sessionStorage.getItem("adtItem"));
                     $timeout(function () {
                         $scope.initForm(data, args);
                     },100)

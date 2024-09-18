@@ -8,7 +8,7 @@ angular.module("altairApp").controller("notificationCtrl", [
   "mainService",
   function ($rootScope, $scope, $state, $timeout, __env, commonDataSource, mainService) {
     $scope.modalData = {};
-    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
     mainService
       .withdata("POST", __env.apiUrl() + "/api/notification/list", {
         page: 1,
@@ -36,7 +36,7 @@ angular.module("altairApp").controller("notificationCtrl", [
       mainService.withdata("POST", __env.apiUrl() + "/api/notification/read/all/" + currentUser.user.id).then(function (data) {
         mainService.withResponse("GET", __env.apiUrl() + "/api/notification/count/" + currentUser.user.id).then(function (res) {
           console.log("count", data);
-          localStorage.setItem("notif_count", res.data);
+          sessionStorage.setItem("notif_count", res.data);
           $scope.notifCount = res.data;
         });
       });

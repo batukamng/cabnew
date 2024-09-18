@@ -17,7 +17,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
     sweet,
     __env
   ) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     $scope.termEditor = function (container, options) {
       $scope.ddlDataSource = new kendo.data.HierarchicalDataSource({
@@ -34,7 +34,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
           },
@@ -83,7 +83,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
           },
@@ -145,15 +145,15 @@ angular.module("altairApp").controller("1004CntCtrl", [
           read: {
             url: function (e) {
               if (
-                JSON.parse(localStorage.getItem("menuData")).rRead === "1" &&
-                JSON.parse(localStorage.getItem("menuData")).link ===
+                JSON.parse(sessionStorage.getItem("menuData")).rRead === "1" &&
+                JSON.parse(sessionStorage.getItem("menuData")).link ===
                   $state.current.name
               ) {
                 return __env.apiUrl() + "/api/cnt/term/metas/list";
               } else {
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("menuList");
-                localStorage.removeItem("menuData");
+                sessionStorage.removeItem("currentUser");
+                sessionStorage.removeItem("menuList");
+                sessionStorage.removeItem("menuData");
                 $state.go("login");
               }
             },
@@ -164,7 +164,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
           },
@@ -176,7 +176,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
             complete: function (e) {
@@ -191,7 +191,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
             complete: function (e) {
@@ -206,7 +206,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
               req.setRequestHeader(
                 "Authorization",
                 "Bearer " +
-                  JSON.parse(localStorage.getItem("currentUser")).token
+                  JSON.parse(sessionStorage.getItem("currentUser")).token
               );
             },
           },
@@ -297,10 +297,10 @@ angular.module("altairApp").controller("1004CntCtrl", [
       },
     };
 
-    if (localStorage.getItem("buttonData").includes("R")) {
+    if (sessionStorage.getItem("buttonData").includes("R")) {
       $scope.mainGrid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("C")) {
+    if (sessionStorage.getItem("buttonData").includes("C")) {
       $scope.mainGrid.toolbar = [
         {
           template:
@@ -310,7 +310,7 @@ angular.module("altairApp").controller("1004CntCtrl", [
         "search",
       ];
     }
-    if (localStorage.getItem("buttonData").includes("U")) {
+    if (sessionStorage.getItem("buttonData").includes("U")) {
       $scope.mainGrid.columns.push({
         command: [
           { name: "edit", text: { edit: " ", update: " ", cancel: " " } },

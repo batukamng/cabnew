@@ -430,7 +430,7 @@ altairApp.config([
                     levels: function ($http, $stateParams, __env) {
                         return $http({
                             method: "GET",
-                            url: __env.apiUrl() + "/api/nms/user/level/sub/" + JSON.parse(localStorage.getItem("currentUser")).user.lvlId,
+                            url: __env.apiUrl() + "/api/nms/user/level/sub/" + JSON.parse(sessionStorage.getItem("currentUser")).user.lvlId,
                         }).then(function (data) {
                             return data.data;
                         });
@@ -1300,8 +1300,8 @@ altairApp.config([
                         },
                     ],
                     mainItem: function ($http, $stateParams, $state, __env) {
-                        var userData = JSON.parse(localStorage.getItem("currentUser")).user;
-                        var planYr = JSON.parse(localStorage.getItem("planYr"));
+                        var userData = JSON.parse(sessionStorage.getItem("currentUser")).user;
+                        var planYr = JSON.parse(sessionStorage.getItem("planYr"));
 
                         if(userData.level.code==='001'){
                             return $http({
@@ -1309,7 +1309,7 @@ altairApp.config([
                                 url: __env.apiUrl() + "/api/admin/v1/item/admin-pivot",
                                 data:{"planYr":planYr,"orgId":0}
                             }).then(function (data) {
-                                localStorage["fromData"] = JSON.stringify({"mode": "mof", data: data.data[0]});
+                                sessionStorage["fromData"] = JSON.stringify({"mode": "mof", data: data.data[0]});
                                 return data.data;
                             });
                         }
@@ -1320,14 +1320,14 @@ altairApp.config([
                                 data:{"planYr":planYr,"orgId":userData.orgId}
                             }).then(function (data) {
                                 console.log(data.data.userCnt);
-                                localStorage["fromData"] = JSON.stringify({"mode": "amg", data: data.data[0]});
+                                sessionStorage["fromData"] = JSON.stringify({"mode": "amg", data: data.data[0]});
                                 return data.data;
                             });
                         }
                     },
                     reportItem: function ($http, $stateParams, $state, __env) {
-                        var userData = JSON.parse(localStorage.getItem("currentUser")).user;
-                        var planYr = JSON.parse(localStorage.getItem("planYr"));
+                        var userData = JSON.parse(sessionStorage.getItem("currentUser")).user;
+                        var planYr = JSON.parse(sessionStorage.getItem("planYr"));
 
                         if(userData.level.code==='001'){
                             return $http({
@@ -1335,7 +1335,7 @@ altairApp.config([
                                 url: __env.apiUrl() + "/api/admin/v1/item/admin-pivot",
                                 data:{"planYr":planYr,"orgId":0}
                             }).then(function (data) {
-                                localStorage["fromData"] = JSON.stringify({"mode": "mof", data: data.data[0]});
+                                sessionStorage["fromData"] = JSON.stringify({"mode": "mof", data: data.data[0]});
                                 return data.data;
                             });
                         }

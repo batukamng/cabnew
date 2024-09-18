@@ -9,7 +9,7 @@ angular.module("altairApp").controller("941NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
     // $scope.sEcoDataSource = $scope.user.user.ecoList;
     mainService
       .withdata(
@@ -112,7 +112,7 @@ angular.module("altairApp").controller("941NmsCtrl", [
                   ]
                 }, sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         parameterMap: function (options) {
@@ -245,14 +245,14 @@ angular.module("altairApp").controller("941NmsCtrl", [
       },
     };
 
-    if (localStorage.getItem("buttonData").includes("read")) {
+    if (sessionStorage.getItem("buttonData").includes("read")) {
       $scope.mainGrid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("create")) {
+    if (sessionStorage.getItem("buttonData").includes("create")) {
       $scope.mainGrid.toolbar = [{ template: "<button class='md-btn custom-btn' ng-click='addLevel()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>" }];
     }
 
-    if (localStorage.getItem("buttonData").includes("edit")) {
+    if (sessionStorage.getItem("buttonData").includes("edit")) {
       $scope.mainGrid.columns.push({
         command: [
           {

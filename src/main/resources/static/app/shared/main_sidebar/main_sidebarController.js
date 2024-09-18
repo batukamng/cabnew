@@ -8,15 +8,15 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
     "__env",
     "$translate",
     function ($timeout, $scope, $rootScope, $filter, $state, mainService, __env, $translate) {
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
         var today = new Date();
         var curHr = today.getHours();
         $scope.guides = [];
 
         $scope.$on("loadModule", function (event, step, id, stage) {
             $scope.module = parseInt(step);
-            var user = JSON.parse(localStorage.getItem("currentUser")).user;
-            var tmpMenus = JSON.parse(localStorage.getItem("menuList"));
+            var user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+            var tmpMenus = JSON.parse(sessionStorage.getItem("menuList"));
             if (user) var menus = tmpMenus.filter((i) => i.modules.filter((j) => j.id == $scope.module).length > 0);
 
             if (menus) {
@@ -27,8 +27,8 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
                         user.privileges.map((role) => {
                             if (menuByModule[0].id === role.menuId) actionStr = role.actionName;
                         });
-                        // localStorage.setItem("buttonData", actionStr);
-                        // localStorage.setItem("menuData", JSON.stringify(menuByModule[0]));
+                        // sessionStorage.setItem("buttonData", actionStr);
+                        // sessionStorage.setItem("menuData", JSON.stringify(menuByModule[0]));
                         // $scope.getGuide();
                         $(".submenu").css("display", "none");
                         $(".dark-panel").css("display", "none");
@@ -43,8 +43,8 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
                     user.privileges.map((role) => {
                         if (firstMenu.id === role.menuId) actionStr = role.actionName;
                     });
-                    // localStorage.setItem("buttonData", actionStr);
-                    // localStorage.setItem("menuData", JSON.stringify(firstMenu));
+                    // sessionStorage.setItem("buttonData", actionStr);
+                    // sessionStorage.setItem("menuData", JSON.stringify(firstMenu));
                     var tmp = $state.go(firstMenu.url);
                     if (tmp.$$state.status == 2) $state.go("restricted.404");
                 }
@@ -78,10 +78,10 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
             });
         });
 
-        $scope.roles = JSON.parse(localStorage.getItem("roles"));
+        $scope.roles = JSON.parse(sessionStorage.getItem("roles"));
         $scope.menuData = {};
-        // if (localStorage.getItem("menuData")) {
-        //   $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+        // if (sessionStorage.getItem("menuData")) {
+        //   $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
         //   $rootScope.$broadcast("loadSubTab", $scope.menuData.id, $scope.menuData);
         // }
         $rootScope.admin = false;
@@ -102,11 +102,11 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
         };
 
         $scope.getGuide = function () {
-            localStorage.removeItem("guide");
+            sessionStorage.removeItem("guide");
             $scope.guides = [];
             var menuId = null;
-            if (JSON.parse(localStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(localStorage.getItem("menuData")).id;
-            else menuId = JSON.parse(localStorage.getItem("menuData")).parentId;
+            if (JSON.parse(sessionStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(sessionStorage.getItem("menuData")).id;
+            else menuId = JSON.parse(sessionStorage.getItem("menuData")).parentId;
 
             var filters = [];
             filters.push({
@@ -148,11 +148,11 @@ angular.module("altairApp").controller("main_sidebarCtrl", [
                     }
                 });
 
-            localStorage.setItem("guide", JSON.stringify($scope.guides));
+            sessionStorage.setItem("guide", JSON.stringify($scope.guides));
         };
 
-        $scope.module = parseInt(localStorage.getItem("module"));
-        $scope.sections = JSON.parse(localStorage.getItem("menuList"));
+        $scope.module = parseInt(sessionStorage.getItem("module"));
+        $scope.sections = JSON.parse(sessionStorage.getItem("menuList"));
 
         $timeout(function () {
         }, 100);

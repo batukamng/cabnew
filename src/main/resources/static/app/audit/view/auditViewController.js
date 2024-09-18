@@ -13,9 +13,9 @@ angular.module("altairApp")
     "__env",
     function ($rootScope, $state,$stateParams, $scope, $timeout, $translate, commonDataSource, sweet,dataItem, mainService,__env) {
 
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-        $scope.selectedItem = JSON.parse(localStorage.getItem("adtItem"));
-        localStorage.setItem("menuData", "{}");
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+        $scope.selectedItem = JSON.parse(sessionStorage.getItem("adtItem"));
+        sessionStorage.setItem("menuData", "{}");
         $rootScope.app = dataItem.item[0];
         $scope.formNotes = dataItem.notes;
         $timeout(function (){
@@ -30,7 +30,7 @@ angular.module("altairApp")
         $scope.viewWork=function (item){
             $scope.selectedItem=item;
             $rootScope.item=item;
-            localStorage.setItem("adtItem", JSON.stringify(item));
+            sessionStorage.setItem("adtItem", JSON.stringify(item));
             $scope.materiality={};
             $scope.form={step:0,files:[]};
             $(".k-upload-files > li").remove();
@@ -59,7 +59,7 @@ angular.module("altairApp")
                             type: "POST",
                             data:{"custom":" where planId="+$scope.app.id+""},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -67,7 +67,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -78,7 +78,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -89,7 +89,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -220,7 +220,7 @@ angular.module("altairApp")
                             type: "POST",
                             data:{"custom":" where planId="+$scope.app.id+"",sort: [{field: "id", dir: "desc"}]},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -228,7 +228,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -239,7 +239,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -250,7 +250,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -420,7 +420,7 @@ angular.module("altairApp")
                             type: "POST",
                             data:{"custom":" where planId="+$scope.app.id+"",sort: [{field: "id", dir: "desc"}]},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -428,7 +428,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -439,7 +439,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -450,7 +450,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -624,7 +624,7 @@ angular.module("altairApp")
                             type: "POST",
                             data:{"custom":" where planId="+$scope.app.id+"",sort: [{field: "id", dir: "desc"}]},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -632,7 +632,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -643,7 +643,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -654,7 +654,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -748,7 +748,7 @@ angular.module("altairApp")
                             type: "POST",
                             data:{"custom":" where planId="+$scope.app.id+"",sort: [{field: "id", dir: "desc"}]},
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         update: {
@@ -756,7 +756,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -767,7 +767,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -778,7 +778,7 @@ angular.module("altairApp")
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function(req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();

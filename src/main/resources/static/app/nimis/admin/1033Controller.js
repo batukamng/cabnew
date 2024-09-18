@@ -69,8 +69,8 @@ angular
                             type: "POST",
                             data: { sort: [{ field: "id", dir: "desc" }] },
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $state.go('login');
@@ -83,7 +83,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "PUT",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 if (e.status === 200) {
@@ -100,7 +100,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "DELETE",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         create: {
@@ -120,7 +120,7 @@ angular
                                 $(".k-grid ").data("kendoGrid").dataSource.read();
                             },
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -200,14 +200,14 @@ angular
                     }
                 };
 
-                if (localStorage.getItem("buttonData").includes("read")) {
+                if (sessionStorage.getItem("buttonData").includes("read")) {
                     $scope.mainGrid.toolbar = ["excel", "search"];
                 }
-                if (localStorage.getItem("buttonData").includes("create")) {
+                if (sessionStorage.getItem("buttonData").includes("create")) {
                     $scope.mainGrid.toolbar = [{template: "<button class='md-btn custom-btn' ng-click='add()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>"}];
                 }
 
-                if (localStorage.getItem("buttonData").includes("edit")) {
+                if (sessionStorage.getItem("buttonData").includes("edit")) {
                    /* $scope.mainGrid.columns.push({
                         command: [
                             {

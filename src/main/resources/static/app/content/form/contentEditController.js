@@ -12,10 +12,10 @@ angular
             'commonDataSource',
             '__env',
             function ($rootScope, $state, $scope, $timeout,mainService,fileUpload,commonDataSource, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.success=false;
                 $scope.show4=true;
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.planYr=sessionStorage.getItem('planYr');
                 $scope.$on("editContent", function (event, step,data) {
                     UIkit.modal('#modal_loader').hide();
                     UIkit.modal('#modal_loader_edit').hide();
@@ -140,7 +140,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -232,7 +232,7 @@ angular
                             },
                             sort: [{field: "id", dir: "desc"}],
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -299,7 +299,7 @@ angular
                             },
                             sort: [{field: "id", dir: "desc"}],
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {

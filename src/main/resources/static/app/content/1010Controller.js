@@ -10,7 +10,7 @@ angular
             'mainService',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
 
                 $scope.mainGrid = {
                     dataSource: {
@@ -23,7 +23,7 @@ angular
                                 type: "POST",
                                 data: {"sort": [{field: 'id', dir: 'desc'}], "showUseYn": true},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             destroy: {
@@ -31,7 +31,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -168,7 +168,7 @@ angular
                 };
                 $scope.mainGrid.toolbar = [];
 
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.planYr=sessionStorage.getItem('planYr');
                 $scope.$on("loadPlanYr", function (event, obj) {
                     $scope.planYr = obj.planYr;
                     $scope.readDataSource($scope.planYr);
@@ -194,8 +194,8 @@ angular
                             type: "POST",
                             data: { status: ["saved", "sent"], stepId: steps, "sourceType": "УТ", sort: [{ field: "id", dir: "desc" }] },
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $state.go('login');
@@ -230,8 +230,8 @@ angular
                             type: "POST",
                             data: { planYr: $scope.planYr, status: ["saved", "sent"], stepId: steps, "sourceType": "УТ", sort: [{ field: "id", dir: "desc" }] },
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $state.go('login');
@@ -302,13 +302,13 @@ angular
                     $state.go('restricted.front.1010edit', { "id": id });
                 };
 
-                if(localStorage.getItem('buttonData').includes("C")){
+                if(sessionStorage.getItem('buttonData').includes("C")){
                     $scope.mainGrid.toolbar.push({template: "<button class='k-button k-button-icontext' ng-click='addNew(0)'><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>"});
                 }
-                if(localStorage.getItem('buttonData').includes("R")){
+                if(sessionStorage.getItem('buttonData').includes("R")){
                     $scope.mainGrid.toolbar.push("search");
                 }
-                if(localStorage.getItem('buttonData').includes("U")){
+                if(sessionStorage.getItem('buttonData').includes("U")){
                     $scope.mainGrid.columns.push({
                         command: [
                             {template:"<button class=\"k-button k-button-icontext\"  ng-click='edit(dataItem.id)'>Засах</button>"},

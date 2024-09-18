@@ -32,7 +32,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 data: {
                                     "custom":"where grpCd='config' and parentId is not null"
@@ -91,20 +91,20 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() + "/api/config/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $state.go('login');
                                     }
                                 },
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             destroy: {
@@ -112,7 +112,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -176,8 +176,8 @@ angular
                     }
                 };
 
-                if(JSON.parse(localStorage.getItem('privilege'))!=null){
-                    var privileges=JSON.parse(localStorage.getItem('privilege'));
+                if(JSON.parse(sessionStorage.getItem('privilege'))!=null){
+                    var privileges=JSON.parse(sessionStorage.getItem('privilege'));
                     angular.forEach(privileges, function(value, key) {
                         if(value.name==='READ'){
                             $scope.mainGrid.toolbar = ["excel","search"];

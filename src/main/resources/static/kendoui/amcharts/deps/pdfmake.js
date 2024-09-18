@@ -8741,11 +8741,11 @@ am4internal_webpackJsonp(["076f"], {
           (function (B) {
             function s(A) {
               try {
-                if (!B.localStorage) return !1;
+                if (!B.sessionStorage) return !1;
               } catch (A) {
                 return !1;
               }
-              var s = B.localStorage[A];
+              var s = B.sessionStorage[A];
               return null != s && "true" === String(s).toLowerCase();
             }
             A.exports = function (A, B) {

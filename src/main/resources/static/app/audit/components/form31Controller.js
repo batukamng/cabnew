@@ -14,7 +14,7 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, fileUpload, commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
 
                 $scope.$on("formChanged31", function (event, args, data) {
                     $timeout(function (){
@@ -38,8 +38,8 @@ angular
                                 type: "POST",
                                 data: {"sort": [{field: 'code', dir: 'asc'}]},
                                 beforeSend: function (req) {
-                                    if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                 }
                             },
@@ -48,7 +48,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -59,7 +59,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();

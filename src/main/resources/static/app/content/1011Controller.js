@@ -11,21 +11,21 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
-                $scope.planYr = localStorage.getItem('planYr');
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
+                $scope.planYr = sessionStorage.getItem('planYr');
                 $scope.dataSource = function (planYr) {
                     $scope.planYr = planYr;
                     $scope.appDataSource = new kendo.data.DataSource({
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if (localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).url === $state.current.name) {
+                                    if (sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).url === $state.current.name) {
                                         return __env.apiUrl() + "/api/cnt/done/list";
                                     }
                                     // else {
-                                    //     localStorage.removeItem('currentUser');
-                                    //     localStorage.removeItem('menuList');
-                                    //     localStorage.removeItem('menuData');
+                                    //     sessionStorage.removeItem('currentUser');
+                                    //     sessionStorage.removeItem('menuList');
+                                    //     sessionStorage.removeItem('menuData');
                                     //     $rootScope.$broadcast('LogoutSuccessful');
                                     //     $state.go('login');
                                     //     $rootScope.expire = true;
@@ -35,8 +35,8 @@ angular
                                 type: "POST",
 //                                data: { planYr: $scope.planYr, parent: $scope.amg ? false : true, sort: [{ field: "fundTp", dir: "desc" }, { field: "lawNo", dir: "asc" }] },
                                 beforeSend: function (req) {
-                                    if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                     else {
                                         $state.go('login');
@@ -70,7 +70,7 @@ angular
                 }
 
                 $scope.dataSource($scope.planYr);
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.planYr=sessionStorage.getItem('planYr');
                 $scope.$on("loadPlanYr", function (event, obj) {
                     $scope.planYr = obj.planYr;
                     $scope.dataSource($scope.planYr);
@@ -252,12 +252,12 @@ angular
                 };
                 $scope.mainGrid.toolbar = [];
 
-                if(localStorage.getItem('buttonData').includes("C")){
+                if(sessionStorage.getItem('buttonData').includes("C")){
                 }
-                if(localStorage.getItem('buttonData').includes("R")){
+                if(sessionStorage.getItem('buttonData').includes("R")){
                     $scope.mainGrid.toolbar.push("search");
                 }
-                if(localStorage.getItem('buttonData').includes("U")){
+                if(sessionStorage.getItem('buttonData').includes("U")){
                     $scope.mainGrid.columns.push({
                         command: [
                             {template:"<button class=\"k-button k-button-icontext\" ng-if=\"dataItem.status!='done'\" ng-click='publish(dataItem)'>Нийтлэх</button>"+

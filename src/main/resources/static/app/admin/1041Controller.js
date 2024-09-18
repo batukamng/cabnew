@@ -10,25 +10,25 @@ angular
             'mainService',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.dataSource = new kendo.data.PivotDataSource({
                     transport: {
                         read: {
                             url: function (e) {
-                                if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                     return  __env.apiUrl() + "/api/user/all";
                                 }
                                 else{
-                                    localStorage.removeItem('currentUser');
-                                    localStorage.removeItem('menuList');
-                                    localStorage.removeItem('menuData');
+                                    sessionStorage.removeItem('currentUser');
+                                    sessionStorage.removeItem('menuList');
+                                    sessionStorage.removeItem('menuData');
                                     $state.go('login');
                                 }
                             },
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {

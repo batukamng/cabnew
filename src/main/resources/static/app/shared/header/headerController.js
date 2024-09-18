@@ -15,10 +15,10 @@ angular
         "commonDataSource",
         "downloadService",
         function ($timeout, $rootScope, mainService, $scope, $interval, $http, Idle, $window, Upload, $state, __env, commonDataSource, downloadService) {
-            $scope.planYr = localStorage.getItem("planYr");
-            $scope.budgetCode = localStorage.getItem("budgetCode");
+            $scope.planYr = sessionStorage.getItem("planYr");
+            $scope.budgetCode = sessionStorage.getItem("budgetCode");
             $scope.notifCount = 0;
-            $scope.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            $scope.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
             mainService.withResponse("GET", __env.apiUrl() + "/api/notification/count/" + $scope.currentUser.user.id).then(function (data) {
                 $scope.notifCount = data.data;
             });
@@ -27,7 +27,7 @@ angular
 
             var today = new Date();
             var curHr = today.getHours();
-            $rootScope.module = localStorage.getItem("module");
+            $rootScope.module = sessionStorage.getItem("module");
 
             mainService.withdomain("get", __env.apiUrl() + "/api/nms/common/grp/auditType")
                 .then(function (data) {
@@ -57,22 +57,22 @@ angular
 
 
             $scope.planYrOptions = {select: $scope.changePlanYear};
-            if (localStorage.getItem("currentUser") == null) {
+            if (sessionStorage.getItem("currentUser") == null) {
                 $state.go("login");
             }
 
             $scope.moduleChange = function (item) {
                 $rootScope.module = item.id;
-                localStorage.setItem("module", item.id);
+                sessionStorage.setItem("module", item.id);
                 $rootScope.$broadcast("loadModule", item.id);
-                const menuList = JSON.parse(localStorage.getItem("menuList"));
+                const menuList = JSON.parse(sessionStorage.getItem("menuList"));
                 if (menuList == null || menuList == undefined) return;
                 var menuByModule = menuList.filter((i) => i.modules.filter((j) => j.id == item.id).length > 0);
 
                 if (menuByModule.length > 0) {
                     var menuData = menuByModule[0];
-                    localStorage.setItem("buttonData", "");
-                    localStorage.setItem("menuData", JSON.stringify({}));
+                    sessionStorage.setItem("buttonData", "");
+                    sessionStorage.setItem("menuData", JSON.stringify({}));
                     $rootScope.$broadcast("loadModule", item.id);
                 }
             };
@@ -167,7 +167,7 @@ angular
             $scope.showModules = function (e) {
             };
 
-            $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
             mainService.user = $scope.user.user;
             $scope.$watch(
                 function () {
@@ -179,20 +179,20 @@ angular
             );
 
             if ($scope.user !== null) {
-                var loggedUser = JSON.parse(localStorage.getItem("currentUser"));
+                var loggedUser = JSON.parse(sessionStorage.getItem("currentUser"));
                 var currentDate = new Date(new Date().getTime());
                 var pickUpDate = new Date(loggedUser.expires);
                 if (currentDate > pickUpDate) {
                     $rootScope.expire = true;
-                    localStorage.removeItem("currentUser");
-                    localStorage.removeItem("menuList");
-                    localStorage.removeItem("menuData");
-                    localStorage.removeItem("roles");
+                    sessionStorage.removeItem("currentUser");
+                    sessionStorage.removeItem("menuList");
+                    sessionStorage.removeItem("menuData");
+                    sessionStorage.removeItem("roles");
                     $state.go("login");
                 }
-                $scope.section = JSON.parse(localStorage.getItem("menuData"));
-                $scope.module = JSON.parse(localStorage.getItem("module"));
-                var menuList = JSON.parse(localStorage.getItem("menuList")) || [];
+                $scope.section = JSON.parse(sessionStorage.getItem("menuData"));
+                $scope.module = JSON.parse(sessionStorage.getItem("module"));
+                var menuList = JSON.parse(sessionStorage.getItem("menuList")) || [];
                 if ($scope.section && $scope.section.parentId != null && $scope.section.pageType === 0 && menuList.length > 0) {
                     $scope.sections = menuList.filter((i) => i.id == $scope.section.parentId)[0].lutMenus || [];
                     $("body").attr("style", "padding-top: 109px");
@@ -202,10 +202,10 @@ angular
                 }
             } else {
                 $state.go("login");
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("menuList");
-                localStorage.removeItem("menuData");
-                localStorage.removeItem("roles");
+                sessionStorage.removeItem("currentUser");
+                sessionStorage.removeItem("menuList");
+                sessionStorage.removeItem("menuData");
+                sessionStorage.removeItem("roles");
                 $rootScope.expire = true;
             }
             $("#menu_top")
@@ -227,9 +227,9 @@ angular
             $scope.logout = function () {
                 $rootScope.$broadcast("LogoutSuccessful");
                 $timeout(function (){
-                    localStorage.removeItem("currentUser");
-                    localStorage.removeItem("menuList");
-                    localStorage.removeItem("menuData");
+                    sessionStorage.removeItem("currentUser");
+                    sessionStorage.removeItem("menuList");
+                    sessionStorage.removeItem("menuData");
                     mainService.withdata('post','/api/nms/activity-log/trace',{"event":"logout","description":"Системээс гарсан"}).then(function (data) {});
                     $state.go("login");
                 },100)
@@ -270,14 +270,14 @@ angular
                 $timeout(function (){
                     $state.go("login");
                     $rootScope.expire = true;
-                    localStorage.removeItem("currentUser");
+                    sessionStorage.removeItem("currentUser");
                 },500)
 
             });
 
             $scope.push_to_userInfo = function () {
-                localStorage.setItem("buttonData", "");
-                localStorage.setItem("menuData", "{}");
+                sessionStorage.setItem("buttonData", "");
+                sessionStorage.setItem("menuData", "{}");
                 $state.go("restricted.profile");
             };
 
@@ -286,8 +286,8 @@ angular
             };
 
             $scope.push_to_feedback = function () {
-                localStorage.setItem("buttonData", "");
-                localStorage.setItem("menuData", "{}");
+                sessionStorage.setItem("buttonData", "");
+                sessionStorage.setItem("menuData", "{}");
                 $state.go("restricted.feedback");
             };
 
@@ -304,7 +304,7 @@ angular
                             $scope.notifs[index].seen = data.seen;
 
                             mainService.withResponse("GET", __env.apiUrl() + "/api/notification/count/" + $scope.currentUser.user.id).then(function (data) {
-                                localStorage.setItem("notif_count", data.data);
+                                sessionStorage.setItem("notif_count", data.data);
                                 $timeout(function (){
                                     $scope.notifCount = data.data;
                                 },100)
@@ -321,10 +321,10 @@ angular
                 }).show();
             };
             $scope.showAllNotif = function () {
-                localStorage.setItem("buttonData", "");
-                localStorage.setItem("menuData", "{}");
+                sessionStorage.setItem("buttonData", "");
+                sessionStorage.setItem("menuData", "{}");
                 mainService.withResponse("GET", __env.apiUrl() + "/api/notification/count/" + $scope.currentUser.user.id).then(function (data) {
-                    localStorage.setItem("notif_count", data.data);
+                    sessionStorage.setItem("notif_count", data.data);
                     $scope.notifCount = data.data;
                 });
                 $state.go("restricted.notification");
@@ -334,8 +334,8 @@ angular
                 $scope.guides = [];
                 var menuId = null;
 
-                if (JSON.parse(localStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(localStorage.getItem("menuData")).id;
-                else menuId = JSON.parse(localStorage.getItem("menuData")).parentId;
+                if (JSON.parse(sessionStorage.getItem("menuData")).parentId === null) menuId = JSON.parse(sessionStorage.getItem("menuData")).id;
+                else menuId = JSON.parse(sessionStorage.getItem("menuData")).parentId;
 
                 mainService.withdomain("get", __env.apiUrl() + "/api/nms/menu/item/"+menuId)
                     .then(function (data) {
@@ -432,7 +432,7 @@ angular
                 let payload = data.payload;
                 console.debug(payload.data);
                 mainService.withResponse("GET", __env.apiUrl() + "/api/notification/count/" + $scope.currentUser.user.id).then(function (data) {
-                    localStorage.setItem("notif_count", data.data);
+                    sessionStorage.setItem("notif_count", data.data);
                     $timeout(function (){
                         $scope.notifCount = data.data;
                     },100)
@@ -497,9 +497,9 @@ angular
                 });
             };
             $rootScope.$on("loadSubTab", function (section, id) {
-                $scope.section = JSON.parse(localStorage.getItem("menuData"));
-                $scope.module = JSON.parse(localStorage.getItem("module"));
-                var menuList = JSON.parse(localStorage.getItem("menuList")) || [];
+                $scope.section = JSON.parse(sessionStorage.getItem("menuData"));
+                $scope.module = JSON.parse(sessionStorage.getItem("module"));
+                var menuList = JSON.parse(sessionStorage.getItem("menuList")) || [];
                 if ($scope.section && $scope.section.parentId != null && $scope.section.pageType === 0 && menuList.length > 0) {
                     $scope.sections = menuList.filter((i) => i.id == $scope.section.parentId)[0].lutMenus || [];
                     $("body").attr("style", "padding-top: 109px");
@@ -519,22 +519,22 @@ angular
             };
             $scope.log = function (item) {
                 $scope.section = item;
-                localStorage.removeItem("menuData");
-                localStorage.setItem("menuData", JSON.stringify(item));
-                localStorage.removeItem("buttonData");
-                localStorage.setItem("buttonData", $scope.actionBtn(item.id));
+                sessionStorage.removeItem("menuData");
+                sessionStorage.setItem("menuData", JSON.stringify(item));
+                sessionStorage.removeItem("buttonData");
+                sessionStorage.setItem("buttonData", $scope.actionBtn(item.id));
             };
             $scope.miniSidebarHiddenLarge = $rootScope.miniSidebarHiddenLarge;
             $scope.budgetChange = function (value) {
                 $scope.budgetType = $scope.budgetDataSource.filter((i) => i.id == value.id)[0];
                 console.log($scope.budgetType);
-                localStorage.setItem("budgetType", value.id);
-                localStorage.setItem("budgetCode", value.comCd);
+                sessionStorage.setItem("budgetType", value.id);
+                sessionStorage.setItem("budgetCode", value.comCd);
                 $state.reload();
             };
             $scope.yearChange = function (value) {
                 $scope.planYr = value;
-                localStorage.setItem("planYr", value);
+                sessionStorage.setItem("planYr", value);
                 $state.reload();
             };
         },

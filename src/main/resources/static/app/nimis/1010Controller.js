@@ -9,7 +9,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
     $scope.governorDataSource = commonDataSource.urlPageDataSource(
       "/api/nms/general/governor/list",
       JSON.stringify({ filter: { field: "useYn", operator: "eq", value: true }, sort: [{ field: "name", dir: "asc" }] }),
@@ -84,7 +84,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
             data: { filter: { logic: "or", filters: arr } },
             type: "POST",
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
           },
           parameterMap: function (options) {
@@ -129,7 +129,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
             sort: [{ field: "id", dir: "desc" }],
           },
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         update: {
@@ -137,7 +137,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "PUT",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -147,7 +147,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           url: __env.apiUrl() + "/api/nms/user",
           contentType: "application/json; charset=UTF-8",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -159,7 +159,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "POST",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -197,7 +197,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           type: "POST",
           data: { sort: [{ field: "id", dir: "desc" }] },
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         update: {
@@ -205,7 +205,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "PUT",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -215,7 +215,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           url: __env.apiUrl() + "/api/nms/gov/org",
           contentType: "application/json; charset=UTF-8",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -227,7 +227,7 @@ angular.module("altairApp").controller("1010NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "POST",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -322,13 +322,13 @@ angular.module("altairApp").controller("1010NmsCtrl", [
         return $(window).height() - 150;
       },
     };
-    if (localStorage.getItem("buttonData").includes("R")) {
+    if (sessionStorage.getItem("buttonData").includes("R")) {
       $scope.main1Grid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("C")) {
+    if (sessionStorage.getItem("buttonData").includes("C")) {
       $scope.main1Grid.toolbar = [{ template: '<button class="k-button k-button-icontext" ng-click=\'addNew(0)\'><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
     }
-    if (localStorage.getItem("buttonData").includes("U")) {
+    if (sessionStorage.getItem("buttonData").includes("U")) {
       $scope.main1Grid.columns.push({
         command: [
           { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
@@ -453,13 +453,13 @@ angular.module("altairApp").controller("1010NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main2Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main2Grid.toolbar = [{ template: '<button class="k-button k-button-icontext" ng-click=\'addNew(1)\'><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main2Grid.columns.push({
               command: [
                 { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
@@ -567,13 +567,13 @@ angular.module("altairApp").controller("1010NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main3Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main3Grid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main3Grid.columns.push({
               command: [
                 { name: "edit", text: { edit: " ", update: " ", cancel: " " } },

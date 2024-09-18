@@ -19,7 +19,7 @@ angular.module("altairApp").controller("1032Ctrl", [
             },
             sort: [{ field: "id", dir: "desc" }],
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
           },
           parameterMap: function (options) {
@@ -83,12 +83,12 @@ angular.module("altairApp").controller("1032Ctrl", [
         transport: {
           read: {
             url: function (e) {
-              if (localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem("menuData")).link === $state.current.name) {
+              if (sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem("menuData")).link === $state.current.name) {
                 return __env.apiUrl() + "/api/org/list";
               } else {
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("menuList");
-                localStorage.removeItem("menuData");
+                sessionStorage.removeItem("currentUser");
+                sessionStorage.removeItem("menuList");
+                sessionStorage.removeItem("menuData");
                 $state.go("login");
               }
             },
@@ -96,7 +96,7 @@ angular.module("altairApp").controller("1032Ctrl", [
             contentType: "application/json; charset=UTF-8",
             type: "POST",
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
           },
           create: {
@@ -104,7 +104,7 @@ angular.module("altairApp").controller("1032Ctrl", [
             contentType: "application/json; charset=UTF-8",
             type: "POST",
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
             complete: function (e) {
               $(".k-grid").data("kendoGrid").dataSource.read();
@@ -115,7 +115,7 @@ angular.module("altairApp").controller("1032Ctrl", [
             contentType: "application/json; charset=UTF-8",
             type: "PUT",
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
             complete: function (e) {
               $(".k-grid").data("kendoGrid").dataSource.read();
@@ -126,7 +126,7 @@ angular.module("altairApp").controller("1032Ctrl", [
             contentType: "application/json; charset=UTF-8",
             type: "DELETE",
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
           },
           parameterMap: function (options) {
@@ -205,13 +205,13 @@ angular.module("altairApp").controller("1032Ctrl", [
         return $(window).height() - 110;
       },
     };
-    if (localStorage.getItem("buttonData").includes("R")) {
+    if (sessionStorage.getItem("buttonData").includes("R")) {
       $scope.mainGrid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("C")) {
+    if (sessionStorage.getItem("buttonData").includes("C")) {
       $scope.mainGrid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }, "search"];
     }
-    if (localStorage.getItem("buttonData").includes("U")) {
+    if (sessionStorage.getItem("buttonData").includes("U")) {
       $scope.mainGrid.columns.push({
         command: [
           { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
@@ -222,8 +222,8 @@ angular.module("altairApp").controller("1032Ctrl", [
       });
     }
 
-    if (JSON.parse(localStorage.getItem("privilege")) != null) {
-      var privileges = JSON.parse(localStorage.getItem("privilege"));
+    if (JSON.parse(sessionStorage.getItem("privilege")) != null) {
+      var privileges = JSON.parse(sessionStorage.getItem("privilege"));
       angular.forEach(privileges, function (value, key) {
         if (value.name === "READ") {
           $scope.mainGrid.toolbar = ["excel", "search"];

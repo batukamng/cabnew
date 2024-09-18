@@ -10,9 +10,9 @@ angular.module("altairApp")
         "Upload",
         "__env",
         function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, sweet, Upload, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
 
             $scope.formatDate = function (date) {
                 return new Date(date);
@@ -28,7 +28,7 @@ angular.module("altairApp")
                             sort: [{field: "id", dir: "asc"}],
                         },
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                     },
                     parameterMap: function (options) {

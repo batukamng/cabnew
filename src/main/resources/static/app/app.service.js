@@ -35,7 +35,7 @@ altairApp
         };
     })
     .service('mainService', function ($http, $q) {
-        this.user = JSON.parse(localStorage.getItem('currentUser'));
+        this.user = JSON.parse(sessionStorage.getItem('currentUser'));
 
         this.withDomain=function(method,url){
             var deferred = $q.defer();

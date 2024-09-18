@@ -13,7 +13,7 @@ angular.module("altairApp").controller("937NmsCtrl", [
         $scope.updateModal = function (item) {
             $state.go("restricted.nms.940", {id: item.id});
         };
-        $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+        $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
         $scope.mainGrid = {
             dataSource: {
                 transport: {
@@ -29,14 +29,14 @@ angular.module("altairApp").controller("937NmsCtrl", [
                             sort: [{field: "name", dir: "asc"}],
                         },
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                     },
                     destroy: {
                         url: __env.apiUrl() + "/api/nms/role",
                         contentType: "application/json; charset=UTF-8",
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                         type: "DELETE",
                     },
@@ -131,8 +131,8 @@ angular.module("altairApp").controller("937NmsCtrl", [
             title: "&nbsp;",
             width: 80,
         });
-        if (JSON.parse(localStorage.getItem("roles")) != null) {
-            var privileges = JSON.parse(localStorage.getItem("roles"));
+        if (JSON.parse(sessionStorage.getItem("roles")) != null) {
+            var privileges = JSON.parse(sessionStorage.getItem("roles"));
             angular.forEach(privileges, function (value, key) {
                 if (value.name === "WRITE") {
                     $scope.mainGrid.toolbar = [

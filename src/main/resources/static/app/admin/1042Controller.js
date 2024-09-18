@@ -15,9 +15,9 @@ angular
         'Upload',
         function ($rootScope,$scope,$timeout,$interval,ChatSocket,chatService,profileService,sweet,chat,mainService,__env,Upload) {
 
-            $scope.currentUser=JSON.parse(localStorage.getItem('currentUser'));
+            $scope.currentUser=JSON.parse(sessionStorage.getItem('currentUser'));
 
-            $scope.profile=JSON.parse(localStorage.getItem('currentUser')).user;
+            $scope.profile=JSON.parse(sessionStorage.getItem('currentUser')).user;
 
             if($scope.currentUser.user.firstName===null){
                 UIkit.modal('#changeProfile', {
@@ -59,10 +59,10 @@ angular
                     data: {file: file,jsonStr:JSON.stringify($scope.usr)}
                 }).then(function (resp) {
                     if(resp.status===200){
-                        localStorage.removeItem('currentUser');
+                        sessionStorage.removeItem('currentUser');
                         mainService.user = resp.data;
                         $timeout(function() {
-                            localStorage.setItem('currentUser', JSON.stringify({ username: resp.data.username,id: resp.data.id, user:resp.data,token: $scope.currentUser.token, expires:$scope.currentUser.expires}));
+                            sessionStorage.setItem('currentUser', JSON.stringify({ username: resp.data.username,id: resp.data.id, user:resp.data,token: $scope.currentUser.token, expires:$scope.currentUser.expires}));
                         }, 0);
                     }
                     UIkit.modal('#changeProfile').hide();
@@ -98,7 +98,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         },
                         parameterMap: function (options) {
@@ -181,7 +181,7 @@ angular
                         type: "POST",
                         sort: [{field: "id", dir: "desc"}],
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     parameterMap: function (options) {

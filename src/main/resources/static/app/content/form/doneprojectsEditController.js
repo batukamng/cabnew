@@ -12,8 +12,8 @@ angular
             'commonDataSource',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, fileUpload,commonDataSource, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
+                $scope.planYr=sessionStorage.getItem('planYr');
 
                 $scope.$on("publishDone", function (event, data) {
                     UIkit.modal('#modal_loader').hide();

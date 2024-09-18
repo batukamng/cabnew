@@ -1055,15 +1055,15 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
   /**
    * @ngdoc function
-   * @name pascalprecht.translate.$translateProvider#useLocalStorage
+   * @name pascalprecht.translate.$translateProvider#usesessionStorage
    * @methodOf pascalprecht.translate.$translateProvider
    *
    * @description
-   * Tells angular-translate to use `$translateLocalStorage` service as storage layer.
+   * Tells angular-translate to use `$translatesessionStorage` service as storage layer.
    *
    */
-  this.useLocalStorage = function () {
-    return this.useStorage('$translateLocalStorage');
+  this.usesessionStorage = function () {
+    return this.useStorage('$translatesessionStorage');
   };
 
   /**

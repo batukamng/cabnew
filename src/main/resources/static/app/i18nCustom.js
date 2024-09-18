@@ -18,10 +18,10 @@ angular
                     $translate.use(langKey);
                 };
                 // language switcher
-                var storeLang = localStorage.getItem('lang');
+                var storeLang = sessionStorage.getItem('lang');
               //  $scope.langSwitcherModel = storeLang != null ? storeLang : 'mn';
 
-                $scope.langSwitcherOptions = JSON.parse(localStorage.getItem('lang'));
+                $scope.langSwitcherOptions = JSON.parse(sessionStorage.getItem('lang'));
                 var langData = [];
                 angular.forEach($scope.langSwitcherOptions, function(value, key) {
                     langData.push(value);

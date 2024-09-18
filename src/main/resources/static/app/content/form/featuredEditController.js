@@ -13,7 +13,7 @@ angular
             'commonDataSource',
             '__env',
             function ($rootScope, $state, $scope, $timeout, featured, mainService, fileUpload,commonDataSource, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.featured = featured;
                 if ($scope.featured.budgetAmount == null) {
                     if ($scope.featured.appId != null) {
@@ -25,7 +25,7 @@ angular
                 }
                 $scope.success=false;
                 $scope.show4=true;
-                $scope.planYr=localStorage.getItem('planYr');
+                $scope.planYr=sessionStorage.getItem('planYr');
                 $scope.statusDataSource = commonDataSource.urlDataSource("/api/comCd/list", JSON.stringify({ "custom": "where grpCd='featuredType' and useYn=true and parentId is not null", sort: [{ field: "orderId", dir: "asc" }] }));
 
                 var imagenUrl = undefined;
@@ -702,7 +702,7 @@ angular
                                 type: "POST",
                                 data: {"sort": [{field: 'id', dir: 'desc'}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -1247,7 +1247,7 @@ angular
                         if (xhr) {
                             xhr.addEventListener("readystatechange", function (e) {
                                 if (xhr.readyState == 1 /* OPENED */) {
-                                    xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             });
                         }

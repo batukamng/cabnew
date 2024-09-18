@@ -11,9 +11,9 @@ angular.module("altairApp")
         "item",
         "__env",
         function ($rootScope, $state,$stateParams, $scope, $timeout, mainService, commonDataSource, sweet, item, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
             $scope.app = item;
             $scope.editable = false;
             $scope.types=[{"comCd":"А","objType":"01","objTypeNm":"Гүйцэтгэлийн зорилт, арга хэмжээ"},{"comCd":"Б","objType":"02","objTypeNm":"Мэдлэг, ур чадвараа дээшлүүлэх зорилт, арга хэмжээ"},{"comCd":"В","objType":"03","objTypeNm":"Нэмэлт"}];

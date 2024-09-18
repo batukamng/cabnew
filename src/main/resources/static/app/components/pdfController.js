@@ -7,7 +7,7 @@ altairApp
         '$timeout',
         function ($rootScope, $scope, mainService, __env, $timeout) {
             var ctrl = this;
-            $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+            $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
 
             $scope.$on("loadPdf", function (event, step,id) {
                 loadApp(id);

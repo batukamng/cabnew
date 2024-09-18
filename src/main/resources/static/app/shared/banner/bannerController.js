@@ -13,7 +13,7 @@ angular.module("altairApp").controller("bannerCtrl", [
   "commonDataSource",
   "downloadService",
   function ($timeout, $rootScope, mainService, $scope, $interval, $http, Idle, $window, Upload, $state, __env, commonDataSource, downloadService) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
     $scope.link = "";
     $scope.image = "";
 
@@ -38,7 +38,7 @@ angular.module("altairApp").controller("bannerCtrl", [
       $scope.showModal();
     });
     // $scope.hideBanner = function () {
-    //   localStorage.setItem("banner", "0");
+    //   sessionStorage.setItem("banner", "0");
     // };
   },
 ]);

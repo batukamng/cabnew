@@ -28,8 +28,8 @@ angular
                             },
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) !== null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) !== null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $rootScope.$broadcast('LogoutSuccessful');
@@ -71,8 +71,8 @@ angular
                             },
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) !== null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) !== null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $rootScope.$broadcast('LogoutSuccessful');
@@ -173,7 +173,7 @@ angular
                                 type: "POST",
                                 data:{sort: [{field: "id", dir: "desc"}]},
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             update: {
@@ -181,7 +181,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -191,7 +191,7 @@ angular
                                 url: __env.apiUrl() +"/api/nms/assessment/calendar",
                                 contentType: "application/json; charset=UTF-8",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 type: "DELETE"
                             },
@@ -200,7 +200,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -306,14 +306,14 @@ angular
                     }
                 };
 
-                if (localStorage.getItem('buttonData').includes("create")) {
+                if (sessionStorage.getItem('buttonData').includes("create")) {
                     $scope.mainGrid.toolbar = [
                         { template: "<button class='md-btn custom-btn' ng-click='addLevel()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>" },
                         "search"
                     ];
                 }
 
-                if (localStorage.getItem('buttonData').includes("edit")) {
+                if (sessionStorage.getItem('buttonData').includes("edit")) {
                     $scope.mainGrid.columns.push({
                         command: [
                             {

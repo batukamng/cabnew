@@ -9,12 +9,12 @@ angular.module("altairApp")
         "mainService",
         "__env",
         function ($rootScope, $state, $scope, $timeout, $translate, commonDataSource, mainService, __env) {
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
             $scope.appDataSource = {
                 transport: {
                     read: {
                         url: function (e) {
-                            if (localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem("menuData")).url === $state.current.name) {
+                            if (sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem("menuData")).url === $state.current.name) {
                                 return __env.apiUrl() + "/api/nms/splash/list";
                             } else {
                                 $state.go("login");
@@ -24,7 +24,7 @@ angular.module("altairApp")
                         type: "POST",
                         data: {sort: [{field: "id", dir: "desc"}]},
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                     },
                     destroy: {
@@ -32,7 +32,7 @@ angular.module("altairApp")
                         contentType: "application/json; charset=UTF-8",
                         type: "DELETE",
                         beforeSend: function (req) {
-                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                         },
                     },
                     parameterMap: function (options) {
@@ -201,7 +201,7 @@ angular.module("altairApp")
                     if (xhr) {
                         xhr.addEventListener("readystatechange", function (e) {
                             if (xhr.readyState == 1 /* OPENED */) {
-                                xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                                xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                             }
                         });
                     }
@@ -269,7 +269,7 @@ angular.module("altairApp")
                 autoBind: false,
             };
 
-            mainService.withdata("GET", __env.apiUrl() + "/api/nms/user/level/sub/" + JSON.parse(localStorage.getItem("currentUser")).user.lvlId).then(function (data) {
+            mainService.withdata("GET", __env.apiUrl() + "/api/nms/user/level/sub/" + JSON.parse(sessionStorage.getItem("currentUser")).user.lvlId).then(function (data) {
                 $scope.levels = data;
             });
             $scope.levelTypeChanged = function () {
@@ -280,13 +280,13 @@ angular.module("altairApp")
                     $scope.dataItem.typeIdArr = [];
                 });
             };
-            if (localStorage.getItem("buttonData").includes("read")) {
+            if (sessionStorage.getItem("buttonData").includes("read")) {
                 $scope.mainGrid.toolbar = ["excel", "search"];
             }
-            if (localStorage.getItem("buttonData").includes("create")) {
+            if (sessionStorage.getItem("buttonData").includes("create")) {
                 $scope.mainGrid.toolbar = [{template: "<button class=\"md-btn custom-btn\" ng-click='add()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>"}];
             }
-            if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+            if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
                 $scope.mainGrid.columns.push({
                     command: [
                         {

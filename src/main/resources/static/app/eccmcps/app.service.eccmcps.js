@@ -111,7 +111,7 @@ altairApp
                     if (success != false) {
                         // alert("hooo noo success");
                         $rootScope.authenticated = true;
-                        localStorage.setItem("session", {});
+                        sessionStorage.setItem("session", {});
                     }
                     else {
                         $rootScope.authenticated = false;
@@ -125,14 +125,14 @@ altairApp
                 $http.post("/logout", {}).success(function () {
                     $rootScope.authenticated = false;
                     $location.path("/login");
-                    localStorage.setItem("session", false);
+                    sessionStorage.setItem("session", false);
                 }).error(function (data) {
                     $rootScope.authenticated = false;
                 });
             };
 
             session.isLoggedIn = function () {
-                return localStorage.getItem("session") !== null;
+                return sessionStorage.getItem("session") !== null;
             };
             return session;
         }])
@@ -151,7 +151,7 @@ altairApp
     }])
 
     .service('mainService', function ($http, $q,$state) {
-        this.user = JSON.parse(localStorage.getItem('currentUser'));
+        this.user = JSON.parse(sessionStorage.getItem('currentUser'));
         this.btnData=function(stateUrl){
             var actionStr = "";
             angular.forEach(this.user.privileges, function (role, key) {

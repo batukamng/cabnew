@@ -20,7 +20,7 @@ angular.module("altairApp").controller("921NmsCtrl", [
   "allRightAmgList",
   function ($rootScope, $state, $stateParams, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env,
             userItem, levels, userTypes, fromData, tezList, amgList, orgList, allRightTezList, allRightAmgList) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
     $scope.levels = levels;
     $scope.userTypes = userTypes.data;
     $scope.isNewUser = $stateParams.id == 0;

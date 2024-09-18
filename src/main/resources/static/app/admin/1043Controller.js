@@ -84,7 +84,7 @@ angular
                                 data:{"custom":"where posId!=5205"},
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -107,13 +107,13 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if(localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).link===$state.current.name){
+                                    if(sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).link===$state.current.name){
                                         return __env.apiUrl() +"/api/conference/list";
                                     }
                                     else{
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $rootScope.$broadcast('LogoutSuccessful');
                                         $state.go('login');
                                         $rootScope.expire=true;
@@ -122,7 +122,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
 
                             },
@@ -134,7 +134,7 @@ angular
                                     $(".k-grid").data("kendoGrid").dataSource.read();
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             destroy: {
@@ -142,7 +142,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "DELETE",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             create: {
@@ -153,7 +153,7 @@ angular
                                     $(".k-grid").data("kendoGrid").dataSource.read();
                                 },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -212,8 +212,8 @@ angular
                     }
                 };
 
-                if(JSON.parse(localStorage.getItem('privilege'))!=null){
-                    var privileges=JSON.parse(localStorage.getItem('privilege'));
+                if(JSON.parse(sessionStorage.getItem('privilege'))!=null){
+                    var privileges=JSON.parse(sessionStorage.getItem('privilege'));
                     angular.forEach(privileges, function(value, key) {
                         if(value.name==='WRITE'){
                             $scope.mainGrid.toolbar = [{template: "<button class='k-button k-button-icontext md-btn-primary' ng-click='modalUpload()'><span class=\"k-icon k-i-plus\"></span>Нэмэх</button>"},"search"];

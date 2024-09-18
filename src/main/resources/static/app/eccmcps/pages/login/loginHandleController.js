@@ -61,7 +61,7 @@ angular.module("altairApp").controller("loginHandleCtrl", [
         var expireDate = new Date(new Date().getTime() + 1000 * 86400);
 
         mainService.withdomain("get", "/user/me").then(function (data) {
-          // localStorage.setItem('currentUser', JSON.stringify({ username: data.name, token: parameterMap.token.replace("#/login",""), expires:expireDate, data: data}));
+          // sessionStorage.setItem('currentUser', JSON.stringify({ username: data.name, token: parameterMap.token.replace("#/login",""), expires:expireDate, data: data}));
           $state.go("restricted.dashboard");
           // $window.location.href = "/";
         });

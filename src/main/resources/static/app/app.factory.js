@@ -26,8 +26,8 @@ altairApp
                   type: "POST",
                   data: { sort: [{ field: "id", dir: "desc" }] },
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     } else {
                       $rootScope.$broadcast("LogoutSuccessful");
                     }
@@ -38,7 +38,7 @@ altairApp
                   contentType: "application/json; charset=UTF-8",
                   type: "POST",
                   beforeSend: function (req) {
-                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                   },
                   complete: function (e) {
                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -49,7 +49,7 @@ altairApp
                   contentType: "application/json; charset=UTF-8",
                   type: "PUT",
                   beforeSend: function (req) {
-                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                   },
                   complete: function (e) {
                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -60,7 +60,7 @@ altairApp
                   contentType: "application/json; charset=UTF-8",
                   type: "DELETE",
                   beforeSend: function (req) {
-                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                   },
                   complete: function (e) {
                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -102,8 +102,8 @@ altairApp
                   data: { sort: [{ field: "orderId", dir: "asc" }], custom: "where grpCd='" + typeStr + "' and parentId != null and useYn=1" },
                   type: "POST",
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     } else {
                       $rootScope.$broadcast("LogoutSuccessful");
                     }
@@ -130,8 +130,8 @@ altairApp
                   contentType: "application/json; charset=UTF-8",
                   type: "POST",
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     }
                   },
                 },
@@ -163,8 +163,8 @@ altairApp
                   data: JSON.parse(data),
                   type: "POST",
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     } else {
                       $rootScope.$broadcast("LogoutSuccessful");
                     }
@@ -199,8 +199,8 @@ altairApp
                   data: JSON.parse(data),
                   type: "POST",
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     } else {
                       $rootScope.$broadcast("LogoutSuccessful");
                     }
@@ -235,8 +235,8 @@ altairApp
                   data: JSON.parse(data),
                   type: "POST",
                   beforeSend: function (req) {
-                    if (JSON.parse(localStorage.getItem("currentUser")) !== null) {
-                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                    if (JSON.parse(sessionStorage.getItem("currentUser")) !== null) {
+                      req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     } else {
                       $rootScope.$broadcast("LogoutSuccessful");
                     }
@@ -332,12 +332,12 @@ altairApp
         var deferred = $q.defer(),
             translations;
         $http({
-          //   headers: {'Authorization': 'Bearer'+JSON.parse(localStorage.getItem('currentUser')).token},
+          //   headers: {'Authorization': 'Bearer'+JSON.parse(sessionStorage.getItem('currentUser')).token},
           method: "GET",
           url: __env.apiUrl() + "/api/label/lang/" + options.key,
         }).then(function (response) {
-          localStorage.removeItem("langData");
-          localStorage.setItem("langData", JSON.stringify({ langData: response.data }));
+          sessionStorage.removeItem("langData");
+          sessionStorage.setItem("langData", JSON.stringify({ langData: response.data }));
           deferred.resolve(response.data);
         });
 
@@ -355,7 +355,7 @@ altairApp
         var logoutUrl = constants.logoutUrl;
         return {
           doLogin: function (username, password) {
-            var credentials = { username: username, password: password, fcmToken: localStorage.getItem("fcm_token") };
+            var credentials = { username: username, password: password, fcmToken: sessionStorage.getItem("fcm_token") };
             $http
                 .post(__env.apiUrl()+"/api/auth/sign-in", credentials)
                 .then(function (data, status, headers, config) {
@@ -367,7 +367,7 @@ altairApp
                   $http.defaults.headers.common["Authorization"] = "Bearer " + data.data.token;
                   authProvider.user = data.data;
                   authProvider.authToken = data.data.token;
-                  localStorage.setItem("menuList", JSON.stringify(data.data.user.menus));
+                  sessionStorage.setItem("menuList", JSON.stringify(data.data.user.menus));
                   data.data.user.modules = data.data.user.modules.sort((a, b) => parseFloat(a.orderId) - parseFloat(b.orderId));
                   var tmpMenus = data.data.user.menus;
                   var menus = tmpMenus.filter((i) => i.modules.filter((j) => j.id == data.data.user.modules[0].id).length > 0);
@@ -376,12 +376,12 @@ altairApp
                   $rootScope.$broadcast("loggedIn", { firstMenu: firstMenu || null, user: data.data.user });
                   var currentDate = new Date(new Date().getTime());
                   var expireDate = new Date(new Date().getTime() + 1000 * 86400);
-                  localStorage.setItem(
+                  sessionStorage.setItem(
                       "currentUser",
                       JSON.stringify({ username: data.data.user.username, id: data.data.user.id, user: data.data.user, token: data.data.token, expires: expireDate, loginDate: currentDate })
                   );
-                  localStorage.setItem("roles", JSON.stringify(data.data.user.roles));
-                  localStorage.setItem("module", JSON.stringify(data.data.user.modules[0].id));
+                  sessionStorage.setItem("roles", JSON.stringify(data.data.user.roles));
+                  sessionStorage.setItem("module", JSON.stringify(data.data.user.modules[0].id));
                 })
                 .catch(function (data, status) {
                   if (data.status === 400) {
@@ -397,9 +397,9 @@ altairApp
                 .success(function (data, status, headers, config) {
                   authProvider.user = null;
                   crossOriginIsolated.log("doLogout");
-                  localStorage.removeItem("currentUser");
-                  localStorage.removeItem("menuList");
-                  localStorage.removeItem("menuData");
+                  sessionStorage.removeItem("currentUser");
+                  sessionStorage.removeItem("menuList");
+                  sessionStorage.removeItem("menuData");
                   delete $http.defaults.headers.common["Authorization"];
                   $rootScope.$broadcast("loggedOut", "");
                 })
@@ -600,8 +600,8 @@ altairApp
           lsTest: function () {
             var test = "test";
             try {
-              localStorage.setItem(test, test);
-              localStorage.removeItem(test);
+              sessionStorage.setItem(test, test);
+              sessionStorage.removeItem(test);
               return true;
             } catch (e) {
               return false;

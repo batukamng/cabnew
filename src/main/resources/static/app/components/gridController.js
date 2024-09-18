@@ -10,8 +10,8 @@ angular.module("altairApp").controller("1001GridCtrl", [
     "__env",
     "sweet",
     function ($rootScope, $state, $scope, $timeout, $http, $window, mainService, commonDataSource, __env, sweet) {
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-        let token = JSON.parse(localStorage.getItem("currentUser")).token;
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+        let token = JSON.parse(sessionStorage.getItem("currentUser")).token;
         $scope.selectedIds = [];
         $scope.filterByBatch = 1;
         $scope.filterKey = "";
@@ -23,7 +23,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
             // auto opens 'search & filter' sidebar if applicable
             console.log( $scope.filterKey);
             console.log( $scope.filterCustom);
-            let filterData = JSON.parse(localStorage.getItem($scope.filterKey));
+            let filterData = JSON.parse(sessionStorage.getItem($scope.filterKey));
             if (filterData !== null && filterData.filter !== null && filterData.filter.filters !== null &&
                 filterData.filter.filters.length > 2) {
                 $scope.hidden = false;
@@ -36,7 +36,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
         $scope.filters = [];
 
         $scope.getByFilterKey = function () {
-            let filterRequest = JSON.parse(localStorage.getItem($scope.filterKey));
+            let filterRequest = JSON.parse(sessionStorage.getItem($scope.filterKey));
             if (!filterRequest) {
                 filterRequest = {
                     filter: {
@@ -93,7 +93,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     value: $scope.filterByBatch
                 });
             }
-            if (localStorage.getItem("budgetCode") &&
+            if (sessionStorage.getItem("budgetCode") &&
                 !(($scope.filterKey.startsWith('filter1007') || $scope.filterKey.startsWith('filter1001')) && $rootScope.isMof($scope.user))) {
                 filters = filters.filter(function (i) {
                     return i.field !== "budgetCode";
@@ -101,7 +101,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                 filters.push({
                     field: "budgetCode",
                     operator: "eq",
-                    value: localStorage.getItem("budgetCode")
+                    value: sessionStorage.getItem("budgetCode")
                 });
             }
             filterRequest.filter.filters = filters;
@@ -183,7 +183,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     },
                     parameterMap: function (options) {
                         let jsonOptions = JSON.stringify(options);
-                        localStorage.setItem($scope.filterKey, jsonOptions);
+                        sessionStorage.setItem($scope.filterKey, jsonOptions);
                         return jsonOptions;
                     },
                 },
@@ -643,17 +643,17 @@ angular.module("altairApp").controller("1001GridCtrl", [
             };
 
             let template = "<button class='md-btn custom-secondary-btn' type='button' ng-click='toggleSidebar()'>Хайлтыг {{hidden?'нээх':'нуух'}}</button>";
-            if (localStorage.getItem("buttonData").includes("create") && localStorage.getItem("budgetCode") && localStorage.getItem("budgetCode") != "ОНТ") {
+            if (sessionStorage.getItem("buttonData").includes("create") && sessionStorage.getItem("budgetCode") && sessionStorage.getItem("budgetCode") != "ОНТ") {
                 template += "<button class='md-btn custom-btn' ng-click='createApp()'><i class='material-icons text-white mr-1'>add</i>Төсөл</button>";
             }
             if ($scope.canCreateBatch) {
                 template += "<button class='md-btn custom-btn' ng-style=\"{'opacity': selectedIds.length ? '1' : '0.6'}\" ng-click='createBatchApp()' ng-disabled='selectedIds.length == 0'><i class='material-icons text-white mr-1'>add</i> Багц төсөл</button>";
             }
-            if (localStorage.getItem("buttonData").includes("read") && ["filter1006NextStep", "filter1007NextStep"].includes($scope.filterKey)) {
+            if (sessionStorage.getItem("buttonData").includes("read") && ["filter1006NextStep", "filter1007NextStep"].includes($scope.filterKey)) {
                 template += "<button class='md-btn custom-secondary-btn' type='button' ng-click='mayagt3(\"excel\")'>Маягт 3</button>";
                 // template += "<a class=\"md-btn custom-secondary-btn\"  href=\"/api/nms/funding/milestone/report/form7/{{funding.id}}\" target=\"_blank\">Маягт7 </a>"
             }
-            if (localStorage.getItem("buttonData").includes("read") && $rootScope.isMof($scope.user)) {
+            if (sessionStorage.getItem("buttonData").includes("read") && $rootScope.isMof($scope.user)) {
                 template += "<button class='md-btn custom-secondary-btn' type='button' ng-click='mayagt3(\"excel2\")'>Маягт 3</button>";
                 template += "<button class='md-btn custom-secondary-btn' type='button' ng-click='excelExport(\"excelNegtgelFilter\")'>Нэгтгэл эксел</button>";
             }
@@ -661,9 +661,9 @@ angular.module("altairApp").controller("1001GridCtrl", [
                 template += "<button class='md-btn custom-secondary-btn' type='button' ng-click='mayagt3(\"excel2\")'>Маягт 3</button>";
                 // template += "<button class='md-btn custom-secondary-btn' type='button' ng-click='excelExport2(\"negtgel-excel2\")'>Нэгтгэл эксел</button>";
             }
-            if ((localStorage.getItem("buttonData").includes("read") && ["filter1006Eval"].includes($scope.filterKey)) ||
-                (localStorage.getItem("buttonData").includes("select") && ["filter1005"].includes($scope.filterKey)) ||
-                (localStorage.getItem("buttonData").includes("select") && ["filterNegtgel"].includes($scope.filterKey))) {
+            if ((sessionStorage.getItem("buttonData").includes("read") && ["filter1006Eval"].includes($scope.filterKey)) ||
+                (sessionStorage.getItem("buttonData").includes("select") && ["filter1005"].includes($scope.filterKey)) ||
+                (sessionStorage.getItem("buttonData").includes("select") && ["filterNegtgel"].includes($scope.filterKey))) {
                 template += "<button class='md-btn custom-btn' type='button' ng-click='massSend()'><span class='uk-icon-paper-plane mr-1' style='color: white; font-size: 15px; line-height: 30px;'></span>Бүгдийг Илгээх</button>";
             }
             $scope.mainGrid.toolbar = [{template: template}];
@@ -677,7 +677,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                 mainService.withdomain('get', '/api/nms/governor/limit/info').then(function (data) {
                     $scope.governorLimit = data.limitCalc;
                 });
-                if (localStorage.getItem("buttonData").includes("select")) {
+                if (sessionStorage.getItem("buttonData").includes("select")) {
                     $scope.mainGrid.toolbar.push({
                         template: '<div class="ml-auto">Төслийн санал авах хязгаар: <span class="text-red-500 ml-1">{{(amountSum || 0) | number:2}} / {{(governorLimit || 0) | number:2}} сая.төг ₮</span></div>'
                     });
@@ -701,7 +701,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                 }
             }
             if ($scope.filterKey === 'filterNegtgel') {
-                if (localStorage.getItem("buttonData").includes("select")) {
+                if (sessionStorage.getItem("buttonData").includes("select")) {
                     $scope.mainGrid.toolbar.unshift({
                         template: '<button class="grid-btn" ng-click=\'toggleNegtgel(1)\'><i class="material-icons">keyboard_double_arrow_right</i></button>'
                     });
@@ -721,20 +721,20 @@ angular.module("altairApp").controller("1001GridCtrl", [
                         '</div>'
                 });
             }
-            if ($scope.filterKey === "filter1010" && localStorage.getItem("buttonData").includes("select")) {
+            if ($scope.filterKey === "filter1010" && sessionStorage.getItem("buttonData").includes("select")) {
                 $scope.mainGrid.toolbar.push({
                     template: '<button class="grid-btn ml-auto" ng-click=\'select("select", false)\'><i class="material-icons">keyboard_arrow_right</i>Сонгох</button>' +
                         '<button class="grid-btn" ng-click=\'toggle1010(-1)\'><i class="material-icons">keyboard_double_arrow_left</i></button>'
                 });
             }
-            if ($scope.filterKey === "filterNegtgelUnselected" && localStorage.getItem("buttonData").includes("select")) {
+            if ($scope.filterKey === "filterNegtgelUnselected" && sessionStorage.getItem("buttonData").includes("select")) {
                 $scope.mainGrid.toolbar.push({
                     template: '<button class="grid-btn ml-auto" ng-click=\'select("select-negtgel", false)\'><i class="material-icons">keyboard_arrow_right</i>Сонгох</button>' +
                         '<button class="grid-btn" ng-click=\'toggleNegtgel(-1)\'><i class="material-icons">keyboard_double_arrow_left</i></button>'
                 });
             }
             $scope.mainGrid.excel = {allPages: true};
-            if (localStorage.getItem("buttonData").includes("read")) {
+            if (sessionStorage.getItem("buttonData").includes("read")) {
                 $scope.mainGrid.columns.push({
                     command: [
                         {
@@ -746,7 +746,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     width: 80,
                 });
             }
-            if (localStorage.getItem("buttonData").includes("transfer") && $scope.filterKey.startsWith("filter1009")) {
+            if (sessionStorage.getItem("buttonData").includes("transfer") && $scope.filterKey.startsWith("filter1009")) {
                 $scope.mainGrid.columns.push({
                     command: [
                         {
@@ -758,7 +758,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     width: 100,
                 });
             }
-            if (localStorage.getItem("buttonData").includes("select") &&
+            if (sessionStorage.getItem("buttonData").includes("select") &&
                 ["filter1005", "filter1010"].includes($scope.filterKey)
             ) {
                 $scope.mainGrid.columns.push({
@@ -774,7 +774,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     width: 100,
                 });
             }
-            if (localStorage.getItem("buttonData").includes("select") &&
+            if (sessionStorage.getItem("buttonData").includes("select") &&
                 ["filterNegtgel", "filterNegtgelUnselected"].includes($scope.filterKey)
             ) {
                 $scope.mainGrid.columns.push({
@@ -803,15 +803,15 @@ angular.module("altairApp").controller("1001GridCtrl", [
                 });
             }
             let editDeleteTemplate = '<div class="flex gap-3" ng-if="showEditDelete(dataItem)">';
-            if (localStorage.getItem("buttonData").includes("edit")) {
+            if (sessionStorage.getItem("buttonData").includes("edit")) {
                 editDeleteTemplate += '<a class="grid-btn k-grid-edit" ng-click=\'editItem(dataItem)\'><div class="nimis-icon edit"></div></a>';
             } else {
                 editDeleteTemplate += '<span style="width: 24px"></span>';
             }
-            if (localStorage.getItem("buttonData").includes("delete")) {
+            if (sessionStorage.getItem("buttonData").includes("delete")) {
                 editDeleteTemplate += '<a class="grid-btn k-grid-remove-command" ng-if="showDeleteButton(dataItem)" ng-click=\'deleteItem(dataItem)\'><div class="nimis-icon delete"></div></a>';
             }
-            if (localStorage.getItem("buttonData").includes("edit") || localStorage.getItem("buttonData").includes("delete")) {
+            if (sessionStorage.getItem("buttonData").includes("edit") || sessionStorage.getItem("buttonData").includes("delete")) {
                 $scope.mainGrid.columns.push({
                     command: [{template: editDeleteTemplate + "</div>"}],
                     title: "&nbsp;",
@@ -920,7 +920,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     return i.filters && i.filters[0].field !== fieldName;
                 });
                 filterRequest.filter.filters = filterList;
-                localStorage.setItem($scope.filterKey, JSON.stringify(filterRequest));
+                sessionStorage.setItem($scope.filterKey, JSON.stringify(filterRequest));
                 $scope.init();
             }
         };
@@ -977,10 +977,10 @@ angular.module("altairApp").controller("1001GridCtrl", [
                     }
                 }
                 filterRequest.filter.filters = filterList;
-                localStorage.setItem($scope.filterKey, JSON.stringify(filterRequest));
+                sessionStorage.setItem($scope.filterKey, JSON.stringify(filterRequest));
             } else {
                 if (item.checked) {
-                    localStorage.setItem(
+                    sessionStorage.setItem(
                         $scope.filterKey,
                         JSON.stringify([
                             {
@@ -994,7 +994,7 @@ angular.module("altairApp").controller("1001GridCtrl", [
             $scope.init();
         };
         $scope.clearFilter = function () {
-            localStorage.removeItem($scope.filterKey);
+            sessionStorage.removeItem($scope.filterKey);
             $scope.search.searchNameValue2 = "";
             $scope.init();
         };

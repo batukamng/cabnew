@@ -9,8 +9,8 @@ angular.module("altairApp").controller("reportUserCtrl", [
     "$http",
     "__env",
     function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-        $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+        $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
 
         $scope.dataSource = new kendo.data.DataSource({
             transport: {
@@ -22,7 +22,7 @@ angular.module("altairApp").controller("reportUserCtrl", [
                         sort: [{field: "id", dir: "desc"}],
                     },
                     beforeSend: function (req) {
-                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+                        req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
                     },
                 },
                 parameterMap: function (options) {
@@ -300,10 +300,10 @@ angular.module("altairApp").controller("reportUserCtrl", [
             }
         };
 
-        if (localStorage.getItem("buttonData").includes("read")) {
+        if (sessionStorage.getItem("buttonData").includes("read")) {
             $scope.mainGrid.toolbar = ["excel", "search"];
         }
-        if (localStorage.getItem("buttonData").includes("update") || localStorage.getItem("buttonData").includes("edit")) {
+        if (sessionStorage.getItem("buttonData").includes("update") || sessionStorage.getItem("buttonData").includes("edit")) {
             $scope.mainGrid.columns.push({
                 command: [
                     {

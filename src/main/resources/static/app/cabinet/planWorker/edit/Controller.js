@@ -12,9 +12,9 @@ angular.module("altairApp")
         "objectives",
         "__env",
         function ($rootScope, $state,$stateParams, $scope, $timeout, mainService, commonDataSource, sweet, item,objectives, __env) {
-            $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
+            $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
             $("#header_main").attr("style", "filter: none !important;padding: 8px 25px");
-            $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+            $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
             $scope.app = item;
             $scope.objectives = objectives;
             $scope.objectives2 = objectives;
@@ -45,9 +45,9 @@ angular.module("altairApp")
                         url: crudServiceBaseUrl + "/list",
                         contentType: "application/json; charset=UTF-8",
                         type: "POST",
-                        data: {filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value: JSON.parse(localStorage.getItem("currentUser")).user.orgId}]},"sort": [{field: 'id', dir: 'desc'}]},
+                        data: {filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value: JSON.parse(sessionStorage.getItem("currentUser")).user.orgId}]},"sort": [{field: 'id', dir: 'desc'}]},
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     create: {
@@ -55,7 +55,7 @@ angular.module("altairApp")
                         contentType: "application/json; charset=UTF-8",
                         type: "POST",
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     parameterMap: function (options) {
@@ -384,7 +384,7 @@ angular.module("altairApp")
                         type: "POST",
                         data: { filter: {logic: "and", filters: [{field: "orgId", operator: "eq", value:$scope.user.orgId}]}, sort: [{ field: "id", dir: "asc" }] },
                         beforeSend: function (req) {
-                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                            req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                         }
                     },
                     parameterMap: function (options) {

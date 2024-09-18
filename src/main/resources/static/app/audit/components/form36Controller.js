@@ -14,7 +14,7 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, Upload, commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
                 $scope.app = $rootScope.app;
 
                 $scope.$on("formChanged36", function (event, args, data) {
@@ -30,8 +30,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -223,8 +223,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -416,8 +416,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -609,8 +609,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -859,8 +859,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -1052,8 +1052,8 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             }
                         },
@@ -1346,7 +1346,7 @@ angular
                     if (xhr) {
                         xhr.addEventListener("readystatechange", function (e) {
                             if (xhr.readyState == 1 /* OPENED */) {
-                                xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             }
                         });
                     }

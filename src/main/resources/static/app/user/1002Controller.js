@@ -12,7 +12,7 @@ angular
             'fileUpload',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, fileUpload, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser'));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser'));
                 $scope.modalUpload = function (i) {
                     UIkit.modal('#modal_upload', {
                         modal: false,
@@ -77,7 +77,7 @@ angular
                                 data: { "custom": "where  length(asCd)=2", filter: { logic: "and", filters: arr } },
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -109,7 +109,7 @@ angular
                                 data: { "custom": "where typeId=2", filter: { logic: "and", filters: arr } },
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -141,7 +141,7 @@ angular
                                 data: { filter: { logic: "and", filters: arr }, "custom": "where typeId=1 " },
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -173,7 +173,7 @@ angular
                                 data: { filter: { logic: "and", filters: arr } },
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             parameterMap: function (options) {
@@ -213,7 +213,7 @@ angular
                                     type: "POST",
                                     data: { "custom": "where auth='Tra0202'", "sort": [{ field: 'id', dir: 'desc' }] },
                                     beforeSend: function (req) {
-                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                        req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                     }
                                 },
                                 parameterMap: function (options) {
@@ -240,13 +240,13 @@ angular
                         transport: {
                             read: {
                                 url: function (e) {
-                                    if (localStorage.getItem("buttonData").includes("read") && JSON.parse(localStorage.getItem('menuData')).url === $state.current.name) {
+                                    if (sessionStorage.getItem("buttonData").includes("read") && JSON.parse(sessionStorage.getItem('menuData')).url === $state.current.name) {
                                         return __env.apiUrl() + "/api/user/list";
                                     }
                                     else {
-                                        localStorage.removeItem('currentUser');
-                                        localStorage.removeItem('menuList');
-                                        localStorage.removeItem('menuData');
+                                        sessionStorage.removeItem('currentUser');
+                                        sessionStorage.removeItem('menuList');
+                                        sessionStorage.removeItem('menuData');
                                         $state.go('login');
                                     }
                                 },
@@ -254,7 +254,7 @@ angular
                                 type: "POST",
                                 data: { "custom": "where userType=6", "sort": [{ field: 'id', dir: 'desc' }] },
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             },
                             update: {
@@ -262,7 +262,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "PUT",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -272,7 +272,7 @@ angular
                                 url: __env.apiUrl() + "/api/user/delete",
                                 contentType: "application/json; charset=UTF-8",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -284,7 +284,7 @@ angular
                                 contentType: "application/json; charset=UTF-8",
                                 type: "POST",
                                 beforeSend: function (req) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 },
                                 complete: function (e) {
                                     $(".k-grid").data("kendoGrid").dataSource.read();
@@ -389,13 +389,13 @@ angular
                     }
                 };
 
-                if (localStorage.getItem('buttonData').includes("R")) {
+                if (sessionStorage.getItem('buttonData').includes("R")) {
                     $scope.mainGrid.toolbar = ["excel", "search"];
                 }
-                if (localStorage.getItem('buttonData').includes("C")) {
+                if (sessionStorage.getItem('buttonData').includes("C")) {
                     $scope.mainGrid.toolbar = [{ template: "<button class=\"k-button k-button-icontext k-grid-add\"><span class=\"k-icon k-i-plus\"></span>Нэмэх</button><button class=\"k-button k-button-icontext\" ng-click='modalUpload()'><span class=\"k-icon k-i-import\"></span>Импорт</button>" }, "search"];
                 }
-                if (localStorage.getItem('buttonData').includes("U")) {
+                if (sessionStorage.getItem('buttonData').includes("U")) {
                     $scope.mainGrid.columns.push({
                         command: [
                             { name: "edit", text: { edit: " ", update: " ", cancel: " " } },

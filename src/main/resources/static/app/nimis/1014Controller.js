@@ -9,7 +9,7 @@ angular.module("altairApp").controller("1014NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     $scope.app = { useYn: 1 };
     if($scope.user.user.amgId != null)
@@ -70,7 +70,7 @@ angular.module("altairApp").controller("1014NmsCtrl", [
         if (xhr) {
           xhr.addEventListener("readystatechange", function (e) {
             if (xhr.readyState == 1 /* OPENED */) {
-              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             }
           });
         }
@@ -153,13 +153,13 @@ angular.module("altairApp").controller("1014NmsCtrl", [
       transport: {
         read: {
           url: function (e) {
-            /*if (JSON.parse(localStorage.getItem('menuData')).rRead === 'read' && JSON.parse(localStorage.getItem('menuData')).link === $state.current.name) {
+            /*if (JSON.parse(sessionStorage.getItem('menuData')).rRead === 'read' && JSON.parse(sessionStorage.getItem('menuData')).link === $state.current.name) {
                       return __env.apiUrl() + "/api/policy/doc/list";
                     }
                     else {
-                      localStorage.removeItem('currentUser');
-                      localStorage.removeItem('menuList');
-                      localStorage.removeItem('menuData');
+                      sessionStorage.removeItem('currentUser');
+                      sessionStorage.removeItem('menuList');
+                      sessionStorage.removeItem('menuData');
                       $state.go('login');
                     }*/
             return __env.apiUrl() + "/api/policy/doc/list";
@@ -167,8 +167,8 @@ angular.module("altairApp").controller("1014NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "POST",
           beforeSend: function (req) {
-            if (JSON.parse(localStorage.getItem("currentUser")) != null) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            if (JSON.parse(sessionStorage.getItem("currentUser")) != null) {
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             } else {
               $state.go("login");
               $rootScope.$broadcast("LogoutSuccessful");
@@ -293,10 +293,10 @@ angular.module("altairApp").controller("1014NmsCtrl", [
     };
 
     $scope.mainGrid.toolbar = ["excel"];
-    if (localStorage.getItem("buttonData").includes("create")) {
+    if (sessionStorage.getItem("buttonData").includes("create")) {
       $scope.mainGrid.toolbar = [{ template: "<button class='md-btn custom-btn k-grid-add' ng-click='createApp()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>" }, "search"];
     }
-    if (localStorage.getItem("buttonData").includes("edit")) {
+    if (sessionStorage.getItem("buttonData").includes("edit")) {
       $scope.mainGrid.columns.push({
         command: [
           {

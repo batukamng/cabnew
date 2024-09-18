@@ -13,8 +13,8 @@ angular.module("altairApp")
     "__env",
     function ($rootScope, $state,$stateParams, $scope, $timeout, $translate, commonDataSource, sweet,dataItem, mainService, __env) {
 
-        $scope.user = JSON.parse(localStorage.getItem("currentUser")).user;
-        localStorage.setItem("menuData", "{}");
+        $scope.user = JSON.parse(sessionStorage.getItem("currentUser")).user;
+        sessionStorage.setItem("menuData", "{}");
 
         $scope.user1DataSource = commonDataSource.urlDataSource("/api/nms/user/list", JSON.stringify({
                 filter: {

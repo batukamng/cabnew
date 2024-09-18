@@ -15,7 +15,7 @@ angular
             'sweet',
             '__env',
             function ($rootScope, $state, $scope, $filter, $timeout, mainService, fileUpload, $http,commonDataSource, sweet, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
                 $scope.downloadReport = function (i, repType,noteId) {
                     if (i === 1) {
                         $scope.repType='html';

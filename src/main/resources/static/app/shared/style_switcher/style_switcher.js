@@ -75,10 +75,10 @@ angular
                     $('link[href="bower_components/kendo-ui/styles/kendo.materialblack.min.css"]').attr('id','kendoCSS');
 
                     if(theme.class == '') {
-                        localStorage.removeItem('altair_theme');
+                        sessionStorage.removeItem('altair_theme');
                         $('#kendoCSS').attr('href','bower_components/kendo-ui/styles/kendo.material.min.css');
                     } else {
-                        localStorage.setItem("altair_theme", theme.class);
+                        sessionStorage.setItem("altair_theme", theme.class);
                         if(theme.class == 'app_theme_dark') {
                             $('#kendoCSS').attr('href','bower_components/kendo-ui/styles/kendo.materialblack.min.css');
                         } else {
@@ -93,7 +93,7 @@ angular
                 $rootScope.miniSidebarActive = false;
 
                 // change input's state to checked if mini sidebar is active
-                if((localStorage.getItem("altair_sidebar_mini") !== null && localStorage.getItem("altair_sidebar_mini") == '1')) {
+                if((sessionStorage.getItem("altair_sidebar_mini") !== null && sessionStorage.getItem("altair_sidebar_mini") == '1')) {
                     $rootScope.miniSidebarActive = true;
                     scope.mini_sidebar_toggle = true;
                 }
@@ -101,8 +101,8 @@ angular
                 // toggle mini sidebar
                 $('#style_sidebar_mini')
                     .on('ifChecked', function(event){
-                        localStorage.setItem("altair_sidebar_mini", '1');
-                        localStorage.removeItem('altair_sidebar_slim');
+                        sessionStorage.setItem("altair_sidebar_mini", '1');
+                        sessionStorage.removeItem('altair_sidebar_slim');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.miniSidebarActive = true;
@@ -110,7 +110,7 @@ angular
                         })
                     })
                     .on('ifUnchecked', function(event){
-                        localStorage.removeItem('altair_sidebar_mini');
+                        sessionStorage.removeItem('altair_sidebar_mini');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.miniSidebarActive = false;
@@ -123,7 +123,7 @@ angular
                 $rootScope.slimSidebarActive = false;
 
                 // change input's state to checked if mini sidebar is active
-                if((localStorage.getItem("altair_sidebar_slim") !== null && localStorage.getItem("altair_sidebar_slim") == '1')) {
+                if((sessionStorage.getItem("altair_sidebar_slim") !== null && sessionStorage.getItem("altair_sidebar_slim") == '1')) {
                     $rootScope.slimSidebarActive = true;
                     scope.slim_sidebar_toggle = true;
                 }
@@ -131,8 +131,8 @@ angular
                 // toggle mini sidebar
                 $('#style_sidebar_slim')
                     .on('ifChecked', function(event){
-                        localStorage.removeItem('altair_sidebar_mini');
-                        localStorage.setItem("altair_sidebar_slim", '1');
+                        sessionStorage.removeItem('altair_sidebar_mini');
+                        sessionStorage.setItem("altair_sidebar_slim", '1');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.slimSidebarActive = true;
@@ -140,7 +140,7 @@ angular
                         })
                     })
                     .on('ifUnchecked', function(event){
-                        localStorage.removeItem('altair_sidebar_slim');
+                        sessionStorage.removeItem('altair_sidebar_slim');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.slimSidebarActive = false;
@@ -152,7 +152,7 @@ angular
                 scope.boxed_layout_toggle = false;
 
                 // change input's state to checked if boxed layout is active
-                if((localStorage.getItem("altair_boxed_layout") !== null && localStorage.getItem("altair_boxed_layout") == '1')) {
+                if((sessionStorage.getItem("altair_boxed_layout") !== null && sessionStorage.getItem("altair_boxed_layout") == '1')) {
                     $rootScope.boxedLayoutActive = true;
                     scope.boxed_layout_toggle = true;
                 }
@@ -160,7 +160,7 @@ angular
                 // toggle mini sidebar
                 $('#style_layout_boxed')
                     .on('ifChecked', function(event){
-                        localStorage.setItem("altair_boxed_layout", '1');
+                        sessionStorage.setItem("altair_boxed_layout", '1');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.boxedLayoutActive = true;
@@ -168,7 +168,7 @@ angular
                         })
                     })
                     .on('ifUnchecked', function(event){
-                        localStorage.removeItem('altair_boxed_layout');
+                        sessionStorage.removeItem('altair_boxed_layout');
                         $rootScope.styleSwitcherActive = false;
                         $timeout(function() {
                             $rootScope.boxedLayoutActive = false;
@@ -193,8 +193,8 @@ angular
 
 
                 // check which theme is active
-                if(localStorage.getItem("altair_theme") !== null) {
-                    $rootScope.main_theme = localStorage.getItem("altair_theme");
+                if(sessionStorage.getItem("altair_theme") !== null) {
+                    $rootScope.main_theme = sessionStorage.getItem("altair_theme");
                 } else {
                     $rootScope.main_theme = "app_theme_f"
                 }

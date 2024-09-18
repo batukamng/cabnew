@@ -9,7 +9,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
   "$http",
   "__env",
   function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-    $scope.user = JSON.parse(localStorage.getItem("currentUser"));
+    $scope.user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     // valuePrimitive: true,
     $scope.selectOptions = {
@@ -26,7 +26,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
             type: "POST",
             data: { custom: "where auth in ('Tra0201','Nimis') or nimis is not null", sort: [{ field: "id", dir: "desc" }] },
             beforeSend: function (req) {
-              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+              req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
             },
           },
           parameterMap: function (options) {
@@ -79,7 +79,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
             sort: [{ field: "id", dir: "desc" }],
           },
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
         },
         update: {
@@ -87,7 +87,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "PUT",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -97,7 +97,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
           url: __env.apiUrl() + "/api/user/delete",
           contentType: "application/json; charset=UTF-8",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -109,7 +109,7 @@ angular.module("altairApp").controller("1003NmsCtrl", [
           contentType: "application/json; charset=UTF-8",
           type: "POST",
           beforeSend: function (req) {
-            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("currentUser")).token);
+            req.setRequestHeader("Authorization", "Bearer " + JSON.parse(sessionStorage.getItem("currentUser")).token);
           },
           complete: function (e) {
             $(".k-grid").data("kendoGrid").dataSource.read();
@@ -198,13 +198,13 @@ angular.module("altairApp").controller("1003NmsCtrl", [
         return $(window).height() - 150;
       },
     };
-    if (localStorage.getItem("buttonData").includes("R")) {
+    if (sessionStorage.getItem("buttonData").includes("R")) {
       $scope.main1Grid.toolbar = ["excel", "search"];
     }
-    if (localStorage.getItem("buttonData").includes("C")) {
+    if (sessionStorage.getItem("buttonData").includes("C")) {
       $scope.main1Grid.toolbar = [{ template: '<button class="k-button k-button-icontext" ng-click=\'add(lvlCd)\'><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
     }
-    if (localStorage.getItem("buttonData").includes("U")) {
+    if (sessionStorage.getItem("buttonData").includes("U")) {
       $scope.main1Grid.columns.push({
         command: [
           { template: '<button class="k-button k-button-icontext"  ng-click=\'update(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },
@@ -349,13 +349,13 @@ angular.module("altairApp").controller("1003NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main2Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main2Grid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main2Grid.columns.push({
               command: [
                 { template: '<button class="k-button k-button-icontext"  ng-click=\'update(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },
@@ -436,13 +436,13 @@ angular.module("altairApp").controller("1003NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main2Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main2Grid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main2Grid.columns.push({
               command: [
                 { template: '<button class="k-button k-button-icontext"  ng-click=\'update(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },
@@ -523,13 +523,13 @@ angular.module("altairApp").controller("1003NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main3Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main3Grid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main3Grid.columns.push({
               command: [
                 { template: '<button class="k-button k-button-icontext"  ng-click=\'update(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },
@@ -610,13 +610,13 @@ angular.module("altairApp").controller("1003NmsCtrl", [
               return $(window).height() - 150;
             },
           };
-          if (localStorage.getItem("buttonData").includes("R")) {
+          if (sessionStorage.getItem("buttonData").includes("R")) {
             $scope.main4Grid.toolbar = ["excel", "search"];
           }
-          if (localStorage.getItem("buttonData").includes("C")) {
+          if (sessionStorage.getItem("buttonData").includes("C")) {
             $scope.main4Grid.toolbar = [{ template: '<button class="k-button k-button-icontext k-grid-add"><span class="k-icon k-i-plus"></span>Нэмэх</button>' }];
           }
-          if (localStorage.getItem("buttonData").includes("U")) {
+          if (sessionStorage.getItem("buttonData").includes("U")) {
             $scope.main4Grid.columns.push({
               command: [
                 { template: '<button class="k-button k-button-icontext"  ng-click=\'update(dataItem)\'><span class="k-icon k-i-edit"></span></button>' },

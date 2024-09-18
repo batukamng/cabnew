@@ -13,8 +13,8 @@ angular
             '$http',
             '__env',
             function ($rootScope, $state, $scope, $timeout, mainService, commonDataSource, Upload, $http, __env) {
-                $scope.user = JSON.parse(localStorage.getItem('currentUser')).user;
-                $scope.menuData = JSON.parse(localStorage.getItem("menuData"));
+                $scope.user = JSON.parse(sessionStorage.getItem('currentUser')).user;
+                $scope.menuData = JSON.parse(sessionStorage.getItem("menuData"));
                 mainService
                     .withdata(
                         "post",
@@ -40,8 +40,8 @@ angular
                             type: "POST",
                             data: {"sort": [{field: 'id', dir: 'asc'}]},
                             beforeSend: function (req) {
-                                if (JSON.parse(localStorage.getItem('currentUser')) != null) {
-                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                if (JSON.parse(sessionStorage.getItem('currentUser')) != null) {
+                                    req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                                 else {
                                     $state.go('login');
@@ -54,7 +54,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "POST",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -65,7 +65,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "PUT",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -76,7 +76,7 @@ angular
                             contentType: "application/json; charset=UTF-8",
                             type: "DELETE",
                             beforeSend: function (req) {
-                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                req.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                             },
                             complete: function (e) {
                                 $(".k-grid").data("kendoGrid").dataSource.read();
@@ -194,7 +194,7 @@ angular
                         if (xhr) {
                             xhr.addEventListener("readystatechange", function (e) {
                                 if (xhr.readyState === 1 /* OPENED */) {
-                                    xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token);
+                                    xhr.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(sessionStorage.getItem('currentUser')).token);
                                 }
                             });
                         }
@@ -232,13 +232,13 @@ angular
                     modalForm.show();
                 }
 
-                if (localStorage.getItem('buttonData').includes("read")) {
+                if (sessionStorage.getItem('buttonData').includes("read")) {
                     $scope.mainGrid.toolbar = ["excel", "search"];
                 }
-                if (localStorage.getItem('buttonData').includes("create")) {
+                if (sessionStorage.getItem('buttonData').includes("create")) {
                         $scope.mainGrid.toolbar = [{ template: "<button class='md-btn custom-btn k-grid-add' ng-click='add()'><i class='material-icons text-white mr-1'>add</i>Нэмэх</button>" }];
                 }
-                if (localStorage.getItem('buttonData').includes("update") || localStorage.getItem('buttonData').includes("edit")) {
+                if (sessionStorage.getItem('buttonData').includes("update") || sessionStorage.getItem('buttonData').includes("edit")) {
                     $scope.mainGrid.columns.push({
 /*                        command: [
                             { template: "<button class=\"k-button k-button-icontext\"  ng-click='update(dataItem)'><span class=\"k-icon k-i-edit\"></span></button>" },
