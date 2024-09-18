@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
-  <g id="ic_menu_product" transform="translate(61 -6627)">
-    <path id="Rectangle_3324" data-name="Rectangle 3324" d="M2,1A1,1,0,0,0,1,2V3H20V2a1,1,0,0,0-1-1H2M2,0H19a2,2,0,0,1,2,2V4H0V2A2,2,0,0,1,2,0Z" transform="translate(-61 6627)" fill="#b99d99"/>
-    <path id="Rectangle_3325" data-name="Rectangle 3325" d="M1,1V14a1,1,0,0,0,1,1H17a1,1,0,0,0,1-1V1H1M0,0H19V14a2,2,0,0,1-2,2H2a2,2,0,0,1-2-2Z" transform="translate(-60 6632)" fill="#b99d99"/>
-    <path id="Rectangle_3326" data-name="Rectangle 3326" d="M2,1A1,1,0,0,0,2,3H7A1,1,0,0,0,7,1H2M2,0H7A2,2,0,0,1,7,4H2A2,2,0,0,1,2,0Z" transform="translate(-55 6634)" fill="#b99d99"/>
-  </g>
-</svg>

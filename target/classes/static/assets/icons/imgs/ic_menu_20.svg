@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16">
-  <g id="ic_menu_20" transform="translate(-139.5 -528)">
-    <g id="Ellipse_1_copy_5" data-name="Ellipse 1 copy 5" transform="translate(143.01 528)" fill="none" stroke="#959595" stroke-width="1">
-      <ellipse cx="4.99" cy="5" rx="4.99" ry="5" stroke="none"/>
-      <ellipse cx="4.99" cy="5" rx="4.49" ry="4.5" fill="none"/>
-    </g>
-    <path id="Shape_2_copy_7" data-name="Shape 2 copy 7" d="M25,625v-2.166A4,4,0,0,1,29,619h8a4.372,4.372,0,0,1,4,3.832V625" transform="translate(115 -81)" fill="none" stroke="#959595" stroke-width="1"/>
-  </g>
-</svg>
