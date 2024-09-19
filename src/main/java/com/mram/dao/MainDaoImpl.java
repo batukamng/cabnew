@@ -46,7 +46,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 entityManager.createQuery(queryStr);
                 try {
                     return true;
-                } catch (final Exception e) {
+                } catch (Exception e) {
 
                     logger.info(e);
                     // return null;
@@ -55,7 +55,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 final Query query = entityManager.createNativeQuery(queryStr);
                 try {
                     return query.getResultList();
-                } catch (final Exception e) {
+                } catch (Exception e) {
                     logger.info(e);
                 }
 
@@ -64,7 +64,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 final Query query = entityManager.createQuery(queryStr);
                 try {
                     return query.executeUpdate();
-                } catch (final Exception e) {
+                } catch (Exception e) {
                     logger.info(e);
                 }
 
@@ -72,7 +72,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 final Query query = entityManager.createQuery(queryStr);
                 try {
                     return query.getResultList().get(0);
-                } catch (final Exception e) {
+                } catch (Exception e) {
                     logger.info(e);
                 }
 
@@ -81,7 +81,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 query.executeUpdate();
                 try {
                     return true;
-                } catch (final Exception e) {
+                } catch (Exception e) {
 
                     logger.info(e);
                 }
@@ -89,7 +89,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 return null;
             }
 
-        } catch (final Exception e) {
+        } catch (Exception e) {
 
             logger.info(e);
         }

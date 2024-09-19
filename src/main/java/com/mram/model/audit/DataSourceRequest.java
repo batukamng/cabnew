@@ -342,7 +342,11 @@ public class DataSourceRequest {
             final String field = descriptor.getField();
             Method accessor = new PropertyDescriptor(field, clazz).getReadMethod();
 
-            Object groupValue = accessor.invoke(items.get(0));
+            Object groupValue = new Object();
+            if (items != null && items.get(0) != null){
+                groupValue = accessor.invoke(items.get(0));
+            }
+
             List<Object> groupItems = createGroupItem(group.size() > 1, clazz, result, aggregates, field, groupValue);
 
             if (groupItems != null && accessor != null) {

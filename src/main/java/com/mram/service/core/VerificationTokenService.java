@@ -55,10 +55,12 @@ public class VerificationTokenService {
         Pattern pattern = Pattern.compile("^(.)(.*)(..@.*)$");
         Matcher matcher = pattern.matcher(email);
 
-        if (matcher.matches()) {
+        if (matcher.matches() && matcher != null && matcher.group(2) != null) {
             String username = matcher.group(2);
-            String maskedUsername = username.replaceAll(".", "*");
-            return matcher.group(1) + maskedUsername + matcher.group(3);
+            if (username != null) {
+                String maskedUsername = username.replaceAll(".", "*");
+            }
+
         } else {
             // Invalid email format, return original email
             return email;

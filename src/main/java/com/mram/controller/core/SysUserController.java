@@ -108,45 +108,55 @@ public class SysUserController {
                 loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
             }
             if (jsonObj != null && loguser != null && jsonObj.has("email") && !jsonObj.isNull("email")) {
-                loguser.get().setEmail(jsonObj.getString("email"));
+                loguser.get().setEmail(jsonObj.getString("email") );
                 if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
                     loguser.get().setEmailVerified(0);
                 }
             }
 
-            if (jsonObj != null && loguser != null && jsonObj.getLong("orgId") != null &&
-                    jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
-                loguser.get().setOrgId(jsonObj.getLong("orgId"));
+            if (jsonObj != null && loguser != null ) {
+                if(jsonObj.getLong("orgId") != null && jsonObj.has("orgId") && !jsonObj.isNull("orgId")){
+                    loguser.get().setOrgId(jsonObj.getLong("orgId"));
+                }
             }
-            if (jsonObj != null && loguser != null && jsonObj.getString("phone") != null &&
-                    jsonObj.has("phone") && !jsonObj.isNull("phone")) {
-                loguser.get().setPhone(jsonObj.getString("phone"));
-            }
-
-            if (jsonObj != null && loguser != null && jsonObj.has("pushWeb") && jsonObj.getLong("pushWeb") != null
-                    && jsonObj.get("pushWeb") instanceof Integer) {
-                loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
-            }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushSystem") && jsonObj.getLong("pushSystem") != null
-                    && jsonObj.get("pushSystem") instanceof Integer) {
-                loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
-            }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushNews") && jsonObj.getLong("pushNews") != null
-                    && jsonObj.get("pushNews") instanceof Integer) {
-                loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
-            }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushEmail") && jsonObj.getLong("pushEmail") != null
-                    && jsonObj.get("pushEmail") instanceof Integer) {
-                loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.getString("phone") != null && jsonObj.has("phone") && !jsonObj.isNull("phone")){
+                    loguser.get().setPhone(jsonObj.getString("phone"));
+                }
             }
 
-            if (jsonObj != null && loguser != null && jsonObj.getString("newPassword") != null &&
-                    jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")) {
-                loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
-                loguser.get().setLastPasswordUpdated(Instant.now());
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.has("pushWeb") && jsonObj.getLong("pushWeb") != null && jsonObj.get("pushWeb") instanceof Integer){
+                    loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
+                }
             }
-            if (jsonObj != null && loguser != null && jsonObj.getLong("imgId") != null && jsonObj.has("imgId")) {
-                loguser.get().setImgId(jsonObj.getLong("imgId"));
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.has("pushSystem") && jsonObj.getLong("pushSystem") != null && jsonObj.get("pushSystem") instanceof Integer){
+                    loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
+                }
+            }
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.has("pushNews") && jsonObj.getLong("pushNews") != null && jsonObj.get("pushNews") instanceof Integer){
+                    loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
+                }
+            }
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.has("pushEmail") && jsonObj.getLong("pushEmail") != null && jsonObj.get("pushEmail") instanceof Integer){
+                    loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
+                }
+            }
+
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.getString("newPassword") != null &&
+                        jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
+                    loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
+                    loguser.get().setLastPasswordUpdated(Instant.now());
+                }
+            }
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.getLong("imgId") != null && jsonObj.has("imgId")){
+                    loguser.get().setImgId(jsonObj.getLong("imgId"));
+                }
             }
             LutUser save = userRepository.save(loguser.get());
             if (save.getImgId() != null) {
@@ -334,10 +344,13 @@ public class SysUserController {
         Optional<LutUser> old = userRepository.findById(obj.getLong("id"));
         if (old != null) {
             if (old.isPresent()) {
-                if (old.get().getUsername() != null && obj.getString("username") != null &&
-                        !old.get().getUsername().equalsIgnoreCase(obj.getString("username"))) {
-                    if (userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
-                        return ResponseEntity.status(405).build();
+                if (old.get().getUsername() != null && obj.getString("username") != null)
+                {
+                    if (!old.get().getUsername().equalsIgnoreCase(obj.getString("username")) != null)
+                    {
+                        if (userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
+                            return ResponseEntity.status(405).build();
+                        }
                     }
                 }
 
@@ -359,8 +372,10 @@ public class SysUserController {
                 if (!strRoles.isEmpty()) {
                     for (Role u : old.get().getRoles()) {
 
-                        if (old.get().getId() != null && u.getId() != null)
-                            userRepository.deleteRoles(old.get().getId(), u.getId());
+                        if (old.get().getId() != null)
+                            if (u.getId() != null){
+                                userRepository.deleteRoles(old.get().getId(), u.getId());
+                            }
                     }
 
                     if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {

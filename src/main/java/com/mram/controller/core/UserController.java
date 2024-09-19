@@ -267,8 +267,10 @@ public class UserController extends GenericController<LutUser> {
          * }
          */
 
-        if (loguser != null && jsonObj != null && jsonObj.getString("email") != null) {
-            loguser.get().setEmail(jsonObj.getString("email"));
+        if (loguser != null && jsonObj != null) {
+            if (jsonObj.getString("email") != null) {
+                loguser.get().setEmail(jsonObj.getString("email"));
+            }
         }
 
         /*
@@ -283,10 +285,11 @@ public class UserController extends GenericController<LutUser> {
          * }
          */
 
-        if (jsonObj != null && jsonObj.getString("newPassword") != null &&
-                loguser != null && jsonObj.has("newPassword")
+        if (jsonObj != null && loguser != null ) {
+            if (jsonObj.getString("newPassword") != null && jsonObj.has("newPassword")
                 && !jsonObj.getString("newPassword").equals("")) {
-            loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
+                loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
+            }
         }
         userRepository.save(loguser.get());
 
@@ -298,23 +301,28 @@ public class UserController extends GenericController<LutUser> {
         JSONObject jsonObj = new JSONObject(jsonStr);
         UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<LutUser> loguser = userRepository.findByUsername(userDetail.getUsername());
-        if (loguser != null && jsonObj != null && jsonObj.getString("oldPassword") != null
-                && loguser.get().getPassword() != null &&
-                encoder.matches(jsonObj.getString("oldPassword"), loguser.get().getPassword())) {
-            if (!userDetail.getUsername().equalsIgnoreCase(jsonObj.getString("username"))) {
-                if (userRepository.existsByUsernameAndUseYn(jsonObj.getString("username"), 1)) {
-                    return new ResponseEntity<String>("false",
-                            HttpStatus.BAD_REQUEST);
-                }
-            }
-            if (loguser != null && jsonObj != null && jsonObj.getString("username") != null
-                    && jsonObj.getString("newPassword") != null) {
-                loguser.get().setUsername(jsonObj.getString("username"));
-                loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
-                userRepository.save(loguser.get());
-            }
+        if (loguser != null && jsonObj != null) {
+            if (jsonObj.getString("oldPassword") != null && loguser.get().getPassword() != null &&
+                    encoder.matches(jsonObj.getString("oldPassword"), loguser.get().getPassword()))
+            {
 
+                if (!userDetail.getUsername().equalsIgnoreCase(jsonObj.getString("username"))) {
+                    if (userRepository.existsByUsernameAndUseYn(jsonObj.getString("username"), 1)) {
+                        return new ResponseEntity<String>("false",
+                                HttpStatus.BAD_REQUEST);
+                    }
+                }
+                if (loguser != null && jsonObj != null ) {
+                    if (jsonObj.getString("username") != null && jsonObj.getString("newPassword") != null) {
+                        loguser.get().setUsername(jsonObj.getString("username"));
+                        loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
+                        userRepository.save(loguser.get());
+                    }
+                }
+
+            }
         }
+
         return ResponseEntity.ok().body("true");
     }
 
