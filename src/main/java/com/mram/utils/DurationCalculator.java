@@ -97,10 +97,14 @@ public class DurationCalculator {
         if (isWorkingDay(to)) {
             if (isWorkingHours(to)) {
                 if (WORK_HOUR_END != 24) {
-                    headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_END, 0)).toMinutes();
+                    if (toDay != null){
+                        headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_END, 0)).toMinutes();
+                    }
                 } else {
-                    toDay = toDay.plusDays(1);
-                    headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_START, 0)).toMinutes();
+                    if (toDay.plusDays(1) != null){
+                        toDay = toDay.plusDays(1);
+                        headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_START, 0)).toMinutes();
+                    }
                 }
             } else if (from.getHour() < WORK_HOUR_START) {
                 headRedundanMinutes = WORKING_MINUTES_PER_DAY;
@@ -110,7 +114,9 @@ public class DurationCalculator {
     }
 
     private boolean isWorkingDay(final LocalDateTime time) {
-        return time.getDayOfWeek().getValue() < DayOfWeek.SATURDAY.getValue();
+        if (time.getDayOfWeek() != null){
+            return time.getDayOfWeek().getValue() < DayOfWeek.SATURDAY.getValue();
+        }
     }
 
     private boolean isWorkingHours(final LocalDateTime time) {

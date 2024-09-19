@@ -58,8 +58,10 @@ public class NotificationService {
             if (!fcmRepository.existsUserToken(user.get().getId(), token)) {
                 NotificationFcm item = new NotificationFcm();
                 item.setFcm(token);
-                if (item != null && user.get().getId() != null) {
-                    item.setUserId(user.get().getId());
+                if (item != null) {
+                    if (user.get().getId() != null){
+                        item.setUserId(user.get().getId());
+                    }
                 }
                 fcmRepository.save(item);
             }

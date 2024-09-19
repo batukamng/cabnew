@@ -97,13 +97,18 @@ public class ActivityLogController extends GenericController<ActivityLog> {
             prevLoggedTime = loggedTime;
             if (log.getCreatedBy() != null) {
                 Optional<LutUser> byId = userRepository.findById(log.getCreatedBy());
-                if (byId.isPresent() && byId.get().getOrganization() != null) {
-                    put.put("consumer", byId.get().getOrganization().getName());
-                } else {
-                    put.put("consumer", "-");
+                if (byId != null) {
+                    if(byId.isPresent()) {
+                        if (byId.get().getOrganization() != null) {
+                            put.put("consumer", byId.get().getOrganization().getName());
+                        } else {
+                            put.put("consumer", "-");
+                        }
+                        byId.ifPresent(user -> put.put("imp", user.getDetail().getFirstname()));
+                        arr.put(put);
+                    }
                 }
-                byId.ifPresent(user -> put.put("imp", user.getDetail().getFirstname()));
-                arr.put(put);
+
             }
         }
         System.out.println(arr.toString());

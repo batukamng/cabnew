@@ -111,113 +111,157 @@ public class AuthRestAPIs {
 
                 ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(authentication);
 
-                if (loggedUser.isPresent() && !loggedUser.get().getRoles().isEmpty()) {
-                    if (loggedUser.get().getUseYn() != 1) {
-                        tokenMap.put("token", null);
-                        return new ResponseEntity<>(tokenMap, HttpStatus.UNAUTHORIZED);
-                    }
-
-                    Profile detail = detailRepository.findByUserId(loggedUser.get().getId());
-                    if (detail != null) {
-                        loggedUser.get().setPosId(detail.getTypeId());
-                        loggedUser.get().setPushEmail(detail.getPushEmail());
-                        loggedUser.get().setPushNews(detail.getPushNews());
-                        loggedUser.get().setPushWeb(detail.getPushWeb());
-                        loggedUser.get().setPushSystem(detail.getPushSystem());
-                        loggedUser.get().setFirstname(detail.getFirstname());
-                        loggedUser.get().setLastname(detail.getLastname());
-                    }
-
-                    if (loginRequest != null && loginRequest.getFcmToken() != null) {
-                        userRepository.updateByFcmToken(loginRequest.getFcmToken());
-
-                        /*
-                         * if(detail!=null){
-                         * detail.setFcmToken(loginRequest.getFcmToken());
-                         * detailRepository.save(detail);
-                         * }
-                         * else{
-                         * detail=new Profile();
-                         * detail.setUserId(loggedUser.get().getId());
-                         * detail.setFcmToken(loginRequest.getFcmToken());
-                         * detailRepository.save(detail);
-                         * }
-                         */
-                        List<NotificationFcm> tokens = (List<NotificationFcm>) dao
-                                .getHQLResult("from NotificationFcm f where f.userId=" + loggedUser.get().getId()
-                                        + " and f.fcm='" + loginRequest.getFcmToken() + "'", "list");
-                        if (tokens.isEmpty()) {
-                            NotificationFcm fcm = new NotificationFcm();
-                            fcm.setFcm(loginRequest.getFcmToken());
-                            fcm.setUserId(loggedUser.get().getId());
-                            fcmRepository.save(fcm);
+                if (loggedUser.isPresent()) {
+                    if(!loggedUser.get().getRoles().isEmpty()) {
+                        if (loggedUser.get().getUseYn() != 1) {
+                            tokenMap.put("token", null);
+                            return new ResponseEntity<>(tokenMap, HttpStatus.UNAUTHORIZED);
                         }
 
-                    }
-                    List<Module> modules = moduleRepository.getModules(loggedUser.get().getId());
-                    String[][] privileges = privilegeRepository.getPrivileges(loggedUser.get().getId());
-                    List<Long> ids = new ArrayList<>();
-                    List<PrivilegeDto> privilegeDtoList = new ArrayList<>();
-                    if (privileges != null) {
-                        for (int i = 0; i < privileges.length; i++) {
-                            ids.add(Long.parseLong(privileges[i][0]));
-                            PrivilegeDto dto = new PrivilegeDto();
-                            dto.setActionName(privileges[i][1]);
-                            dto.setMenuId(Long.parseLong(privileges[i][0]));
-                            dto.setUrl(privileges[i][2]);
-                            privilegeDtoList.add(dto);
-                        }
-                    }
+                        Profile detail = detailRepository.findByUserId(loggedUser.get().getId());
+                        if (detail != null) {
+                            if (detail.getTypeId() != null) {
+                                loggedUser.get().setPosId(detail.getTypeId());
+                            }
 
-                    List<Menu> menus = menuRepository.getUserMenu(loggedUser.get().getUsername(), ids);
-                    List<Menu> reordered = new ArrayList<>();
-                    if (menus != null) {
-                        for (Menu menu : menus) {
-                            if (menu.getParentId() == null) {
-                                List<Menu> subs = new ArrayList<>();
-                                for (Menu sub : menus) {
-                                    if (sub.getParentId() != null && sub.getParentId().equals(menu.getId())) {
-                                        subs.add(sub);
-                                    }
-                                }
-                                menu.setLutMenus(subs);
-                                reordered.add(menu);
+                            if (detail.getPushEmail() != null) {
+                                loggedUser.get().setPushEmail(detail.getPushEmail());
+                            }
+
+                            if (detail.getPushNews() != null) {
+                                loggedUser.get().setPushNews(detail.getPushNews());
+                            }
+
+                            if (detail.getPushWeb() != null) {
+                                loggedUser.get().setPushWeb(detail.getPushWeb());
+                            }
+
+                            if (detail.getPushSystem() != null) {
+                                loggedUser.get().setPushSystem(detail.getPushSystem());
+                            }
+
+                            if (detail.getFirstname() != null) {
+                                loggedUser.get().setFirstname(detail.getFirstname());
+                            }
+
+                            if (detail.getLastname() != null) {
+                                loggedUser.get().setLastname(detail.getLastname());
+                            }
+
+                        }
+
+                        if (loginRequest != null && loginRequest.getFcmToken() != null) {
+                            userRepository.updateByFcmToken(loginRequest.getFcmToken());
+
+                            /*
+                             * if(detail!=null){
+                             * detail.setFcmToken(loginRequest.getFcmToken());
+                             * detailRepository.save(detail);
+                             * }
+                             * else{
+                             * detail=new Profile();
+                             * detail.setUserId(loggedUser.get().getId());
+                             * detail.setFcmToken(loginRequest.getFcmToken());
+                             * detailRepository.save(detail);
+                             * }
+                             */
+                            List<NotificationFcm> tokens = (List<NotificationFcm>) dao
+                                    .getHQLResult("from NotificationFcm f where f.userId=" + loggedUser.get().getId()
+                                            + " and f.fcm='" + loginRequest.getFcmToken() + "'", "list");
+                            if (tokens.isEmpty()) {
+                                NotificationFcm fcm = new NotificationFcm();
+                                fcm.setFcm(loginRequest.getFcmToken());
+                                fcm.setUserId(loggedUser.get().getId());
+                                fcmRepository.save(fcm);
+                            }
+
+                        }
+                        List<Module> modules = moduleRepository.getModules(loggedUser.get().getId());
+                        String[][] privileges = privilegeRepository.getPrivileges(loggedUser.get().getId());
+                        List<Long> ids = new ArrayList<>();
+                        List<PrivilegeDto> privilegeDtoList = new ArrayList<>();
+                        if (privileges != null) {
+                            for (int i = 0; i < privileges.length; i++) {
+                                ids.add(Long.parseLong(privileges[i][0]));
+                                PrivilegeDto dto = new PrivilegeDto();
+                                dto.setActionName(privileges[i][1]);
+                                dto.setMenuId(Long.parseLong(privileges[i][0]));
+                                dto.setUrl(privileges[i][2]);
+                                privilegeDtoList.add(dto);
                             }
                         }
-                    }
 
-                    List<NotificationChannel> channels = (List<NotificationChannel>) dao.getHQLResult(
-                            "from NotificationChannel n where n.useYn=1 and n.code='01' and n.id not in (select t.id from NotificationChannel t left join t.subscribers s where t.code='01' and s.userId="
-                                    + loggedUser.get().getId() + " group by t.id)",
-                            "list");
-                    if (channels != null) {
-                        for (NotificationChannel channel : channels) {
-                            NotificationSubscriber subscriber = new NotificationSubscriber();
-                            subscriber.setChannelId(channel.getId());
-                            subscriber.setUserId(loggedUser.get().getId());
-                            subscriberRepository.save(subscriber);
-                            notificationService.saveSubscription(channel.getId(), loggedUser.get().getId());
+                        List<Menu> menus = new ArrayList<Menu>();
+
+                        if (loggedUser.get().getUsername() != null && ids != null) {
+                            menus = menuRepository.getUserMenu(loggedUser.get().getUsername(), ids);
                         }
+
+                        List<Menu> reordered = new ArrayList<>();
+                        if (menus != null) {
+                            for (Menu menu : menus) {
+                                if (menu.getParentId() == null) {
+                                    List<Menu> subs = new ArrayList<>();
+                                    for (Menu sub : menus) {
+                                        if (sub.getParentId() != null) {
+                                            if (sub.getParentId().equals(menu.getId())) {
+                                                subs.add(sub);
+                                            }
+                                        }
+                                    }
+                                    menu.setLutMenus(subs);
+                                    reordered.add(menu);
+                                }
+                            }
+                        }
+
+                        List<NotificationChannel> channels = (List<NotificationChannel>) dao.getHQLResult(
+                                "from NotificationChannel n where n.useYn=1 and n.code='01' and n.id not in (select t.id from NotificationChannel t left join t.subscribers s where t.code='01' and s.userId="
+                                        + loggedUser.get().getId() + " group by t.id)",
+                                "list");
+                        if (channels != null) {
+
+                            for (NotificationChannel channel : channels) {
+                                NotificationSubscriber subscriber = new NotificationSubscriber();
+                                subscriber.setChannelId(channel.getId());
+                                subscriber.setUserId(loggedUser.get().getId());
+                                subscriberRepository.save(subscriber);
+
+                                if (channel.getId() != null && loggedUser.get().getId() != null) {
+                                    notificationService.saveSubscription(channel.getId(), loggedUser.get().getId());
+                                }
+
+                            }
+                        }
+
+                        if (modules != null) {
+                            loggedUser.get().setModules(modules);
+                        }
+
+                        if (privilegeDtoList != null) {
+                            loggedUser.get().setPrivileges(privilegeDtoList);
+                        }
+
+                        if (reordered != null) {
+                            loggedUser.get().setMenus(reordered);
+                        }
+
+                        loggedUser.get().setPassword(null);
+                        tokenMap.put("token", jwtCookie.toString());
+                        tokenMap.put("user", loggedUser.get());
+                        /* return new ResponseEntity<>(tokenMap, HttpStatus.OK); */
+
+                        List<String> roles = userDetails.getAuthorities().stream()
+                                .map(item -> item.getAuthority())
+                                .collect(Collectors.toList());
+
+                        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                .body(tokenMap);
+                        /*
+                         * return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwt)
+                         * .body(tokenMap);
+                         */
                     }
-
-                    loggedUser.get().setModules(modules);
-                    loggedUser.get().setPrivileges(privilegeDtoList);
-                    loggedUser.get().setMenus(reordered);
-                    loggedUser.get().setPassword(null);
-                    tokenMap.put("token", jwtCookie.toString());
-                    tokenMap.put("user", loggedUser.get());
-                    /* return new ResponseEntity<>(tokenMap, HttpStatus.OK); */
-
-                    List<String> roles = userDetails.getAuthorities().stream()
-                            .map(item -> item.getAuthority())
-                            .collect(Collectors.toList());
-
-                    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                            .body(tokenMap);
-                    /*
-                     * return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwt)
-                     * .body(tokenMap);
-                     */
                 } else {
                     tokenMap.put("token", null);
                     return new ResponseEntity<>(tokenMap, HttpStatus.UNAUTHORIZED);

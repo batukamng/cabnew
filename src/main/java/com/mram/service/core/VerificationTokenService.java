@@ -54,17 +54,31 @@ public class VerificationTokenService {
     public static String maskEmail(String email) {
         Pattern pattern = Pattern.compile("^(.)(.*)(..@.*)$");
         Matcher matcher = pattern.matcher(email);
+        String maskedUsername = "";
+        String group1 = "";
+        String group3 = "";
+        if (matcher != null )
+        {
+            if (matcher.matches())
+            {
+                if (matcher.group(2) != null)
+                {
+                    String username = matcher.group(2);
+                    if (username != null)
+                    {
+                        maskedUsername = username.replaceAll(".", "*");
+                        group1 = matcher.group(1);
+                        group3 = matcher.group(3);
 
-        if (matcher.matches() && matcher != null && matcher.group(2) != null) {
-            String username = matcher.group(2);
-            if (username != null) {
-                String maskedUsername = username.replaceAll(".", "*");
+                    }
+                }
+            } else {
+                // Invalid email format, return original email
+                return email;
             }
-
-        } else {
-            // Invalid email format, return original email
-            return email;
         }
+        return group1 + maskedUsername + group3;
+
     }
 
     public ResponseEntity<String> createVerification(String email) {

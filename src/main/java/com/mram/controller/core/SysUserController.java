@@ -103,9 +103,10 @@ public class SysUserController {
                 name = name.toUpperCase(Locale.ROOT) + "." + StringUtils.capitalize(jsonObj.getString("firstName"));
                 loguser.get().setFirstname(jsonObj.getString("firstName"));
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("profileVerified")
-                    && !jsonObj.isNull("profileVerified")) {
-                loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
+            if (jsonObj != null && loguser != null) {
+                if (jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")){
+                    loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
+                }
             }
             if (jsonObj != null && loguser != null && jsonObj.has("email") && !jsonObj.isNull("email")) {
                 loguser.get().setEmail(jsonObj.getString("email") );
@@ -147,8 +148,7 @@ public class SysUserController {
             }
 
             if (jsonObj != null && loguser != null) {
-                if (jsonObj.getString("newPassword") != null &&
-                        jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
+                if (jsonObj.getString("newPassword") != null && sonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
                     loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
                     loguser.get().setLastPasswordUpdated(Instant.now());
                 }
