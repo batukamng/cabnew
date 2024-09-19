@@ -101,61 +101,86 @@ public class SysUserController {
             }
             if (jsonObj != null && loguser != null && jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
                 name = name.toUpperCase(Locale.ROOT) + "." + StringUtils.capitalize(jsonObj.getString("firstName"));
-                loguser.get().setFirstname(jsonObj.getString("firstName"));
+                if (!loguser.get().setFirstname(jsonObj.getString("firstName")).isEmpty()){
+                    loguser.get().setFirstname(jsonObj.getString("firstName"));
+                }
+
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")){
-                    loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
+                    if (!loguser.get().setProfileVerified(jsonObj.getInt("profileVerified")).isEmpty()){
+                        loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
+                    }
                 }
             }
             if (jsonObj != null && loguser != null && jsonObj.has("email") && !jsonObj.isNull("email")) {
                 loguser.get().setEmail(jsonObj.getString("email") );
-                if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
-                    loguser.get().setEmailVerified(0);
+                if(loguser.get().getEmail() != null){
+                    if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
+                        if (!loguser.get().setEmailVerified(0).isEmpty()){
+                            loguser.get().setEmailVerified(0);
+                        }
+                    }
                 }
             }
 
             if (jsonObj != null && loguser != null ) {
                 if(jsonObj.getLong("orgId") != null && jsonObj.has("orgId") && !jsonObj.isNull("orgId")){
-                    loguser.get().setOrgId(jsonObj.getLong("orgId"));
+                    if (!loguser.get().setOrgId(jsonObj.getLong("orgId")).isEmpty()){
+                        loguser.get().setOrgId(jsonObj.getLong("orgId"));
+                    }
                 }
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.getString("phone") != null && jsonObj.has("phone") && !jsonObj.isNull("phone")){
-                    loguser.get().setPhone(jsonObj.getString("phone"));
+                    if (!loguser.get().setPhone(jsonObj.getString("phone")).isEmpty()){
+                        loguser.get().setPhone(jsonObj.getString("phone"));
+                    }
                 }
             }
 
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.has("pushWeb") && jsonObj.getLong("pushWeb") != null && jsonObj.get("pushWeb") instanceof Integer){
-                    loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
+                    if (!loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb")).isEmpty()){
+                        loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
+                    }
                 }
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.has("pushSystem") && jsonObj.getLong("pushSystem") != null && jsonObj.get("pushSystem") instanceof Integer){
-                    loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
+                    if (!loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem")).isEmpty()){
+                        loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
+                    }
                 }
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.has("pushNews") && jsonObj.getLong("pushNews") != null && jsonObj.get("pushNews") instanceof Integer){
-                    loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
+                    if (!loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews")).isEmpty()){
+                        loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
+                    }
                 }
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.has("pushEmail") && jsonObj.getLong("pushEmail") != null && jsonObj.get("pushEmail") instanceof Integer){
-                    loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
+                    if (!loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail")).isEmpty()){
+                        loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
+                    }
                 }
             }
 
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.getString("newPassword") != null && sonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
-                    loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
-                    loguser.get().setLastPasswordUpdated(Instant.now());
+                    if (!loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword"))).isEmpty()){
+                        loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
+                        loguser.get().setLastPasswordUpdated(Instant.now());
+                    }
                 }
             }
             if (jsonObj != null && loguser != null) {
                 if (jsonObj.getLong("imgId") != null && jsonObj.has("imgId")){
-                    loguser.get().setImgId(jsonObj.getLong("imgId"));
+                    if (!loguser.get().setImgId(jsonObj.getLong("imgId")).isEmpty()){
+                        loguser.get().setImgId(jsonObj.getLong("imgId"));
+                    }
                 }
             }
             LutUser save = userRepository.save(loguser.get());
