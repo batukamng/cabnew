@@ -95,49 +95,55 @@ public class SysUserController {
         Optional<LutUser> loguser = userRepository.findByUsername(userDetail.getUsername());
         String name = "";
         if (loguser.isPresent()) {
-            if (jsonObj.has("lastName") && !jsonObj.isNull("lastName")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("lastName") && !jsonObj.isNull("lastName")) {
                 name = jsonObj.getString("lastName").substring(0, 1);
                 loguser.get().getDetail().setLastname(jsonObj.getString("lastName"));
             }
-            if (jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
                 name = name.toUpperCase(Locale.ROOT) + "." + StringUtils.capitalize(jsonObj.getString("firstName"));
                 loguser.get().setFirstname(jsonObj.getString("firstName"));
             }
-            if (jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("profileVerified")
+                    && !jsonObj.isNull("profileVerified")) {
                 loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
             }
-            if (jsonObj.has("email") && !jsonObj.isNull("email")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("email") && !jsonObj.isNull("email")) {
                 loguser.get().setEmail(jsonObj.getString("email"));
                 if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
                     loguser.get().setEmailVerified(0);
                 }
             }
 
-            if (jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
                 loguser.get().setOrgId(jsonObj.getLong("orgId"));
             }
-            if (jsonObj.has("phone") && !jsonObj.isNull("phone")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("phone") && !jsonObj.isNull("phone")) {
                 loguser.get().setPhone(jsonObj.getString("phone"));
             }
 
-            if (jsonObj.has("pushWeb") && jsonObj.get("pushWeb") instanceof Integer) {
+            if (jsonObj != null && loguser != null && jsonObj.has("pushWeb")
+                    && jsonObj.get("pushWeb") instanceof Integer) {
                 loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
             }
-            if (jsonObj.has("pushSystem") && jsonObj.get("pushSystem") instanceof Integer) {
+            if (jsonObj != null && loguser != null && jsonObj.has("pushSystem")
+                    && jsonObj.get("pushSystem") instanceof Integer) {
                 loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
             }
-            if (jsonObj.has("pushNews") && jsonObj.get("pushNews") instanceof Integer) {
+            if (jsonObj != null && loguser != null && jsonObj.has("pushNews")
+                    && jsonObj.get("pushNews") instanceof Integer) {
                 loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
             }
-            if (jsonObj.has("pushEmail") && jsonObj.get("pushEmail") instanceof Integer) {
+            if (jsonObj != null && loguser != null && jsonObj.has("pushEmail")
+                    && jsonObj.get("pushEmail") instanceof Integer) {
                 loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
             }
 
-            if (jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("newPassword")
+                    && !jsonObj.getString("newPassword").equals("")) {
                 loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
                 loguser.get().setLastPasswordUpdated(Instant.now());
             }
-            if (jsonObj.has("imgId")) {
+            if (jsonObj != null && loguser != null && jsonObj.has("imgId")) {
                 loguser.get().setImgId(jsonObj.getLong("imgId"));
             }
             LutUser save = userRepository.save(loguser.get());

@@ -39,24 +39,25 @@ public class FileStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file,String name,String path) {
+    public String storeFile(MultipartFile file, String name, String path) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-      //  String fileName = new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());
+        // String fileName = new Date().getTime() + "-file." +
+        // getFileExtension(file.getOriginalFilename());
         try {
             // Normalize file name
             String pathString = env.getProperty("file.upload-dir") + File.separator + path;
             File dtx = new File(pathString);
             if (!dtx.exists()) {
                 boolean mkdirs = dtx.mkdirs();
-                System.out.println("Folder created : "+mkdirs);
+                System.out.println("Folder created : " + mkdirs);
             }
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
-           // Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            // Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Path targetLocation = Paths.get(pathString);
             Files.copy(file.getInputStream(), targetLocation.resolve(name), StandardCopyOption.REPLACE_EXISTING);
 
@@ -75,20 +76,19 @@ public class FileStorageService {
         return fileNameParts[fileNameParts.length - 1];
     }
 
-    public String storeMediaFile(MultipartFile file,String name,String path) {
+    public String storeMediaFile(MultipartFile file, String name, String path) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             // Normalize file name
-
 
             String pathString = env.getProperty("file.upload-dir") + File.separator + path;
             File dtx = new File(pathString);
             if (!dtx.exists()) {
                 boolean mkdirs = dtx.mkdirs();
-                System.out.println("Folder created : "+mkdirs);
+                System.out.println("Folder created : " + mkdirs);
             }
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
@@ -101,17 +101,18 @@ public class FileStorageService {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
-    public String storeTemplateFile(MultipartFile file,String fileName, String path) {
+
+    public String storeTemplateFile(MultipartFile file, String fileName, String path) {
         try {
 
-            String pathString =  path +"/assets/reporttemplate/";
+            String pathString = path + "/assets/reporttemplate/";
             File dtx = new File(pathString);
             if (!dtx.exists()) {
                 boolean mkdirs = dtx.mkdirs();
-                System.out.println("Folder created : "+mkdirs);
+                System.out.println("Folder created : " + mkdirs);
             }
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
@@ -125,13 +126,12 @@ public class FileStorageService {
         }
     }
 
-
-    public Resource loadFileAsResource(String username,String fileName) {
+    public Resource loadFileAsResource(String username, String fileName) {
         try {
             String pathString = env.getProperty("file.upload-dir") + File.separator + username;
-            Path filePath =Paths.get(pathString).resolve(fileName).normalize();
+            Path filePath = Paths.get(pathString).resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new MyFileNotFoundException("File not found " + fileName);
@@ -145,15 +145,14 @@ public class FileStorageService {
         try {
             // Normalize file name
 
-
             String pathString = env.getProperty("file.upload-dir") + File.separator + path;
             File dtx = new File(pathString);
             if (!dtx.exists()) {
                 boolean mkdirs = dtx.mkdirs();
-                System.out.println("Folder created : "+mkdirs);
+                System.out.println("Folder created : " + mkdirs);
             }
             // Check if the file's name contains invalid characters
-            if(generatedName.contains("..")) {
+            if (generatedName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + generatedName);
             }
 
@@ -163,6 +162,7 @@ public class FileStorageService {
             Path targetLocation = Paths.get(pathString);
             Files.copy(targetStream, targetLocation.resolve(generatedName), StandardCopyOption.REPLACE_EXISTING);
 
+            targetStream.close();
             return pathString;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + generatedName + ". Please try again!", ex);
@@ -171,10 +171,11 @@ public class FileStorageService {
 
     public Resource loadFileAsUrlResource(String url) {
         try {
-            //String pathString = env.getProperty("file.upload-dir") + File.separator + username;
-            Path filePath =Paths.get(url).normalize();
+            // String pathString = env.getProperty("file.upload-dir") + File.separator +
+            // username;
+            Path filePath = Paths.get(url).normalize();
             Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new MyFileNotFoundException("File not found " + resource.getFilename());

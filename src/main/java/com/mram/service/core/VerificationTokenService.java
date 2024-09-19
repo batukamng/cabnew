@@ -24,27 +24,31 @@ public class VerificationTokenService {
     private final PasswordEncoder encoder;
 
     @Autowired
-    public VerificationTokenService(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, SendingMailService sendingMailService, MailNotificationService mailNotificationService, PasswordEncoder encoder){
+    public VerificationTokenService(UserRepository userRepository,
+            VerificationTokenRepository verificationTokenRepository, SendingMailService sendingMailService,
+            MailNotificationService mailNotificationService, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.sendingMailService = sendingMailService;
         this.encoder = encoder;
     }
 
-    public ResponseEntity<String> createPassword(LutUser user){
+    public ResponseEntity<String> createPassword(LutUser user) {
         int length = 6;
         boolean useLetters = true;
         boolean useNumbers = false;
         String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-        System.out.println("ssss "+generatedString);
+        System.out.println("ssss " + generatedString);
         user.setPassword(encoder.encode(generatedString));
         userRepository.save(user);
-//        sendingMailService.sendMail(email, "Нууц  үг",generatedString);
-        if (!user.getEmail().equals("mergejilten@gmail.com")) {
-         //   mailNotificationService.forceText(user.getEmail(), "Шинэ нууц үг", "Таны шинэ нууц  үг: "+generatedString + "<br>Та энэхүү мэйлийг авсны дараа нууц үгээ шинэчлэнэ үү.", user.getDetail().getFirstname());
+        // sendingMailService.sendMail(email, "Нууц үг",generatedString);
+        if (user != null && !user.getEmail().equals("mergejilten@gmail.com")) {
+            // mailNotificationService.forceText(user.getEmail(), "Шинэ нууц үг", "Таны шинэ
+            // нууц үг: "+generatedString + "<br>Та энэхүү мэйлийг авсны дараа нууц үгээ
+            // шинэчлэнэ үү.", user.getDetail().getFirstname());
         }
 
-        return ResponseEntity.ok("{\"msg\":\""+maskEmail(user.getEmail())+"\"}");
+        return ResponseEntity.ok("{\"msg\":\"" + maskEmail(user.getEmail()) + "\"}");
     }
 
     public static String maskEmail(String email) {
@@ -61,7 +65,7 @@ public class VerificationTokenService {
         }
     }
 
-    public ResponseEntity<String> createVerification(String email){
+    public ResponseEntity<String> createVerification(String email) {
         List<LutUser> users = userRepository.findByEmail(email);
         LutUser user;
         if (users.isEmpty()) {
@@ -80,11 +84,11 @@ public class VerificationTokenService {
         } else {
             verificationToken = verificationTokens.get(0);
         }
-        sendingMailService.sendVerificationMail(email, verificationToken.getToken(),user.getUsername());
+        sendingMailService.sendVerificationMail(email, verificationToken.getToken(), user.getUsername());
         return ResponseEntity.ok("Successfully sent.");
     }
 
-    public ResponseEntity<String> verifyEmail(String token){
+    public ResponseEntity<String> verifyEmail(String token) {
         List<VerificationToken> verificationTokens = verificationTokenRepository.findByToken(token);
         if (verificationTokens.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid token.");

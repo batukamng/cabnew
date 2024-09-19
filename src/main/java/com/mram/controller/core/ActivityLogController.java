@@ -35,7 +35,8 @@ public class ActivityLogController extends GenericController<ActivityLog> {
     private final ActivityLogService activityLogService;
     private final MainDao dao;
 
-    public ActivityLogController(ActivityLogRepository repository, MainDao dao, UserRepository userRepository, MenuRepository menuRepository,ActivityLogService activityLogService) {
+    public ActivityLogController(ActivityLogRepository repository, MainDao dao, UserRepository userRepository,
+            MenuRepository menuRepository, ActivityLogService activityLogService) {
         super(repository);
         this.dao = dao;
         this.userRepository = userRepository;
@@ -44,18 +45,19 @@ public class ActivityLogController extends GenericController<ActivityLog> {
         this.activityLogService = activityLogService;
     }
 
-
-
     @PostMapping("/event")
     public ResponseEntity<?> event(@RequestBody String jsonStr) {
         JSONObject obj = new JSONObject(jsonStr);
-        Optional<Menu> menu=menuRepository.findByCurrent(obj.getString("current"));
-        if(menu.isPresent()){
-            ActivityLog log=activityLogService.create();
-            log.setLogId(menu.get().getId());
-            log.setCode("event");
-            log.setDescription(menu.get().getName());
-            repository.save(log);
+        Optional<Menu> menu = menuRepository.findByCurrent(obj.getString("current"));
+        if (menu != null && menu.isPresent()) {
+            ActivityLog log = activityLogService.create();
+            if (log != null) {
+                log.setLogId(menu.get().getId());
+                log.setCode("event");
+                log.setDescription(menu.get().getName());
+                repository.save(log);
+            }
+
         }
         return ResponseEntity.ok().build();
     }
@@ -63,11 +65,14 @@ public class ActivityLogController extends GenericController<ActivityLog> {
     @PostMapping("/trace")
     public ResponseEntity<?> trace(@RequestBody String jsonStr) {
         JSONObject obj = new JSONObject(jsonStr);
-        ActivityLog log=activityLogService.create();
-       // log.setLogId(menu.get().getId());
-        log.setCode(obj.getString("event"));
-        log.setDescription(obj.getString("description"));
-        repository.save(log);
+        ActivityLog log = activityLogService.create();
+        // log.setLogId(menu.get().getId());
+        if (log != null) {
+            log.setCode(obj.getString("event"));
+            log.setDescription(obj.getString("description"));
+            repository.save(log);
+        }
+
         return ResponseEntity.ok().build();
     }
 
@@ -78,11 +83,11 @@ public class ActivityLogController extends GenericController<ActivityLog> {
         SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         java.util.Date prevLoggedTime = null;
         JSONArray arr = new JSONArray();
-        for (int i=0; i<logs.size(); i++) {
+        for (int i = 0; i < logs.size(); i++) {
             ActivityLog log = logs.get(i);
             java.util.Date loggedTime = Date.from(log.getCreatedAt());
             JSONObject put = new JSONObject()
-                    .put("step", i+1)
+                    .put("step", i + 1)
                     .put("name", log.getName())
                     .put("date", FORMATTER.format(loggedTime))
                     .put("status", log.getStatus());
@@ -90,12 +95,11 @@ public class ActivityLogController extends GenericController<ActivityLog> {
                 put.put("parsedDate", new DurationCalculator(prevLoggedTime, loggedTime).getParsed());
             }
             prevLoggedTime = loggedTime;
-            if(log.getCreatedBy()!=null){
+            if (log.getCreatedBy() != null) {
                 Optional<LutUser> byId = userRepository.findById(log.getCreatedBy());
-                if(byId.isPresent() && byId.get().getOrganization()!=null){
+                if (byId.isPresent() && byId.get().getOrganization() != null) {
                     put.put("consumer", byId.get().getOrganization().getName());
-                }
-                else{
+                } else {
                     put.put("consumer", "-");
                 }
                 byId.ifPresent(user -> put.put("imp", user.getDetail().getFirstname()));
@@ -108,8 +112,8 @@ public class ActivityLogController extends GenericController<ActivityLog> {
 
     // -------------------List by page -------------------------------------------
     @PostMapping("/list")
-    public @ResponseBody
-    DataSourceResult getList(@RequestBody DataSourceRequest request, Authentication authentication) throws JSONException, ClassNotFoundException {
-        return dao.getList("view.ActivityLogView",request);
+    public @ResponseBody DataSourceResult getList(@RequestBody DataSourceRequest request, Authentication authentication)
+            throws JSONException, ClassNotFoundException {
+        return dao.getList("view.ActivityLogView", request);
     }
 }

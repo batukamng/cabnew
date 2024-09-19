@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/cab/plan/user/complain")
@@ -28,61 +27,64 @@ public class PlanUserComplainController extends GenericController<CabPlanUserCom
     private final CabPlanUserComplainRepository repository;
     private final Services services;
 
-
     @PostMapping("/submit")
     public ResponseEntity<?> submit(@RequestBody String jsonStr) {
-        JSONObject obj=new JSONObject(jsonStr);
-        CabPlanUserComplain item;
-        if(repository.findByPlanIdUserId(obj.getLong("userId"),obj.getLong("planId"),obj.getLong("criteriaId")).isEmpty()){
+        JSONObject obj = new JSONObject(jsonStr);
+        CabPlanUserComplain item = new CabPlanUserComplain();
+        if (repository.findByPlanIdUserId(obj.getLong("userId"), obj.getLong("planId"), obj.getLong("criteriaId"))
+                .isEmpty()) {
             item = new CabPlanUserComplain();
-        }
-        else{
-            item=repository.findByPlanIdUserId(obj.getLong("userId"),obj.getLong("planId"),obj.getLong("criteriaId")).get();
-        }
-        item.setComplain(obj.getString("complain"));
-        item.setAnswer(obj.isNull("answer")?null:obj.getString("answer"));
-        item.setDetId(obj.getLong("detId"));
-        item.setCriteriaId(obj.getLong("criteriaId"));
-        item.setPlanId(obj.getLong("planId"));
-        item.setUserId(obj.getLong("userId"));
-        item.setPlanYr(obj.getInt("planYr"));
-        item.setStatus(obj.getString("status"));
-        repository.save(item);
-        if(item.getStatus().equalsIgnoreCase("draft")){
-            services.createActivityLog(new JSONObject()
-                    .put("code", "score-complain")
-                    .put("logId", item.getId())
-                    .put("status", item.getStatus())
-                    .put("name", "Үнэлгээ хийсэн"));
-        }
-        else{
-            services.createActivityLog(new JSONObject()
-                    .put("code", "score-complain")
-                    .put("logId", item.getId())
-                    .put("status", "sent")
-                    .put("name", "Гомдол гаргасан"));
+        } else {
+            item = repository
+                    .findByPlanIdUserId(obj.getLong("userId"), obj.getLong("planId"), obj.getLong("criteriaId")).get();
         }
 
+        if (item != null) {
+            item.setComplain(obj.getString("complain"));
+            item.setAnswer(obj.isNull("answer") ? null : obj.getString("answer"));
+            item.setDetId(obj.getLong("detId"));
+            item.setCriteriaId(obj.getLong("criteriaId"));
+            item.setPlanId(obj.getLong("planId"));
+            item.setUserId(obj.getLong("userId"));
+            item.setPlanYr(obj.getInt("planYr"));
+            item.setStatus(obj.getString("status"));
+            repository.save(item);
+            if (item.getStatus().equalsIgnoreCase("draft")) {
+                services.createActivityLog(new JSONObject()
+                        .put("code", "score-complain")
+                        .put("logId", item.getId())
+                        .put("status", item.getStatus())
+                        .put("name", "Үнэлгээ хийсэн"));
+            } else {
+                services.createActivityLog(new JSONObject()
+                        .put("code", "score-complain")
+                        .put("logId", item.getId())
+                        .put("status", "sent")
+                        .put("name", "Гомдол гаргасан"));
+            }
+
+        } else {
+            item = new CabPlanUserComplain();
+        }
         return ResponseEntity.ok().body(item);
     }
 
     @PostMapping("/change-status")
     public ResponseEntity<?> changePlanStatus(@RequestBody String jsonStr) {
-        JSONObject obj=new JSONObject(jsonStr);
-        CabPlanUserComplain item=repository.getReferenceById(obj.getLong("id"));
+        JSONObject obj = new JSONObject(jsonStr);
+        CabPlanUserComplain item = repository.getReferenceById(obj.getLong("id"));
         services.createActivityLog(new JSONObject()
                 .put("code", "score-complain")
                 .put("logId", item.getId())
                 .put("status", obj.getString("status"))
-                .put("name", obj.isNull("name")?" Гомдол гаргасан":obj.getString("name")));
+                .put("name", obj.isNull("name") ? " Гомдол гаргасан" : obj.getString("name")));
         return ResponseEntity.ok().body(item);
     }
 
-
     // -------------------List by page -------------------------------------------
     @PostMapping("/list")
-    public @ResponseBody
-    DataSourceResult getList(@RequestBody DataSourceRequest request) throws JSONException, ClassNotFoundException {
+    public @ResponseBody DataSourceResult getList(@RequestBody DataSourceRequest request)
+            throws JSONException, ClassNotFoundException {
         return dao.getList("cab.CabPlanUserComplain", request);
     }
 

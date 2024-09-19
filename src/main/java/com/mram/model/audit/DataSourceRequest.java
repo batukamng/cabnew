@@ -335,7 +335,7 @@ public class DataSourceRequest {
             throws IntrospectionException, IllegalAccessException, InvocationTargetException {
         List<Map<String, Object>> result = new ArrayList<>();
 
-        if (!items.isEmpty() && group != null && !group.isEmpty()) {
+        if (items != null && !items.isEmpty() && group != null && !group.isEmpty()) {
             GroupDescriptor descriptor = group.get(0);
             List<AggregateDescriptor> aggregates = descriptor.getAggregates();
             final String field = descriptor.getField();
@@ -344,21 +344,24 @@ public class DataSourceRequest {
             Object groupValue = accessor.invoke(items.get(0));
             List<Object> groupItems = createGroupItem(group.size() > 1, clazz, result, aggregates, field, groupValue);
 
-            for (Object item : items) {
-                Object currentValue = accessor.invoke(item);
+            if (groupItems != null) {
+                for (Object item : items) {
+                    Object currentValue = accessor.invoke(item);
 
-                if (!groupValue.equals(currentValue)) {
-                    groupValue = currentValue;
-                    groupItems = createGroupItem(group.size() > 1, clazz, result, aggregates, field, groupValue);
+                    if (groupValue != null && !groupValue.equals(currentValue)) {
+                        groupValue = currentValue;
+                        groupItems = createGroupItem(group.size() > 1, clazz, result, aggregates, field, groupValue);
+                    }
+                    groupItems.add(item);
                 }
-                groupItems.add(item);
+
+                if (group.size() > 1) {
+                    for (Map<String, Object> g : result) {
+                        g.put("items", groupBy((List<?>) g.get("items"), group.subList(1, group.size()), clazz));
+                    }
+                }
             }
 
-            if (group.size() > 1) {
-                for (Map<String, Object> g : result) {
-                    g.put("items", groupBy((List<?>) g.get("items"), group.subList(1, group.size()), clazz));
-                }
-            }
         }
         return result;
     }
