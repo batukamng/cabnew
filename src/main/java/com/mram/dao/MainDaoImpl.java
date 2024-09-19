@@ -48,14 +48,15 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                     return true;
                 } catch (final Exception e) {
 
-                    return null;
+                    logger.info(e);
+                    // return null;
                 }
             } else if ("list".equals(type)) {
                 final Query query = entityManager.createNativeQuery(queryStr);
                 try {
                     return query.getResultList();
                 } catch (final Exception e) {
-                    return null;
+                    logger.info(e);
                 }
 
             } else if ("update".equals(type)) {
@@ -64,7 +65,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 try {
                     return query.executeUpdate();
                 } catch (final Exception e) {
-                    return null;
+                    logger.info(e);
                 }
 
             } else if ("totalSum".equals(type)) {
@@ -72,7 +73,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 try {
                     return query.getResultList().get(0);
                 } catch (final Exception e) {
-                    return null;
+                    logger.info(e);
                 }
 
             } else if ("delete".equals(type)) {
@@ -82,7 +83,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                     return true;
                 } catch (final Exception e) {
 
-                    return null;
+                    logger.info(e);
                 }
             } else {
                 return null;
@@ -90,7 +91,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
 
         } catch (final Exception e) {
 
-            return null;
+            logger.info(e);
         }
     }
 

@@ -14,10 +14,10 @@ import java.util.Date;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler({ResourceNotFoundException.class, MyFileNotFoundException.class})
+    @ExceptionHandler({ ResourceNotFoundException.class, MyFileNotFoundException.class })
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        ex.printStackTrace();// for debug purpose
+
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -27,23 +27,27 @@ public class ControllerExceptionHandler {
         return message;
     }
 
-/*    @ExceptionHandler({AccessDeniedException.class, org.springframework.security.access.AccessDeniedException.class})
-    @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    public ErrorMessage accessDeniedException(Exception ex, WebRequest request) {
-        ex.printStackTrace();// for debug purpose
-        ErrorMessage message = new ErrorMessage(
-                HttpStatus.FORBIDDEN.value(),
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-
-        return message;
-    }*/
+    /*
+     * @ExceptionHandler({AccessDeniedException.class,
+     * org.springframework.security.access.AccessDeniedException.class})
+     * 
+     * @ResponseStatus(value = HttpStatus.FORBIDDEN)
+     * public ErrorMessage accessDeniedException(Exception ex, WebRequest request) {
+     * ex.printStackTrace();// for debug purpose
+     * ErrorMessage message = new ErrorMessage(
+     * HttpStatus.FORBIDDEN.value(),
+     * new Date(),
+     * ex.getMessage(),
+     * request.getDescription(false));
+     * 
+     * return message;
+     * }
+     */
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
-        ex.printStackTrace();
+
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),

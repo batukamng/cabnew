@@ -240,8 +240,9 @@ public class DataSourceRequest {
                         } else {
                             predicate = cb.like(root.get(field), "%" + value.toString() + "%");
                         }
+                        System.out.println(field + " like " + value.toString());
                     }
-                    System.out.println(field + " like " + value.toString());
+
                     break;
                 case "doesnotcontain":
                     if (value != null) {
@@ -344,7 +345,7 @@ public class DataSourceRequest {
             Object groupValue = accessor.invoke(items.get(0));
             List<Object> groupItems = createGroupItem(group.size() > 1, clazz, result, aggregates, field, groupValue);
 
-            if (groupItems != null) {
+            if (groupItems != null && accessor != null) {
                 for (Object item : items) {
                     Object currentValue = accessor.invoke(item);
 

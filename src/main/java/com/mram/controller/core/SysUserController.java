@@ -114,36 +114,38 @@ public class SysUserController {
                 }
             }
 
-            if (jsonObj != null && loguser != null && jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
+            if (jsonObj != null && loguser != null && jsonObj.getLong("orgId") != null &&
+                    jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
                 loguser.get().setOrgId(jsonObj.getLong("orgId"));
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("phone") && !jsonObj.isNull("phone")) {
+            if (jsonObj != null && loguser != null && jsonObj.getString("phone") != null &&
+                    jsonObj.has("phone") && !jsonObj.isNull("phone")) {
                 loguser.get().setPhone(jsonObj.getString("phone"));
             }
 
-            if (jsonObj != null && loguser != null && jsonObj.has("pushWeb")
+            if (jsonObj != null && loguser != null && jsonObj.has("pushWeb") && jsonObj.getLong("pushWeb") != null
                     && jsonObj.get("pushWeb") instanceof Integer) {
                 loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushSystem")
+            if (jsonObj != null && loguser != null && jsonObj.has("pushSystem") && jsonObj.getLong("pushSystem") != null
                     && jsonObj.get("pushSystem") instanceof Integer) {
                 loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushNews")
+            if (jsonObj != null && loguser != null && jsonObj.has("pushNews") && jsonObj.getLong("pushNews") != null
                     && jsonObj.get("pushNews") instanceof Integer) {
                 loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("pushEmail")
+            if (jsonObj != null && loguser != null && jsonObj.has("pushEmail") && jsonObj.getLong("pushEmail") != null
                     && jsonObj.get("pushEmail") instanceof Integer) {
                 loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
             }
 
-            if (jsonObj != null && loguser != null && jsonObj.has("newPassword")
-                    && !jsonObj.getString("newPassword").equals("")) {
+            if (jsonObj != null && loguser != null && jsonObj.getString("newPassword") != null &&
+                    jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")) {
                 loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
                 loguser.get().setLastPasswordUpdated(Instant.now());
             }
-            if (jsonObj != null && loguser != null && jsonObj.has("imgId")) {
+            if (jsonObj != null && loguser != null && jsonObj.getLong("imgId") != null && jsonObj.has("imgId")) {
                 loguser.get().setImgId(jsonObj.getLong("imgId"));
             }
             LutUser save = userRepository.save(loguser.get());
@@ -330,124 +332,129 @@ public class SysUserController {
         JSONObject obj = new JSONObject(signUpRequest);
 
         Optional<LutUser> old = userRepository.findById(obj.getLong("id"));
-        if (old.isPresent()) {
-            if (!old.get().getUsername().equalsIgnoreCase(obj.getString("username"))) {
-                if (userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
-                    return ResponseEntity.status(405).build();
-                }
-            }
-
-            /*
-             * if(!old.get().getEmail().equalsIgnoreCase(signUpRequest.getEmail())){
-             * if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-             * return new ResponseEntity<String>("Fail -> Email is already in use!",
-             * HttpStatus.BAD_REQUEST);
-             * }
-             * }
-             */
-
-            LutUser user = old.get();
-            JSONArray strRoles = obj.getJSONArray("roles");
-            // JSONArray strPrivileges = obj.getJSONArray("privileges");
-
-            List<Role> roles = new ArrayList<>();
-            Collection<Privilege> privileges = new ArrayList<>();
-            if (!strRoles.isEmpty()) {
-                for (Role u : old.get().getRoles()) {
-                    userRepository.deleteRoles(old.get().getId(), u.getId());
-                }
-
-                if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {
-                    for (int i = 0; i < strRoles.length(); i++) {
-                        if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(i).toString())) {
-                            Role adminRole = roleRepository.findById((long) strRoles.getInt(i))
-                                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
-                            roles.add(adminRole);
-                        }
+        if (old != null) {
+            if (old.isPresent()) {
+                if (old.get().getUsername() != null && obj.getString("username") != null &&
+                        !old.get().getUsername().equalsIgnoreCase(obj.getString("username"))) {
+                    if (userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
+                        return ResponseEntity.status(405).build();
                     }
-                } else {
-                    for (int i = 0; i < strRoles.length(); i++) {
-                        JSONObject roleObj = strRoles.getJSONObject(i);
-                        if (!strRoles.isEmpty()) {
-                            Role adminRole = roleRepository.findById(roleObj.getLong("id"))
-                                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
-                            if (!roles.contains(adminRole)) {
+                }
+
+                /*
+                 * if(!old.get().getEmail().equalsIgnoreCase(signUpRequest.getEmail())){
+                 * if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+                 * return new ResponseEntity<String>("Fail -> Email is already in use!",
+                 * HttpStatus.BAD_REQUEST);
+                 * }
+                 * }
+                 */
+
+                LutUser user = old.get();
+                JSONArray strRoles = obj.getJSONArray("roles");
+                // JSONArray strPrivileges = obj.getJSONArray("privileges");
+
+                List<Role> roles = new ArrayList<>();
+                Collection<Privilege> privileges = new ArrayList<>();
+                if (!strRoles.isEmpty()) {
+                    for (Role u : old.get().getRoles()) {
+
+                        if (old.get().getId() != null && u.getId() != null)
+                            userRepository.deleteRoles(old.get().getId(), u.getId());
+                    }
+
+                    if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {
+                        for (int i = 0; i < strRoles.length(); i++) {
+                            if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(i).toString())) {
+                                Role adminRole = roleRepository.findById((long) strRoles.getInt(i))
+                                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
                                 roles.add(adminRole);
                             }
                         }
+                    } else {
+                        for (int i = 0; i < strRoles.length(); i++) {
+                            JSONObject roleObj = strRoles.getJSONObject(i);
+                            if (!strRoles.isEmpty()) {
+                                Role adminRole = roleRepository.findById(roleObj.getLong("id"))
+                                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
+                                if (!roles.contains(adminRole)) {
+                                    roles.add(adminRole);
+                                }
+                            }
+                        }
+
                     }
 
                 }
-
-            }
-            if (user != null && roles != null) {
-                user.setRoles(roles);
-            }
-
-            /*
-             * if (strPrivileges.length() > 0) {
-             * for (LutPrivilege u : old.get().getPrivileges()) {
-             * privilegeRepository.deleteRoles(old.get().getId(), u.getId());
-             * }
-             * 
-             * if (strPrivileges.length() > 0 &&
-             * StringUtils.isNumeric(strPrivileges.get(0).toString())) {
-             * for (int i = 0; i < strPrivileges.length(); i++) {
-             * if (strPrivileges.length() > 0 &&
-             * StringUtils.isNumeric(strPrivileges.get(i).toString())) {
-             * LutPrivilege privilege = privilegeRepository.findById((long)
-             * strPrivileges.getInt(i)).orElseThrow(() -> new
-             * RuntimeException("Fail! -> Cause: Privilege not find."));
-             * privileges.add(privilege);
-             * }
-             * }
-             * }
-             * else{
-             * for (int i = 0; i < strPrivileges.length(); i++) {
-             * JSONObject roleObj= strPrivileges.getJSONObject(i);
-             * LutPrivilege privilege =
-             * privilegeRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new
-             * RuntimeException("Fail! -> Cause: Privilege not find."));
-             * if(!privileges.contains(privilege)){
-             * privileges.add(privilege);
-             * }
-             * }
-             * 
-             * }
-             * }
-             * user.setPrivileges(privileges);
-             */
-            /*
-             * if(obj.has("lastName") && !obj.isNull("lastName")){
-             * user.setLastName(obj.getString("lastName"));
-             * }
-             * if(obj.has("firstName") && !obj.isNull("firstName")){
-             * user.setFirstName(obj.getString("firstName"));
-             * }
-             * if(obj.has("imgId") && !obj.isNull("imgId")){
-             * user.setImgId(obj.getLong("imgId"));
-             * }
-             */
-            if (obj != null && obj.has("orgId") && !obj.isNull("orgId") && obj.getLong("orgId") != 0) {
-                user.setOrgId(obj.getLong("orgId"));
-            }
-            user.setUsername(obj.getString("username"));
-            if (obj != null && obj.has("email") && !obj.isNull("email")) {
-                user.setEmail(obj.getString("email"));
-            }
-            if (obj != null && obj.has("password")) {
-                if (!encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
-                    user.setPassword(encoder.encode(obj.getString("password")));
+                if (user != null && roles != null) {
+                    user.setRoles(roles);
                 }
-            }
-            /* user.setEmailVerified(0); */
-            userRepository.save(user);
-            if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
-                // smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: "
-                // + user.getUsername() + " password: " + " : " + obj.getString("password"));
-            }
 
-            return ResponseEntity.ok().build();
+                /*
+                 * if (strPrivileges.length() > 0) {
+                 * for (LutPrivilege u : old.get().getPrivileges()) {
+                 * privilegeRepository.deleteRoles(old.get().getId(), u.getId());
+                 * }
+                 * 
+                 * if (strPrivileges.length() > 0 &&
+                 * StringUtils.isNumeric(strPrivileges.get(0).toString())) {
+                 * for (int i = 0; i < strPrivileges.length(); i++) {
+                 * if (strPrivileges.length() > 0 &&
+                 * StringUtils.isNumeric(strPrivileges.get(i).toString())) {
+                 * LutPrivilege privilege = privilegeRepository.findById((long)
+                 * strPrivileges.getInt(i)).orElseThrow(() -> new
+                 * RuntimeException("Fail! -> Cause: Privilege not find."));
+                 * privileges.add(privilege);
+                 * }
+                 * }
+                 * }
+                 * else{
+                 * for (int i = 0; i < strPrivileges.length(); i++) {
+                 * JSONObject roleObj= strPrivileges.getJSONObject(i);
+                 * LutPrivilege privilege =
+                 * privilegeRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new
+                 * RuntimeException("Fail! -> Cause: Privilege not find."));
+                 * if(!privileges.contains(privilege)){
+                 * privileges.add(privilege);
+                 * }
+                 * }
+                 * 
+                 * }
+                 * }
+                 * user.setPrivileges(privileges);
+                 */
+                /*
+                 * if(obj.has("lastName") && !obj.isNull("lastName")){
+                 * user.setLastName(obj.getString("lastName"));
+                 * }
+                 * if(obj.has("firstName") && !obj.isNull("firstName")){
+                 * user.setFirstName(obj.getString("firstName"));
+                 * }
+                 * if(obj.has("imgId") && !obj.isNull("imgId")){
+                 * user.setImgId(obj.getLong("imgId"));
+                 * }
+                 */
+                if (obj != null && obj.has("orgId") && !obj.isNull("orgId") && obj.getLong("orgId") != 0) {
+                    user.setOrgId(obj.getLong("orgId"));
+                }
+                user.setUsername(obj.getString("username"));
+                if (obj != null && obj.has("email") && !obj.isNull("email")) {
+                    user.setEmail(obj.getString("email"));
+                }
+                if (obj != null && obj.has("password")) {
+                    if (!encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
+                        user.setPassword(encoder.encode(obj.getString("password")));
+                    }
+                }
+                /* user.setEmailVerified(0); */
+                userRepository.save(user);
+                if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+                    // smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: "
+                    // + user.getUsername() + " password: " + " : " + obj.getString("password"));
+                }
+
+                return ResponseEntity.ok().build();
+            }
         }
 
         return ResponseEntity.noContent().build();
