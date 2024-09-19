@@ -25,11 +25,6 @@ public class Application implements CommandLineRunner {
 
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
 
-
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
 	@PostConstruct
 	void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -45,17 +40,19 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/*System.out.println("Start: " + formatter.format(LocalDateTime.now()));
-		cachingService.getCommonList("banks");
-		cachingService.getCommonList("organizations");
-		cachingService.getCommonList("suppliers");
-		cachingService.getCommonList("sourceTypes");
-		cachingService.getCommonList("provinces");
-		cachingService.getCommonList("ecoTypes");
-		cachingService.getCommonList("main-sector");
-		cachingService.getCommonList("sub-sector");
-		cachingService.getCommonList("inv-category");
-		cachingService.getCommonList("governors");
-		System.out.println("End: " + formatter.format(LocalDateTime.now()));*/
+		/*
+		 * System.out.println("Start: " + formatter.format(LocalDateTime.now()));
+		 * cachingService.getCommonList("banks");
+		 * cachingService.getCommonList("organizations");
+		 * cachingService.getCommonList("suppliers");
+		 * cachingService.getCommonList("sourceTypes");
+		 * cachingService.getCommonList("provinces");
+		 * cachingService.getCommonList("ecoTypes");
+		 * cachingService.getCommonList("main-sector");
+		 * cachingService.getCommonList("sub-sector");
+		 * cachingService.getCommonList("inv-category");
+		 * cachingService.getCommonList("governors");
+		 * System.out.println("End: " + formatter.format(LocalDateTime.now()));
+		 */
 	}
 }

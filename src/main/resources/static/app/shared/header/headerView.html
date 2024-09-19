@@ -930,3 +930,12 @@
         background-image: url(assets/img/Login.jpg) !important;
     }
 </style>
+
+<script>
+
+$(document).ajaxStop(function(){
+        $("input").attr("title","input");
+        $("select").attr("title","select");
+        $("textarea").attr("title","textarea");
+    });
+</script>
