@@ -240,7 +240,9 @@ am4internal_webpackJsonp(["0471"], {
               (u.style.cssText = "margin: 3px; border: 1px solid black; background:" + h.toHex() + "; color:" + h.toHex()), u.appendChild(document.createTextNode("test"));
               var f = document.createTextNode(" " + t[n] + " -> " + h.toRGB() + " -> " + h.toHex());
               l.appendChild(u), l.appendChild(f), o.appendChild(l);
-            } catch (t) {}
+            } catch (t) {
+              throw new Error("unable to access local image data: " + t);
+            }
           return o;
         });
     };

@@ -39,13 +39,14 @@ public class DataSourceRequest {
         data = new HashMap<String, Object>();
     }
 
-    public FilterDescriptor addFilter(FilterDescriptor filter, String fieldId, String operator, Object value, Long logic){
+    public FilterDescriptor addFilter(FilterDescriptor filter, String fieldId, String operator, Object value,
+            Long logic) {
         FilterDescriptor filterDescriptor = new FilterDescriptor();
         filterDescriptor.setField(fieldId);
         filterDescriptor.setOperator(operator);
         filterDescriptor.setValue(value);
 
-        if(logic.compareTo(1L) == 0L)
+        if (logic.compareTo(1L) == 0L)
             filter.setLogic("and");
         else
             filter.setLogic("or");
@@ -109,24 +110,26 @@ public class DataSourceRequest {
 
     public void setFilter(FilterDescriptor filter) {
         this.filter = filter;
-        if(custom.getFilters() != null){
-            for(int i = 0; i < custom.getFilters().size(); i++){
-                if (custom.getFilters().get(i).getFilters() != null && custom.getFilters().get(i).getFilters().size() > 0) {
+        if (custom.getFilters() != null) {
+            for (int i = 0; i < custom.getFilters().size(); i++) {
+                if (custom.getFilters().get(i).getFilters() != null
+                        && custom.getFilters().get(i).getFilters().size() > 0) {
                     checkFilter(i);
-                }else{
-                    if (custom.getFilters().get(i).getValue() != null){
-                        addFilter(this.filter, custom.getFilters().get(i).getField(), custom.getFilters().get(i).getOperator(), custom.getFilters().get(i).getValue(), 1L);
+                } else {
+                    if (custom.getFilters().get(i).getValue() != null) {
+                        addFilter(this.filter, custom.getFilters().get(i).getField(),
+                                custom.getFilters().get(i).getOperator(), custom.getFilters().get(i).getValue(), 1L);
                     }
                 }
             }
         }
     }
 
-    public void checkFilter(int i){
-        if(custom.getFilters().get(i).getFilters().size() > 0){
+    public void checkFilter(int i) {
+        if (custom.getFilters().get(i).getFilters().size() > 0) {
             FilterDescriptor subFilter = new FilterDescriptor();
-            for(int j = 0; j < custom.getFilters().get(i).getFilters().size(); j++){
-                if (custom.getFilters().get(i).getFilters().get(j).getValue() != null){
+            for (int j = 0; j < custom.getFilters().get(i).getFilters().size(); j++) {
+                if (custom.getFilters().get(i).getFilters().get(j).getValue() != null) {
                     FilterDescriptor filterDescriptor = new FilterDescriptor();
                     filterDescriptor.setField(custom.getFilters().get(i).getFilters().get(j).getField());
                     filterDescriptor.setOperator(custom.getFilters().get(i).getFilters().get(j).getOperator());
@@ -174,6 +177,7 @@ public class DataSourceRequest {
                     value = Boolean.parseBoolean(value.toString());
                 }
             } catch (IntrospectionException | NumberFormatException | ClassCastException ignored) {
+                value = "";
             }
 
             switch (operator) {
@@ -242,7 +246,8 @@ public class DataSourceRequest {
                 case "doesnotcontain":
                     if (value != null) {
                         if (value instanceof String && ignoreCase) {
-                            predicate = cb.notLike(cb.lower(root.get(field)), "%" + value.toString().toLowerCase() + "%");
+                            predicate = cb.notLike(cb.lower(root.get(field)),
+                                    "%" + value.toString().toLowerCase() + "%");
                         } else {
                             predicate = cb.notLike(root.get(field), "%" + value.toString() + "%");
                         }
@@ -253,56 +258,57 @@ public class DataSourceRequest {
         }
         return predicate;
     }
-/*
-    private Predicate getLikeExpression(Root<?> root, CriteriaBuilder cb, String field, String value, MatchMode mode, boolean ignoreCase) {
-        String adjustedValue = adjustValueByMatchMode(value, mode);
-        Expression<String> expression = root.get(field);
-        if (ignoreCase) {
-            expression = cb.lower(expression);
-            adjustedValue = adjustedValue.toLowerCase();
-        }
-        return cb.like(expression, adjustedValue);
-    }
 
-    private String adjustValueByMatchMode(String value, MatchMode mode) {
-        switch (mode) {
-            case EXACT:
-                return value;
-            case START:
-                return value + "%";
-            case END:
-                return "%" + value;
-            case ANYWHERE:
-                return "%" + value + "%";
-        }
-        throw new IllegalArgumentException("Unknown match mode: " + mode);
-    }
-*/
-    private void filter(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder cb, FilterDescriptor filter, Class clazz) {
+    /*
+     * private Predicate getLikeExpression(Root<?> root, CriteriaBuilder cb, String
+     * field, String value, MatchMode mode, boolean ignoreCase) {
+     * String adjustedValue = adjustValueByMatchMode(value, mode);
+     * Expression<String> expression = root.get(field);
+     * if (ignoreCase) {
+     * expression = cb.lower(expression);
+     * adjustedValue = adjustedValue.toLowerCase();
+     * }
+     * return cb.like(expression, adjustedValue);
+     * }
+     * 
+     * private String adjustValueByMatchMode(String value, MatchMode mode) {
+     * switch (mode) {
+     * case EXACT:
+     * return value;
+     * case START:
+     * return value + "%";
+     * case END:
+     * return "%" + value;
+     * case ANYWHERE:
+     * return "%" + value + "%";
+     * }
+     * throw new IllegalArgumentException("Unknown match mode: " + mode);
+     * }
+     */
+    private void filter(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder cb, FilterDescriptor filter,
+            Class clazz) {
         if (filter != null) {
+
             List<FilterDescriptor> filters = filter.filters;
+            List<Predicate> predicates = new ArrayList<>();
 
-            if (!filters.isEmpty()) {
-                List<Predicate> predicates = new ArrayList<>();
+            if (filter.getLogic() == null) {
+                filter.setLogic("and");
+            }
 
-                if (filter.getLogic() == null) {
-                    filter.setLogic("and");
-                }
-
-                for (FilterDescriptor entry : filters) {
-                    if (!entry.getFilters().isEmpty()) {
-                        filter(root, query, cb, entry, clazz);
-                    } else {
-                        predicates.add(restrict(root, cb, entry, clazz));
-                    }
-                }
-
-                Predicate[] predicateArray = predicates.toArray(new Predicate[0]);
-                if (filter.getLogic().equals("or")) {
-                    query.where(cb.or(predicateArray));
+            for (FilterDescriptor entry : filters) {
+                if (!entry.getFilters().isEmpty()) {
+                    filter(root, query, cb, entry, clazz);
                 } else {
-                    query.where(cb.and(predicateArray));
+                    predicates.add(restrict(root, cb, entry, clazz));
                 }
+            }
+
+            Predicate[] predicateArray = predicates.toArray(new Predicate[0]);
+            if (filter.getLogic().equals("or")) {
+                query.where(cb.or(predicateArray));
+            } else {
+                query.where(cb.and(predicateArray));
             }
         }
     }
@@ -325,7 +331,8 @@ public class DataSourceRequest {
         }
     }
 
-    private List<Map<String, Object>> groupBy(List<?> items, List<GroupDescriptor> group, Class<?> clazz) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+    private List<Map<String, Object>> groupBy(List<?> items, List<GroupDescriptor> group, Class<?> clazz)
+            throws IntrospectionException, IllegalAccessException, InvocationTargetException {
         List<Map<String, Object>> result = new ArrayList<>();
 
         if (!items.isEmpty() && group != null && !group.isEmpty()) {
@@ -356,9 +363,8 @@ public class DataSourceRequest {
         return result;
     }
 
-
     private List<Object> createGroupItem(Boolean hasSubgroups, Class<?> clazz, List<Map<String, Object>> result,
-                                         List<AggregateDescriptor> aggregates, final String field, Object groupValue) {
+            List<AggregateDescriptor> aggregates, final String field, Object groupValue) {
 
         Map<String, Object> groupItem = new HashMap<>();
         List<Object> groupItems = new ArrayList<>();
@@ -388,7 +394,8 @@ public class DataSourceRequest {
         return groupItems;
     }
 
-    private Map<String, Object> calculateAggregates(CriteriaQuery<?> cq, Root<?> root, List<AggregateDescriptor> aggregates) {
+    private Map<String, Object> calculateAggregates(CriteriaQuery<?> cq, Root<?> root,
+            List<AggregateDescriptor> aggregates) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -447,7 +454,8 @@ public class DataSourceRequest {
 
     }
 
-    public DataSourceResult toDataSourceResult(EntityManager entityManager, Class<?> clazz,DataSourceRequest request) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+    public DataSourceResult toDataSourceResult(EntityManager entityManager, Class<?> clazz, DataSourceRequest request)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         this.entityManager = entityManager;
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<?> cq = cb.createQuery(clazz);
@@ -488,7 +496,8 @@ public class DataSourceRequest {
         return result;
     }
 
-    private Map<String, Object> aggregate(CriteriaQuery<?> cq, CriteriaBuilder cb, Root<?> root, List<AggregateDescriptor> aggregates, Class clazz) {
+    private Map<String, Object> aggregate(CriteriaQuery<?> cq, CriteriaBuilder cb, Root<?> root,
+            List<AggregateDescriptor> aggregates, Class clazz) {
         filter(root, cq, cb, getFilter(), clazz);
 
         return calculateAggregates(cq, root, aggregates);

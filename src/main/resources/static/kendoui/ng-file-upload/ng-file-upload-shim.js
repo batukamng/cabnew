@@ -17,6 +17,7 @@
     try {
       Object.defineProperty(xhr, prop, {get: fn});
     } catch (e) {/*ignore*/
+      console.log("err");
     }
   }
 

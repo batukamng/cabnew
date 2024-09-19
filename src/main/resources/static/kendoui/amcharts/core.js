@@ -4547,7 +4547,9 @@
                 Object(o.f)(function () {
                   t.style.top = n + "px";
                 });
-          } catch (t) {}
+          } catch (t) {
+            console.log("err");
+          }
         });
       }),
       i.d(e, "c", function () {
@@ -4750,7 +4752,7 @@
               typeof (i = (function (t, e) {
                 try {
                   return t[e];
-                } catch (t) {}
+                } catch (t) {console.log("err");}
               })((e = Object(t)), a))
             ? i
             : o
@@ -6032,7 +6034,7 @@
           if ((a(t), (e = o(e, !0)), a(i), r))
             try {
               return s(t, e, i);
-            } catch (t) {}
+            } catch (t) {console.log("err");}
           if ("get" in i || "set" in i) throw TypeError("Accessors not supported");
           return "value" in i && (t[e] = i.value), t;
         };
@@ -8460,7 +8462,7 @@
               0 == i.series.length && (i.xAxes.clear(), i.yAxes.clear());
             try {
               e.events.off("validated", this.zoomOutAxes, this);
-            } catch (t) {}
+            } catch (t) {console.log("err");}
           }),
           Object.defineProperty(e.prototype, "scrollbarChart", {
             get: function () {
@@ -8589,7 +8591,7 @@
           (e.prototype.processChild = function (t) {
             try {
               this._childrenDisposers.insertKey(t.uid, new s.c([t.events.on("transformed", this.handleChildTransform, this), t.events.on("zIndexChanged", this.sortAndAdd, this)]));
-            } catch (t) {}
+            } catch (t) {console.log("err");}
             this.element && this.element.add(t.group);
             (t.parent = this), (t.paper = this.paper), this.dispatchImmediately("childadded", { type: "childadded", newValue: t }), this.invalidate();
           }),
@@ -20037,7 +20039,7 @@
               r = t.length;
             try {
               c.used(this.axis.title.measuredWidth);
-            } catch (t) {}
+            } catch (t) {console.log("err");}
             (n.x = c.spritePointToSprite({ x: this.line.pixelX, y: 0 }, this.line.parent, this.gridContainer).x),
               this.opposite ? (r *= t.inside ? -1 : 1) : (r *= t.inside ? 1 : -1),
               (t.path = h.moveTo({ x: 0, y: 0 }) + h.lineTo({ x: r, y: 0 })),
@@ -21006,7 +21008,7 @@
       d = function () {
         try {
           n = document.domain && new ActiveXObject("htmlfile");
-        } catch (t) {}
+        } catch (t) {console.log("err");}
         d = n
           ? (function (t) {
               t.write(p("")), t.close();
@@ -24392,7 +24394,7 @@
             if (_[t] && !i) return;
             try {
               return c(_, t, i ? e : (C && y[t]) || e);
-            } catch (t) {}
+            } catch (t) {console.log("err");}
           }
           for (n in k) !(r = o[n]) || (r[t] && !i) || c(r, t, e);
         }
@@ -30157,7 +30159,7 @@
         Array.from(o, function () {
           throw 2;
         });
-    } catch (t) {}
+    } catch (t) {console.log("err");}
     t.exports = function (t, e) {
       if (!e && !r) return !1;
       var i = !1;
@@ -30171,7 +30173,7 @@
           };
         }),
           t(a);
-      } catch (t) {}
+      } catch (t) {console.log("err");}
       return i;
     };
   },
@@ -33204,7 +33206,7 @@
             if (t)
               try {
                 t.node && t.node.parentNode == this.node && this.node.removeChild(t.node);
-              } catch (t) {}
+              } catch (t) {console.log("err");}
           }),
           (e.prototype.hasChild = function (t) {
             for (var e = 0; e < this.node.childNodes.length; e++) if (this.node.childNodes[e] == t.node) return !0;
@@ -34723,7 +34725,7 @@
           if (((t = o(t)), (e = s(e, !0)), u))
             try {
               return h(t, e);
-            } catch (t) {}
+            } catch (t) {console.log("err");}
           if (l(t, e)) return a(!r.f.call(t, e), t[e]);
         };
   },
@@ -39764,7 +39766,7 @@
               try {
                 var e = this.node.getBBox();
                 (t.x = e.x), (t.y = e.y), (t.width = e.width), (t.height = e.height);
-              } catch (t) {}
+              } catch (t) {console.log("err");}
             return t;
           }),
           (t.prototype.moveTo = function (t) {
@@ -40484,13 +40486,13 @@
           if (t.interactions)
             try {
               t.interactions.element.focus();
-            } catch (t) {}
+            } catch (t) {console.log("err");}
         }),
         (e.prototype.setBlur = function (t) {
           if (t.interactions)
             try {
               t.interactions.element.blur();
-            } catch (t) {}
+            } catch (t) {console.log("err");}
         }),
         (e.prototype.hideBranch = function (t) {
           t.element.style.display = "none";

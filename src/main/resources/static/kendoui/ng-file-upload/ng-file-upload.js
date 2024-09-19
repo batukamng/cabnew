@@ -821,6 +821,7 @@ ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile', 'Upload',
           fileElem.bind('change', changeFn);
         }
       } catch (e) {/*ignore*/
+        console.log("err");
       }
 
       if (isDelayedClickSupported(navigator.userAgent)) {
@@ -1987,6 +1988,7 @@ ngFileUpload.service('UploadResize', ['UploadValidate', '$q', function (UploadVa
       try {
         html = source && source.getData && source.getData('text/html');
       } catch (e) {/* Fix IE11 that throw error calling getData */
+        console.log("err");
       }
       extractFiles(source.items, source.files, attrGetter('ngfAllowDir', scope) !== false,
         attrGetter('multiple') || attrGetter('ngfMultiple', scope)).then(function (files) {

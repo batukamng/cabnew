@@ -44,7 +44,7 @@
 			// If we can't parse the cookie, ignore it, it's unusable.
 			s = decodeURIComponent(s.replace(pluses, ' '));
 			return config.json ? JSON.parse(s) : s;
-		} catch(e) {}
+		} catch(e) {throw e}
 	}
 
 	function read(s, converter) {

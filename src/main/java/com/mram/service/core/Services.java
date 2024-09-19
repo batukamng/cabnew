@@ -31,7 +31,6 @@ public class Services {
     @Autowired
     ActivityLogService logService;
 
-
     // @Cacheable(value = "userMenu", key = "#name")
     public List<Menu> getUserMenu(String name, List<Long> ids) {
         System.out.println("loading...");
@@ -45,9 +44,8 @@ public class Services {
 
         DataSourceRequest.FilterDescriptor filter = new DataSourceRequest.FilterDescriptor();
 
-
         try {
-            if(request.getFilter().getFilters() != null) {
+            if (request.getFilter().getFilters() != null) {
                 for (int i = 0; i < request.getFilter().getFilters().size(); i++) {
                     addFilter(filter, request.getFilter().getFilters().get(i).getField(),
                             request.getFilter().getFilters().get(i).getOperator(),
@@ -57,14 +55,14 @@ public class Services {
 
             request.setFilter(filter);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            lutUserLevel = null;
         }
 
         return filter;
     }
 
     public DataSourceResult getResultByPrincipal(MainDao dao, DataSourceRequest request, Authentication authentication,
-                                                 String source) {
+            String source) {
         return getResultByPrincipal(dao, request, authentication, source, null);
     }
 
@@ -75,13 +73,12 @@ public class Services {
 
         DataSourceRequest.FilterDescriptor filter = new DataSourceRequest.FilterDescriptor();
 
-
         try {
-            if(customFilter != null) {
+            if (customFilter != null) {
                 addFilter(filter, customFilter.getField(), customFilter.getOperator(), customFilter.getValue(), 1L);
             }
 
-            if(request.getFilter().getFilters() != null) {
+            if (request.getFilter().getFilters() != null) {
                 for (int i = 0; i < request.getFilter().getFilters().size(); i++) {
                     DataSourceRequest.FilterDescriptor filterDescriptor = request.getFilter().getFilters().get(i);
                     if (filterDescriptor.getValue() != null)
@@ -89,20 +86,23 @@ public class Services {
                                 filterDescriptor.getOperator(),
                                 filterDescriptor.getValue(),
                                 request.getFilter().getLogic().equals("or") ? 0L : 1L);
-                    /*System.out.println("logic: " + request.getFilter().getLogic());
-                    if (filterDescriptor.getLogic() != null) {
-                        System.out.println("nested logic " + filterDescriptor.getLogic());
-                        for (int j = 0; j < filterDescriptor.getFilters().size(); j++) {
-                            DataSourceRequest.FilterDescriptor nestedFilterDescriptor = filterDescriptor.getFilters().get(j);
-                            System.out.println(nestedFilterDescriptor.getField());
-                            System.out.println(nestedFilterDescriptor.getValue());
-                            if (nestedFilterDescriptor.getValue() != null)
-                                addFilter(filterDescriptor, nestedFilterDescriptor.getField(),
-                                        nestedFilterDescriptor.getOperator(),
-                                        nestedFilterDescriptor.getValue(),
-                                        filterDescriptor.getLogic().equals("or") ? 0L : 1L);
-                        }
-                    }*/
+                    /*
+                     * System.out.println("logic: " + request.getFilter().getLogic());
+                     * if (filterDescriptor.getLogic() != null) {
+                     * System.out.println("nested logic " + filterDescriptor.getLogic());
+                     * for (int j = 0; j < filterDescriptor.getFilters().size(); j++) {
+                     * DataSourceRequest.FilterDescriptor nestedFilterDescriptor =
+                     * filterDescriptor.getFilters().get(j);
+                     * System.out.println(nestedFilterDescriptor.getField());
+                     * System.out.println(nestedFilterDescriptor.getValue());
+                     * if (nestedFilterDescriptor.getValue() != null)
+                     * addFilter(filterDescriptor, nestedFilterDescriptor.getField(),
+                     * nestedFilterDescriptor.getOperator(),
+                     * nestedFilterDescriptor.getValue(),
+                     * filterDescriptor.getLogic().equals("or") ? 0L : 1L);
+                     * }
+                     * }
+                     */
                 }
             }
 
@@ -126,11 +126,10 @@ public class Services {
 
             return dao.getList(source, request);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            lutUserLevel = null;
         }
         return null;
     }
-
 
     public DataSourceRequest.FilterDescriptor addFilter(DataSourceRequest.FilterDescriptor filter, String fieldId,
             String operator, Object value, Long logic) {
@@ -148,9 +147,8 @@ public class Services {
         return filter;
     }
 
-
-    public void createActivityLog(JSONObject log){
-         logService.createLog(log.toString());
+    public void createActivityLog(JSONObject log) {
+        logService.createLog(log.toString());
     }
 
 }

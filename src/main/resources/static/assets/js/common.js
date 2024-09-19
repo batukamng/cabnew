@@ -808,6 +808,7 @@
                   push.apply(results, newContext.querySelectorAll(newSelector));
                   return results;
                 } catch (qsaError) {
+                  console.log("err");
                 } finally {
                   if (nid === expando) {
                     context.removeAttribute("id");
@@ -1362,7 +1363,7 @@
             ) {
               return ret;
             }
-          } catch (e) {}
+          } catch (e) {console.log("err");}
         }
 
         return Sizzle(expr, document, null, [elem]).length > 0;
@@ -3707,7 +3708,7 @@
               : rbrace.test(data)
               ? jQuery.parseJSON(data)
               : data;
-        } catch (e) {}
+        } catch (e) {console.log("err");}
 
         // Make sure we set the data so it isn't changed later
         dataUser.set(elem, key, data);
@@ -4243,7 +4244,7 @@
   function safeActiveElement() {
     try {
       return document.activeElement;
-    } catch (err) {}
+    } catch (err) {console.log("err");}
   }
 
   function on(elem, types, selector, data, fn, one) {
@@ -5299,7 +5300,7 @@
               elem = 0;
 
               // If using innerHTML throws an exception, use the fallback method
-            } catch (e) {}
+            } catch (e) {console.log("err");}
           }
 
           if (elem) {
@@ -8595,7 +8596,7 @@
   jQuery.ajaxSettings.xhr = function () {
     try {
       return new window.XMLHttpRequest();
-    } catch (e) {}
+    } catch (e) {console.log("err");}
   };
 
   var xhrSuccessStatus = {
@@ -10004,7 +10005,7 @@ window.Modernizr = (function (window, document, undefined) {
 
         bool.webm = elem.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/^no$/, "");
       }
-    } catch (e) {}
+    } catch (e) {throw e}
 
     return bool;
   };
@@ -10025,7 +10026,7 @@ window.Modernizr = (function (window, document, undefined) {
         bool.wav = elem.canPlayType('audio/wav; codecs="1"').replace(/^no$/, "");
         bool.m4a = (elem.canPlayType("audio/x-m4a;") || elem.canPlayType("audio/aac;")).replace(/^no$/, "");
       }
-    } catch (e) {}
+    } catch (e) {throw e}
 
     return bool;
   };
@@ -12485,7 +12486,7 @@ window.Modernizr = (function (window, document, undefined) {
         var aliasedRequire = require;
         aliasedRequire("./locale/" + name);
         getSetGlobalLocale(oldLocale);
-      } catch (e) {}
+      } catch (e) {console.log("err");}
     }
     return locales[name];
   }

@@ -22,8 +22,8 @@ import java.util.*;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Tools {
-    public static String EXCEPTION_KEY = "_EX:";
-    public static String EXCEPTION_KEY_NOT_SHOW = "_EX_NOT_SHOW:";
+    public static final String EXCEPTION_KEY = "_EX:";
+    public static final String EXCEPTION_KEY_NOT_SHOW = "_EX_NOT_SHOW:";
 
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public static final SimpleDateFormat dateFormatInv = new SimpleDateFormat("yyyyMMdd");
@@ -58,11 +58,13 @@ public class Tools {
     }
 
     public static boolean containsValue(Object value_first, Object value_second) {
-        return convertToStringLower(value_first).toLowerCase().contains(convertToStringLower(value_second).toLowerCase());
+        return convertToStringLower(value_first).toLowerCase()
+                .contains(convertToStringLower(value_second).toLowerCase());
     }
 
     public static boolean containsValueNoSpace(Object value_first, Object value_second) {
-        return convertToStringLower(value_first).toLowerCase().replace(" ", "").contains(convertToStringLower(value_second).toLowerCase().replace(" ", ""));
+        return convertToStringLower(value_first).toLowerCase().replace(" ", "")
+                .contains(convertToStringLower(value_second).toLowerCase().replace(" ", ""));
     }
 
     public static int indexOfValue(String source, String target) {
@@ -112,6 +114,7 @@ public class Tools {
     public static BigDecimal convertToDecimal(Object value) {
         return convertToDecimal(value, false);
     }
+
     public static BigDecimal convertToDecimal(Object value, boolean isFullRound) {
 
         if (isNullOrEmpty(value)) {
@@ -132,7 +135,8 @@ public class Tools {
     }
 
     public static boolean checkRange(Object value, Object start_range, Object end_range) {
-        return convertToDecimal(value).compareTo(convertToDecimal(start_range)) > 0 && convertToDecimal(value).compareTo(convertToDecimal(end_range)) <= 0;
+        return convertToDecimal(value).compareTo(convertToDecimal(start_range)) > 0
+                && convertToDecimal(value).compareTo(convertToDecimal(end_range)) <= 0;
     }
 
     public static byte[] readFileToByteArray(File file) {
@@ -142,14 +146,13 @@ public class Tools {
             fis = new FileInputStream(file);
             fis.read(bArray);
 
-
         } catch (IOException ioExp) {
-            ioExp.printStackTrace();
-        }finally {
+            return bArray;
+        } finally {
             try {
                 fis.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                return bArray;
             }
         }
         return bArray;
@@ -166,31 +169,34 @@ public class Tools {
                 file.renameTo(newFileName);
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                tempFile = "";
             }
         }
-        //  write to file with OutputStreamWriter
+        // write to file with OutputStreamWriter
         OutputStream outputStream = new FileOutputStream(file.getAbsoluteFile());
 
-        Writer writer = new OutputStreamWriter(outputStream,"UTF-8");
+        Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
         writer.write(fileContent);
         writer.close();
+        outputStream.close();
     }
 
-    public static String convertToDateFormat(Date date, SimpleDateFormat dateFormat){
+    public static String convertToDateFormat(Date date, SimpleDateFormat dateFormat) {
         String dateStr = "";
         try {
             dateStr = dateFormat.format(date);
-        }catch (Exception ex){
-
+        } catch (Exception ex) {
+            return dateStr;
         }
         return dateStr;
     }
+
     public static Date convertToDate(String dateStr) {
         Date convertedDate = null;
         try {
             convertedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(dateStr);
         } catch (Exception ex) {
+            return convertedDate;
         }
         return convertedDate;
     }
@@ -200,6 +206,7 @@ public class Tools {
         try {
             convertedDate = dateFormat.parse(dateStr);
         } catch (Exception ex) {
+            return convertedDate;
         }
         return convertedDate;
     }
@@ -209,6 +216,7 @@ public class Tools {
         try {
             convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
         } catch (Exception ex) {
+            return convertedDate;
         }
         return convertedDate;
     }
@@ -219,53 +227,55 @@ public class Tools {
         try {
             json = mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
+            return json;
         }
         return json;
     }
 
-    //FULLNAME
-    public static String getFullName(String firstName, String lastName){
+    // FULLNAME
+    public static String getFullName(String firstName, String lastName) {
         String fullName = "";
-        if(!getFirstLetter(lastName).isEmpty()){
+        if (!getFirstLetter(lastName).isEmpty()) {
             fullName += getFirstLetter(lastName) + ".";
         }
         return fullName + getFirstLetter(firstName) + getSubstring(firstName);
     }
 
-    public static String getFirstLetter(String value){
+    public static String getFirstLetter(String value) {
         return value == null || value.isEmpty() ? "" : value.substring(0, 1).toUpperCase();
     }
 
-    public static String getSubstring(String value){
+    public static String getSubstring(String value) {
         return value == null || value.isEmpty() ? "" : value.substring(1).toLowerCase();
     }
 
-    public static String getBigName(String name){
+    public static String getBigName(String name) {
         return getFirstLetter(name) + getSubstring(name);
     }
 
-    public static String convertToNumberString(Object value){
+    public static String convertToNumberString(Object value) {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
         return formatter.format(Tools.convertToDecimal(value));
     }
 
     public static String getMonthStr(Long month) {
-        if(month < 10L){
+        if (month < 10L) {
             return "0" + Tools.convertToString(month);
         }
         return Tools.convertToString(month);
     }
 
-    public static String getMinDots(String object){
+    public static String getMinDots(String object) {
         return object == null || object.isEmpty() ? "......" : object;
     }
 
-    public static String joinString(String delimeter, Object... elems){
+    public static String joinString(String delimeter, Object... elems) {
         String joinedStr = "";
-        for(int i = 0; i < elems.length; ++i) {
-            if(elems[i] == null) continue;
+        for (int i = 0; i < elems.length; ++i) {
+            if (elems[i] == null)
+                continue;
             boolean isLastElement = (elems.length - 1) == i;
-            if(elems[i] instanceof String){
+            if (elems[i] instanceof String) {
                 joinedStr += Tools.convertToString(elems[i]) + (isLastElement ? "" : delimeter);
             }
         }
@@ -273,11 +283,12 @@ public class Tools {
         return joinedStr;
     }
 
-    public static BigDecimal add(Object... elems){
+    public static BigDecimal add(Object... elems) {
         BigDecimal sumVal = BigDecimal.ZERO;
-        for(int i = 0; i < elems.length; ++i) {
-            if(elems[i] == null) continue;
-            if(elems[i] instanceof BigDecimal){
+        for (int i = 0; i < elems.length; ++i) {
+            if (elems[i] == null)
+                continue;
+            if (elems[i] instanceof BigDecimal) {
                 sumVal.add(Tools.convertToDecimal(elems[i]));
             }
         }
@@ -297,6 +308,7 @@ public class Tools {
         try {
             double d = Double.parseDouble(strNum);
         } catch (NumberFormatException nfe) {
+
             return false;
         }
         return true;
@@ -323,6 +335,7 @@ public class Tools {
         try {
             convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
         } catch (Exception ex) {
+            return convertedDate;
         }
         return convertedDate;
     }
@@ -354,7 +367,7 @@ public class Tools {
         return generatedString;
     }
 
-    public static  String fillByLeadingZeros(Long sequenceNumber, int digit) {
+    public static String fillByLeadingZeros(Long sequenceNumber, int digit) {
         return String.format("%0" + digit + "d", sequenceNumber);
     }
 
@@ -362,30 +375,30 @@ public class Tools {
         return convertToString(value).replace(" ", "");
     }
 
-//    @NotNull
-//    public static String[] getIgnoreProperties() {
-//        return new String[]{"id", "updatedDate", "createdDate", "updatedBy", "createdBy", "status"};
-//    }
-
+    // @NotNull
+    // public static String[] getIgnoreProperties() {
+    // return new String[]{"id", "updatedDate", "createdDate", "updatedBy",
+    // "createdBy", "status"};
+    // }
 
     public static long negateLong(Long value) {
-        return value *(-1);
+        return value * (-1);
     }
 
-    public static long getBetweenDays(Date dateAfter, Date dateBefore){
+    public static long getBetweenDays(Date dateAfter, Date dateBefore) {
         LocalDate lDateAfter = convertToLocalDateViaInstant(dateAfter);
-        LocalDate lDateBefore  = convertToLocalDateViaInstant(dateBefore);
+        LocalDate lDateBefore = convertToLocalDateViaInstant(dateBefore);
         long daysBetween = DAYS.between(lDateBefore, lDateAfter);
         return daysBetween;
     }
 
-    public static Date addDays(Date date, int days)
-    {
+    public static Date addDays(Date date, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        cal.add(Calendar.DATE, days); // minus number would decrement the days
         return cal.getTime();
     }
+
     public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -412,20 +425,24 @@ public class Tools {
 
     @NotNull
     public static String[] getIgnoreProperties() {
-        return new String[]{"id", "updatedDate", "createdDate", "updatedBy", "createdBy", "useYn"};
+        return new String[] { "id", "updatedDate", "createdDate", "updatedBy", "createdBy", "useYn" };
     }
 
-    public static DataSourceRequest.FilterDescriptor getFilter(DataSourceRequest request, Services services){
+    public static DataSourceRequest.FilterDescriptor getFilter(DataSourceRequest request, Services services) {
         DataSourceRequest.FilterDescriptor filter = new DataSourceRequest.FilterDescriptor();
 
-        if(request.getCustom().getFilters() != null){
-            for(int i = 0; i < request.getCustom().getFilters().size(); i++)
-                services.addFilter(filter, request.getCustom().getFilters().get(i).getField(), request.getCustom().getFilters().get(i).getOperator(), request.getCustom().getFilters().get(i).getValue(), 1L);
+        if (request.getCustom().getFilters() != null) {
+            for (int i = 0; i < request.getCustom().getFilters().size(); i++)
+                services.addFilter(filter, request.getCustom().getFilters().get(i).getField(),
+                        request.getCustom().getFilters().get(i).getOperator(),
+                        request.getCustom().getFilters().get(i).getValue(), 1L);
         }
 
-        if(request.getFilter().getFilters() != null){
-            for(int i = 0; i < request.getFilter().getFilters().size(); i++)
-                services.addFilter(filter, request.getFilter().getFilters().get(i).getField(), request.getFilter().getFilters().get(i).getOperator(), request.getFilter().getFilters().get(i).getValue(), 1L);
+        if (request.getFilter().getFilters() != null) {
+            for (int i = 0; i < request.getFilter().getFilters().size(); i++)
+                services.addFilter(filter, request.getFilter().getFilters().get(i).getField(),
+                        request.getFilter().getFilters().get(i).getOperator(),
+                        request.getFilter().getFilters().get(i).getValue(), 1L);
         }
 
         return filter;

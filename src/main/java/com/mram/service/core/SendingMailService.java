@@ -39,7 +39,11 @@ public class SendingMailService {
             map.put("Username", toUsername);
             body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            subject = "";
+            body = "";
+            toEmail = "";
+            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            // ex.getMessage(), ex);
         }
         return sendMail(toEmail, subject, body);
     }
@@ -73,7 +77,12 @@ public class SendingMailService {
             transport.sendMessage(msg, msg.getAllRecipients());
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
+
+            // Lgger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(),
+            // ex);
+            subject = "";
+            body = "";
+            toEmail = "";
         }
 
         return false;

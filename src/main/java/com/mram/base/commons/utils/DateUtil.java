@@ -12,14 +12,13 @@ public final class DateUtil {
     private DateUtil() {
     }
 
-    public static String SERVER_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    public static String DATE_PATTERN_BACKWARDS = "yyyy-MM-dd";
-    public static String DATE_TIME_PATTERN_BACKWARDS = "yyyy-MM-dd HH:mm:ss";
+    public static final String SERVER_DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    public static final String DATE_PATTERN_BACKWARDS = "yyyy-MM-dd";
+    public static final String DATE_TIME_PATTERN_BACKWARDS = "yyyy-MM-dd HH:mm:ss";
 
-    public static String DATE_PATTERN_READABLE = "MMM dd, YYYY";
-    public static String TIME_PATTERN_READABLE = "hh:mm a";
-    public static String DATE_TIME_PATTERN_READABLE = "MMM dd, YYYY hh:mm a";
-
+    public static final String DATE_PATTERN_READABLE = "MMM dd, YYYY";
+    public static final String TIME_PATTERN_READABLE = "hh:mm a";
+    public static final String DATE_TIME_PATTERN_READABLE = "MMM dd, YYYY hh:mm a";
 
     public static String getReadableDate(Date date) {
         return getReadableDateFormat().format(date);
@@ -32,7 +31,6 @@ public final class DateUtil {
     public static String getReadableDateTime(Date date) {
         return getReadableDateTimeFormat().format(date);
     }
-
 
     public static Date parseServerDateTime(String date) throws ParseException {
         DateFormat sdf = getServerDateTimeFormat();
@@ -56,9 +54,9 @@ public final class DateUtil {
         return new SimpleDateFormat(SERVER_DATE_TIME_PATTERN);
     }
 
-
     public static java.time.Period getAge(Date date) {
-        if (date == null) return null;
+        if (date == null)
+            return null;
         LocalDate today = LocalDate.now();
         LocalDate birthday = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -66,7 +64,8 @@ public final class DateUtil {
     }
 
     public static long getDurationInDays(Date date) {
-        if (date == null) return 0L;
+        if (date == null)
+            return 0L;
         LocalDate today = LocalDate.now();
         LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return ChronoUnit.DAYS.between(myDate, today);
@@ -230,18 +229,17 @@ public final class DateUtil {
     public static boolean isPast(Date date) {
         return date.before(new Date());
     }
-//    public static String calculateAge(St){
-//        LocalDate birthdate = new LocalDate(1970, 1, 20);
-//        LocalDate now = new LocalDate();
-//        Years age = Years.yearsBetween(birthdate, now);
-//    }
+    // public static String calculateAge(St){
+    // LocalDate birthdate = new LocalDate(1970, 1, 20);
+    // LocalDate now = new LocalDate();
+    // Years age = Years.yearsBetween(birthdate, now);
+    // }
 
     public enum DateRangeType {
         DATE_FROM("dateFrom"),
         DATE_TO("dateTo");
 
         private final String value;
-
 
         DateRangeType(String value) {
             this.value = value;

@@ -43,7 +43,7 @@ public class StorageService {
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FAIL!");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("adfasdfs");
         }
     }
 
@@ -51,7 +51,6 @@ public class StorageService {
         try {
             String directory = env.getProperty("file.upload-dir");
             Path rootLocation = Paths.get(directory);
-
 
             String pathString = directory + File.separator + dir;
             File dtx = new File(pathString);
@@ -62,23 +61,24 @@ public class StorageService {
 
             File oldFile = new File(pathString + File.separator + fileName);
             if (oldFile.exists()) {
-                oldFile.delete();
+                File oldFile2 = new File(pathString + File.separator + fileName);
+                oldFile2.delete();
             }
             fileName = fileName + "." + FilenameUtils.getExtension(file.getOriginalFilename().toLowerCase());
             Files.copy(file.getInputStream(), rootLocation.resolve(fileName));
-            return dir+File.separator+fileName;
+            return dir + File.separator + fileName;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FAIL!");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("adfasdfs");
         }
         return null;
     }
 
-    public Resource loadFile(String filename,String path) throws InvalidPathException {
+    public Resource loadFile(String filename, String path) throws InvalidPathException {
         try {
             String directory = env.getProperty("file.upload-dir");
-            Path rootLocation = Paths.get(directory+File.separator+path);
+            Path rootLocation = Paths.get(directory + File.separator + path);
             Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {

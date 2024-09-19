@@ -2212,6 +2212,7 @@ altairApp
                             try {
                                 chart.data = JSON.parse(value);
                             } catch (e) {
+                                throw e
                             }
                         });
 
@@ -2263,6 +2264,7 @@ altairApp
                             try {
                                 chart.data = JSON.parse(value);
                             } catch (e) {
+                                throw e
                             }
                         });
 
@@ -2309,6 +2311,7 @@ altairApp
                             try {
                                 chart.data = JSON.parse(value);
                             } catch (e) {
+                                throw e
                             }
                         });
 

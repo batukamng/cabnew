@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FileIO {
-    private FileIO(){}
+    private FileIO() {
+    }
 
     public static File convertToFile(MultipartFile multipartFile) {
-        if (multipartFile==null) return null;
+        if (multipartFile == null)
+            return null;
         File file = new File(multipartFile.getOriginalFilename());
         try (OutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(multipartFile.getBytes());
         } catch (IOException e) {
+            return file;
         }
         return file;
     }
@@ -27,8 +30,10 @@ public final class FileIO {
         for (MultipartFile multipartFile : multipartFiles) {
             try {
                 Image image = ImageIO.read(FileIO.convertToFile(multipartFile));
-                if (image != null) filesList.add(multipartFile.getBytes());
+                if (image != null)
+                    filesList.add(multipartFile.getBytes());
             } catch (IOException e) {
+                return filesList;
             }
         }
 
@@ -36,7 +41,8 @@ public final class FileIO {
     }
 
     public static boolean isNotEmpty(MultipartFile[] multipartFiles) {
-        if (multipartFiles == null) return false;
+        if (multipartFiles == null)
+            return false;
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty())
                 return true;
@@ -45,21 +51,21 @@ public final class FileIO {
     }
 
     public static byte[] getScaledImage(byte[] image, int width, int height) throws IOException {
-//        InputStream is = new ByteArrayInputStream(image);
-//        OutputStream os = new ByteArrayOutputStream();
-//        Thumbnails.of(is)
-//                .size(width, height)
-//                .toOutputStream(os);
-//        os.write(image);
+        // InputStream is = new ByteArrayInputStream(image);
+        // OutputStream os = new ByteArrayOutputStream();
+        // Thumbnails.of(is)
+        // .size(width, height)
+        // .toOutputStream(os);
+        // os.write(image);
         Image img = ImageIO.read(new ByteArrayInputStream(image));
-        BufferedImage bi = createResizedCopy(img,width,height,true);
+        BufferedImage bi = createResizedCopy(img, width, height, true);
 
         return getBytes(bi);
     }
 
     private static BufferedImage createResizedCopy(Image originalImage,
-                                                   int scaledWidth, int scaledHeight,
-                                                   boolean preserveAlpha) {
+            int scaledWidth, int scaledHeight,
+            boolean preserveAlpha) {
         System.out.println("resizing...");
         int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
         BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
@@ -78,8 +84,7 @@ public final class FileIO {
         return baos.toByteArray();
     }
 
-
-    public static byte[] scaleImage(byte[] image,String ext, int height) throws IOException {
+    public static byte[] scaleImage(byte[] image, String ext, int height) throws IOException {
         // Get a BufferedImage object from a byte array
 
         InputStream in = new ByteArrayInputStream(image);
@@ -92,16 +97,15 @@ public final class FileIO {
         image = baos.toByteArray();
         baos.close();
 
-
         return image;
     }
 
-    private static BufferedImage resizeImage(BufferedImage originalImage, int height){
+    private static BufferedImage resizeImage(BufferedImage originalImage, int height) {
 
-        int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+        int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
         int IMG_HEIGHT = height;
-        int IMG_WIDTH = height * originalImage.getWidth()/originalImage.getHeight();
+        int IMG_WIDTH = height * originalImage.getWidth() / originalImage.getHeight();
 
         BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
         Graphics2D g = resizedImage.createGraphics();

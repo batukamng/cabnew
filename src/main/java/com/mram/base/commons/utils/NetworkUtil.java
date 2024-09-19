@@ -42,11 +42,12 @@ public final class NetworkUtil {
                 response.close();
             } catch (IOException ignored) {
 
+                newUrl = "";
             }
 
         }).start();
-//        HttpEntity e = response.getEntity();
-//        InputStream is = e.getContent();
+        // HttpEntity e = response.getEntity();
+        // InputStream is = e.getContent();
     }
 
 }

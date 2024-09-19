@@ -36,7 +36,6 @@ public class SysUserController {
     @Autowired
     UserRepository userRepository;
 
-
     @Autowired
     AttFileRepository fileRepository;
 
@@ -71,11 +70,9 @@ public class SysUserController {
     ProfileRepository profileRepository;
 
     @PostMapping("/all")
-    public @ResponseBody
-    List<LutUser> getAll() {
+    public @ResponseBody List<LutUser> getAll() {
         return userRepository.findAll();
     }
-
 
     @PutMapping("/notification")
     public ResponseEntity<?> notification(@RequestBody String signUpRequest) throws MessagingException {
@@ -94,53 +91,53 @@ public class SysUserController {
     public ResponseEntity<?> changeInfo(@RequestBody String jsonStr) {
         JSONObject jsonObj = new JSONObject(jsonStr);
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<LutUser> loguser= userRepository.findByUsername(userDetail.getUsername());
-        String name="";
-        if(loguser.isPresent()){
-            if(jsonObj.has("lastName") && !jsonObj.isNull("lastName")) {
-                name=jsonObj.getString("lastName").substring(0,1);
+        UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<LutUser> loguser = userRepository.findByUsername(userDetail.getUsername());
+        String name = "";
+        if (loguser.isPresent()) {
+            if (jsonObj.has("lastName") && !jsonObj.isNull("lastName")) {
+                name = jsonObj.getString("lastName").substring(0, 1);
                 loguser.get().getDetail().setLastname(jsonObj.getString("lastName"));
             }
-            if(jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
-                name=name.toUpperCase(Locale.ROOT)+"."+ StringUtils.capitalize(jsonObj.getString("firstName"));
+            if (jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
+                name = name.toUpperCase(Locale.ROOT) + "." + StringUtils.capitalize(jsonObj.getString("firstName"));
                 loguser.get().setFirstname(jsonObj.getString("firstName"));
             }
-            if(jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")) {
+            if (jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")) {
                 loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
             }
-            if(jsonObj.has("email") && !jsonObj.isNull("email")) {
+            if (jsonObj.has("email") && !jsonObj.isNull("email")) {
                 loguser.get().setEmail(jsonObj.getString("email"));
                 if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
                     loguser.get().setEmailVerified(0);
                 }
             }
 
-            if(jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
+            if (jsonObj.has("orgId") && !jsonObj.isNull("orgId")) {
                 loguser.get().setOrgId(jsonObj.getLong("orgId"));
             }
-            if (jsonObj.has("phone") && !jsonObj.isNull("phone")){
+            if (jsonObj.has("phone") && !jsonObj.isNull("phone")) {
                 loguser.get().setPhone(jsonObj.getString("phone"));
             }
 
-            if (jsonObj.has("pushWeb") && jsonObj.get("pushWeb") instanceof Integer){
+            if (jsonObj.has("pushWeb") && jsonObj.get("pushWeb") instanceof Integer) {
                 loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
             }
-            if (jsonObj.has("pushSystem") && jsonObj.get("pushSystem") instanceof Integer){
+            if (jsonObj.has("pushSystem") && jsonObj.get("pushSystem") instanceof Integer) {
                 loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
             }
-            if (jsonObj.has("pushNews") && jsonObj.get("pushNews") instanceof Integer){
+            if (jsonObj.has("pushNews") && jsonObj.get("pushNews") instanceof Integer) {
                 loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
             }
-            if (jsonObj.has("pushEmail") && jsonObj.get("pushEmail") instanceof Integer){
+            if (jsonObj.has("pushEmail") && jsonObj.get("pushEmail") instanceof Integer) {
                 loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
             }
 
-            if (jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
+            if (jsonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")) {
                 loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
                 loguser.get().setLastPasswordUpdated(Instant.now());
             }
-            if (jsonObj.has("imgId")){
+            if (jsonObj.has("imgId")) {
                 loguser.get().setImgId(jsonObj.getLong("imgId"));
             }
             LutUser save = userRepository.save(loguser.get());
@@ -150,7 +147,7 @@ public class SysUserController {
             }
             return ResponseEntity.ok().body(save);
         }
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/change-contact")
@@ -168,18 +165,22 @@ public class SysUserController {
             }
             val.setEmail(email);
         }
-        /*if (obj.has("phone")) {
-            String phone = obj.getString("phone");
-            if (userRepository.existsByPhone(phone)) {
-                return new ResponseEntity<String>("Fail -> Email is already in use!", HttpStatus.BAD_REQUEST);
-            }
-            currentUser.setPhone(obj.getString("phone"));
-            val.setPhone(phone);
-        }*/
+        /*
+         * if (obj.has("phone")) {
+         * String phone = obj.getString("phone");
+         * if (userRepository.existsByPhone(phone)) {
+         * return new ResponseEntity<String>("Fail -> Email is already in use!",
+         * HttpStatus.BAD_REQUEST);
+         * }
+         * currentUser.setPhone(obj.getString("phone"));
+         * val.setPhone(phone);
+         * }
+         */
         userValidationRepository.deleteByUserId(currentUser.getId());
         userValidationRepository.save(val);
         if (obj.has("email")) {
-            mailNotificationService.sendMail(obj.getString("email"), "И-мэйл баталгаажуулалт", "Таны имэйл баталгаажуулах код: " + code + ".");
+            mailNotificationService.sendMail(obj.getString("email"), "И-мэйл баталгаажуулалт",
+                    "Таны имэйл баталгаажуулах код: " + code + ".");
         }
 
         return ResponseEntity.ok().build();
@@ -197,8 +198,9 @@ public class SysUserController {
             if (obj.get("code") instanceof Integer) {
                 code = obj.getInt("code") + "";
             }
-            List<UserValidation> byUserIdAndCode = userValidationRepository.findByUserIdAndCode(currentUser.getId(), code);
-            for (UserValidation val: byUserIdAndCode) {
+            List<UserValidation> byUserIdAndCode = userValidationRepository.findByUserIdAndCode(currentUser.getId(),
+                    code);
+            for (UserValidation val : byUserIdAndCode) {
                 long diff = new Date().getTime() - val.getRegDtm().getTime();
                 if (diff <= 600000) {// 10 min timeframe
                     if (val.getEmail() != null) {
@@ -226,21 +228,21 @@ public class SysUserController {
         if (!obj.has("id") && obj.has("email") && userRepository.existsByEmail(obj.getString("email"))) {
             return ResponseEntity.status(400).build();
         }
-        if (!obj.has("id") && obj.has("username") && userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
+        if (!obj.has("id") && obj.has("username")
+                && userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
             return ResponseEntity.status(405).build();
         }
         LutUser user;
-        if(obj.has("id")){
-            user=userRepository.getReferenceById(obj.getLong("id"));
-        }
-        else{
+        if (obj.has("id")) {
+            user = userRepository.getReferenceById(obj.getLong("id"));
+        } else {
             user = new LutUser();
         }
         user.setUsername(obj.getString("username"));
-        if(obj.has("email")) {
+        if (obj.has("email")) {
             user.setEmail(obj.getString("email"));
         }
-        if(obj.has("orgId") &&  !obj.isNull("orgId")  && obj.getLong("orgId")!=0){
+        if (obj.has("orgId") && !obj.isNull("orgId") && obj.getLong("orgId") != 0) {
             user.setOrgId(obj.getLong("orgId"));
         }
         if (obj.has("roles")) {
@@ -249,17 +251,18 @@ public class SysUserController {
             if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {
                 for (int i = 0; i < strRoles.length(); i++) {
                     if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(i).toString())) {
-                        Role adminRole = roleRepository.findById((long) strRoles.getInt(i)).orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
+                        Role adminRole = roleRepository.findById((long) strRoles.getInt(i))
+                                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
                         roles.add(adminRole);
                     }
                 }
-            }
-            else{
+            } else {
                 for (int i = 0; i < strRoles.length(); i++) {
-                    JSONObject roleObj= strRoles.getJSONObject(i);
+                    JSONObject roleObj = strRoles.getJSONObject(i);
                     if (!strRoles.isEmpty()) {
-                        Role adminRole = roleRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
-                        if(!roles.contains(adminRole)){
+                        Role adminRole = roleRepository.findById(roleObj.getLong("id"))
+                                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
+                        if (!roles.contains(adminRole)) {
                             roles.add(adminRole);
                         }
                     }
@@ -267,11 +270,11 @@ public class SysUserController {
             }
             user.setRoles(roles);
         }
-        if(!obj.has("id")){
+        if (!obj.has("id")) {
             user.setPassword(encoder.encode(obj.getString("password")));
-        }
-        else{
-            if (obj.has("password") && !encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
+        } else {
+            if (obj.has("password")
+                    && !encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
                 user.setPassword(encoder.encode(obj.getString("password")));
             }
         }
@@ -280,26 +283,27 @@ public class SysUserController {
         user.setUseYn(1);
         userRepository.save(user);
 
-        Profile profile=new Profile();
-        if(profileRepository.existsByUserId(user.getId())){
-            profile=profileRepository.findByUserId(user.getId());
+        Profile profile = new Profile();
+        if (profileRepository.existsByUserId(user.getId())) {
+            profile = profileRepository.findByUserId(user.getId());
         }
         profile.setUserId(user.getId());
-        if(obj.has("lastname")){
+        if (obj.has("lastname")) {
             profile.setLastname(obj.getString("lastname"));
         }
-        if(obj.has("firstname")){
+        if (obj.has("firstname")) {
             profile.setFirstname(obj.getString("firstname"));
         }
-        if(obj.has("imgId") && !obj.isNull("imgId")){
+        if (obj.has("imgId") && !obj.isNull("imgId")) {
             profile.setImgId(obj.getLong("imgId"));
         }
-        if(obj.has("color") && !obj.isNull("color")){
+        if (obj.has("color") && !obj.isNull("color")) {
             profile.setColor(obj.getString("color"));
         }
         profileRepository.save(profile);
         if (user.getEmail() != null && user.getEmail().length() > 2) {
-          //  smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: " + user.getUsername() + " password: " + " : " + obj.getString("password"));
+            // smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: "
+            // + user.getUsername() + " password: " + " : " + obj.getString("password"));
         }
         return ResponseEntity.ok().build();
     }
@@ -311,7 +315,8 @@ public class SysUserController {
 
     @GetMapping("/get/{username}")
     public LutUser getById(@PathVariable(value = "username") String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("LutUser", "username", username));
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("LutUser", "username", username));
     }
 
     @PutMapping("/update")
@@ -326,17 +331,18 @@ public class SysUserController {
                 }
             }
 
-         /*   if(!old.get().getEmail().equalsIgnoreCase(signUpRequest.getEmail())){
-                if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-                    return new ResponseEntity<String>("Fail -> Email is already in use!",
-                            HttpStatus.BAD_REQUEST);
-                }
-            }*/
-
+            /*
+             * if(!old.get().getEmail().equalsIgnoreCase(signUpRequest.getEmail())){
+             * if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+             * return new ResponseEntity<String>("Fail -> Email is already in use!",
+             * HttpStatus.BAD_REQUEST);
+             * }
+             * }
+             */
 
             LutUser user = old.get();
             JSONArray strRoles = obj.getJSONArray("roles");
-         //   JSONArray strPrivileges = obj.getJSONArray("privileges");
+            // JSONArray strPrivileges = obj.getJSONArray("privileges");
 
             List<Role> roles = new ArrayList<>();
             Collection<Privilege> privileges = new ArrayList<>();
@@ -348,17 +354,18 @@ public class SysUserController {
                 if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {
                     for (int i = 0; i < strRoles.length(); i++) {
                         if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(i).toString())) {
-                            Role adminRole = roleRepository.findById((long) strRoles.getInt(i)).orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
+                            Role adminRole = roleRepository.findById((long) strRoles.getInt(i))
+                                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
                             roles.add(adminRole);
                         }
                     }
-                }
-                else{
+                } else {
                     for (int i = 0; i < strRoles.length(); i++) {
-                        JSONObject roleObj= strRoles.getJSONObject(i);
+                        JSONObject roleObj = strRoles.getJSONObject(i);
                         if (!strRoles.isEmpty()) {
-                            Role adminRole = roleRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
-                            if(!roles.contains(adminRole)){
+                            Role adminRole = roleRepository.findById(roleObj.getLong("id"))
+                                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: LutRole not find."));
+                            if (!roles.contains(adminRole)) {
                                 roles.add(adminRole);
                             }
                         }
@@ -366,59 +373,72 @@ public class SysUserController {
 
                 }
 
+            }
+            if (user != null && roles != null) {
+                user.setRoles(roles);
+            }
 
-            }
-            user.setRoles(roles);
-      /*      if (strPrivileges.length() > 0) {
-                for (LutPrivilege u : old.get().getPrivileges()) {
-                    privilegeRepository.deleteRoles(old.get().getId(), u.getId());
-                }
-
-                if (strPrivileges.length() > 0 && StringUtils.isNumeric(strPrivileges.get(0).toString())) {
-                    for (int i = 0; i < strPrivileges.length(); i++) {
-                        if (strPrivileges.length() > 0 && StringUtils.isNumeric(strPrivileges.get(i).toString())) {
-                            LutPrivilege privilege = privilegeRepository.findById((long) strPrivileges.getInt(i)).orElseThrow(() -> new RuntimeException("Fail! -> Cause: Privilege not find."));
-                            privileges.add(privilege);
-                        }
-                    }
-                }
-                else{
-                    for (int i = 0; i < strPrivileges.length(); i++) {
-                        JSONObject roleObj= strPrivileges.getJSONObject(i);
-                        LutPrivilege privilege = privilegeRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new RuntimeException("Fail! -> Cause: Privilege not find."));
-                        if(!privileges.contains(privilege)){
-                            privileges.add(privilege);
-                        }
-                    }
-
-                }
-            }
-            user.setPrivileges(privileges);*/
-          /*  if(obj.has("lastName") && !obj.isNull("lastName")){
-                user.setLastName(obj.getString("lastName"));
-            }
-            if(obj.has("firstName") && !obj.isNull("firstName")){
-                user.setFirstName(obj.getString("firstName"));
-            }
-            if(obj.has("imgId") && !obj.isNull("imgId")){
-                user.setImgId(obj.getLong("imgId"));
-            }*/
-            if(obj.has("orgId") &&  !obj.isNull("orgId")  && obj.getLong("orgId")!=0){
+            /*
+             * if (strPrivileges.length() > 0) {
+             * for (LutPrivilege u : old.get().getPrivileges()) {
+             * privilegeRepository.deleteRoles(old.get().getId(), u.getId());
+             * }
+             * 
+             * if (strPrivileges.length() > 0 &&
+             * StringUtils.isNumeric(strPrivileges.get(0).toString())) {
+             * for (int i = 0; i < strPrivileges.length(); i++) {
+             * if (strPrivileges.length() > 0 &&
+             * StringUtils.isNumeric(strPrivileges.get(i).toString())) {
+             * LutPrivilege privilege = privilegeRepository.findById((long)
+             * strPrivileges.getInt(i)).orElseThrow(() -> new
+             * RuntimeException("Fail! -> Cause: Privilege not find."));
+             * privileges.add(privilege);
+             * }
+             * }
+             * }
+             * else{
+             * for (int i = 0; i < strPrivileges.length(); i++) {
+             * JSONObject roleObj= strPrivileges.getJSONObject(i);
+             * LutPrivilege privilege =
+             * privilegeRepository.findById(roleObj.getLong("id")).orElseThrow(() -> new
+             * RuntimeException("Fail! -> Cause: Privilege not find."));
+             * if(!privileges.contains(privilege)){
+             * privileges.add(privilege);
+             * }
+             * }
+             * 
+             * }
+             * }
+             * user.setPrivileges(privileges);
+             */
+            /*
+             * if(obj.has("lastName") && !obj.isNull("lastName")){
+             * user.setLastName(obj.getString("lastName"));
+             * }
+             * if(obj.has("firstName") && !obj.isNull("firstName")){
+             * user.setFirstName(obj.getString("firstName"));
+             * }
+             * if(obj.has("imgId") && !obj.isNull("imgId")){
+             * user.setImgId(obj.getLong("imgId"));
+             * }
+             */
+            if (obj != null && obj.has("orgId") && !obj.isNull("orgId") && obj.getLong("orgId") != 0) {
                 user.setOrgId(obj.getLong("orgId"));
             }
             user.setUsername(obj.getString("username"));
-            if (obj.has("email") && !obj.isNull("email")) {
+            if (obj != null && obj.has("email") && !obj.isNull("email")) {
                 user.setEmail(obj.getString("email"));
             }
-            if(obj.has("password")){
+            if (obj != null && obj.has("password")) {
                 if (!encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
                     user.setPassword(encoder.encode(obj.getString("password")));
                 }
             }
-         /*   user.setEmailVerified(0);*/
+            /* user.setEmailVerified(0); */
             userRepository.save(user);
-            if (user.getEmail() != null && !user.getEmail().isEmpty()) {
-                //smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: " + user.getUsername() + " password: " + " : " + obj.getString("password"));
+            if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+                // smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: "
+                // + user.getUsername() + " password: " + " : " + obj.getString("password"));
             }
 
             return ResponseEntity.ok().build();
@@ -437,10 +457,10 @@ public class SysUserController {
     // -------------------List by page -------------------------------------------
     @PostMapping("/list")
     public ResponseEntity<?> getList(@RequestBody String dataStr) throws JSONException {
-        long totalCount=this.dao.getTotalPage(dataStr, "LutUser");
+        long totalCount = this.dao.getTotalPage(dataStr, "LutUser");
         List<LutUser> newData = new ArrayList<>();
         List<LutUser> data = (List<LutUser>) this.dao.getListByPage(dataStr, "LutUser");
-        if(data != null){
+        if (data != null) {
             for (LutUser lutMenu : data) {
                 if (lutMenu.getOrgId() == null) {
                     lutMenu.setOrgId((long) 0);
@@ -452,9 +472,9 @@ public class SysUserController {
     }
 
     @PostMapping("/data/list")
-    public @ResponseBody
-    DataSourceResult getViewList(@RequestBody DataSourceRequest request) throws JSONException, ClassNotFoundException {
-        return dao.getList("view.UserView",request);
+    public @ResponseBody DataSourceResult getViewList(@RequestBody DataSourceRequest request)
+            throws JSONException, ClassNotFoundException {
+        return dao.getList("view.UserView", request);
     }
 
 }

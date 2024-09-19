@@ -31,7 +31,7 @@ angular
                 var imagenUrl = undefined;
                 try {
                     imagenUrl = $scope.featured.thumbnail.uri;
-                } catch (exce) {}
+                } catch (exce) {throw exce}
                 if (imagenUrl == undefined) {
                     $('.dropify').dropify({
                         messages: {

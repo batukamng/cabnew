@@ -47,7 +47,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 try {
                     return true;
                 } catch (final Exception e) {
-                    e.printStackTrace();
+
                     return null;
                 }
             } else if ("list".equals(type)) {
@@ -81,7 +81,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 try {
                     return true;
                 } catch (final Exception e) {
-                    e.printStackTrace();
+
                     return null;
                 }
             } else {
@@ -89,7 +89,7 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
             }
 
         } catch (final Exception e) {
-            e.printStackTrace();
+
             return null;
         }
     }
@@ -728,23 +728,28 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
             }
         } else if ("count".equals(returnType) && !query.getResultList().isEmpty()) {
             return query.getResultList().get(0);
-        } else if ("group".equals(returnType) ) {
-            if(!query.getResultList().isEmpty()){
+        } else if ("group".equals(returnType)) {
+            if (!query.getResultList().isEmpty()) {
                 return query.getResultList().size();
-            }
-           else{
-              return 0;
+            } else {
+                return 0;
             }
         }
         return null;
     }
 
-    @SneakyThrows
-    @Override
-    public DataSourceResult getList(final String className, final DataSourceRequest request)
-            throws ClassNotFoundException {
-        final Class c = Class.forName("com.mram.model." + className);
-        return request.toDataSourceResult(entityManager.unwrap(Session.class), c,request);
-    }
+    /*
+     * @SneakyThrows
+     * 
+     * @Override
+     * 
+     * public DataSourceResult getList(final String className, final
+     * DataSourceRequest request)
+     * throws ClassNotFoundException {
+     * final Class c = Class.forName("com.mram.model." + className);
+     * return request.toDataSourceResult(entityManager.unwrap(Session.class), c,
+     * request);
+     * }
+     */
 
 }
