@@ -399,11 +399,6 @@ public class Tools {
         return cal.getTime();
     }
 
-    public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-    }
 
     public static int getYear(Timestamp date) {
         Calendar calendar = Calendar.getInstance();
