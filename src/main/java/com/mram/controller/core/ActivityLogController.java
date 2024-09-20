@@ -52,9 +52,15 @@ public class ActivityLogController extends GenericController<ActivityLog> {
         if (menu != null && menu.isPresent()) {
             ActivityLog log = activityLogService.create();
             if (log != null) {
-                log.setLogId(menu.get().getId());
+
+                if (menu.get().getId() != null) {
+                    log.setLogId(menu.get().getId());
+                }
+
                 log.setCode("event");
-                log.setDescription(menu.get().getName());
+                if (menu.get().getName() != null) {
+                    log.setDescription(menu.get().getName());
+                }
                 repository.save(log);
             }
 

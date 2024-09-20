@@ -63,58 +63,7 @@ public class DurationCalculator {
         return endTime.getTime() - startTime.getTime();
     }
 
-    public int getWorkingMinutes(final Timestamp startTime, final Timestamp endTime) {
-        if (null == startTime || null == endTime) {
-            return 0;
-        }
-        if (endTime.before(startTime)) {
-            return 0;
-        }
-
-        LocalDateTime from = startTime.toLocalDateTime();
-        LocalDateTime to = endTime.toLocalDateTime();
-
-        LocalDate fromDay = from.toLocalDate();
-        LocalDate toDay = to.toLocalDate();
-
-        int allDaysBetween = (int) (ChronoUnit.DAYS.between(fromDay, toDay) + 1);
-        long allWorkingMinutes = 0;
-        if (count()) {
-            allWorkingMinutes = IntStream.range(0, allDaysBetween)
-                    .filter(i -> isWorkingDay(from.plusDays(i)))
-                    .count() * WORKING_MINUTES_PER_DAY;
-        }
-
-        // from - working_day_from_start
-        long tailRedundantMinutes = 0;
-        if (isWorkingDay(from)) {
-            if (isWorkingHours(from)) {
-                tailRedundantMinutes = Duration.between(fromDay.atTime(WORK_HOUR_START, 0), from).toMinutes();
-            } else if (from.getHour() > WORK_HOUR_START) {
-                tailRedundantMinutes = WORKING_MINUTES_PER_DAY;
-            }
-        }
-
-        // working_day_end - to
-        long headRedundanMinutes = 0;
-        if (isWorkingDay(to)) {
-            if (isWorkingHours(to)) {
-                if (WORK_HOUR_END != 24) {
-                    if (toDay != null){
-                        headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_END, 0)).toMinutes();
-                    }
-                } else {
-                    if (toDay.plusDays(1) != null){
-                        toDay = toDay.plusDays(1);
-                        headRedundanMinutes = Duration.between(to, toDay.atTime(WORK_HOUR_START, 0)).toMinutes();
-                    }
-                }
-            } else if (from.getHour() < WORK_HOUR_START) {
-                headRedundanMinutes = WORKING_MINUTES_PER_DAY;
-            }
-        }
-        return Math.max((int) (allWorkingMinutes - tailRedundantMinutes - headRedundanMinutes), 0);
-    }
+    
 
     private boolean isWorkingDay(final LocalDateTime time) {
         if (time != null) {

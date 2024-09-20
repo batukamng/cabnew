@@ -76,33 +76,40 @@ public class ApiV1Controller {
         if (type.equalsIgnoreCase("cab-plan-user-drop")) {
             List<Integer> planList= (List<Integer>) dao.getHQLResult("select t.planYr from CabPlanUserView t where t.useYn=1 and t.orgId="+id+" group by t.planYr order by t.planYr", "list");
             JSONArray array = new JSONArray();
-            for(Integer val:planList){
-                JSONObject obj = new JSONObject();
-                obj.put("text", val.toString());
-                obj.put("value", val.toString());
-                array.put(obj);
+            if (planList != null && planList.size() > 0) {
+                for(Integer val:planList){
+                    JSONObject obj = new JSONObject();
+                    obj.put("text", val.toString());
+                    obj.put("value", val.toString());
+                    array.put(obj);
+                }
             }
+
             return ResponseEntity.ok().body(array.toString());
         }
         if (type.equalsIgnoreCase("cab-plan-year")) {
             List<Integer> planList= (List<Integer>) dao.getHQLResult("select t.planYr from CabPlanUserView t where t.userStatusNm='Баталсан' and t.useYn=1 and t.orgId="+id+" group by t.planYr order by t.planYr", "list");
             JSONArray array = new JSONArray();
-            for(Integer val:planList){
-                JSONObject obj = new JSONObject();
-                obj.put("text", val.toString());
-                obj.put("value", val.toString());
-                array.put(obj);
+            if (planList != null && planList.size() > 0) {
+                for (Integer val : planList) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("text", val.toString());
+                    obj.put("value", val.toString());
+                    array.put(obj);
+                }
             }
             return ResponseEntity.ok().body(array.toString());
         }
         if (type.equalsIgnoreCase("cab-plan-year-user")) {
             List<Integer> planList= (List<Integer>) dao.getHQLResult("select t.planYr from CabPlanUserView t where t.userStatusNm='Баталсан' and t.useYn=1 and t.userId="+id+" group by t.planYr order by t.planYr", "list");
             JSONArray array = new JSONArray();
-            for(Integer val:planList){
-                JSONObject obj = new JSONObject();
-                obj.put("text", val.toString());
-                obj.put("value", val.toString());
-                array.put(obj);
+            if (planList != null) {
+                for (Integer val : planList) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("text", val.toString());
+                    obj.put("value", val.toString());
+                    array.put(obj);
+                }
             }
             return ResponseEntity.ok().body(array.toString());
         }

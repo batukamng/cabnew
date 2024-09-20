@@ -30,8 +30,11 @@ public final class FileIO {
         for (MultipartFile multipartFile : multipartFiles) {
             try {
                 Image image = ImageIO.read(FileIO.convertToFile(multipartFile));
-                if (image != null)
-                    filesList.add(multipartFile.getBytes());
+                if (image != null) {
+                    if (multipartFile != null) {
+                        filesList.add(multipartFile.getBytes());
+                    }
+                }
             } catch (IOException e) {
                 return filesList;
             }
@@ -102,7 +105,11 @@ public final class FileIO {
 
     private static BufferedImage resizeImage(BufferedImage originalImage, int height) {
 
-        int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+        int type = 0 ;
+
+        if (originalImage != null) {
+            type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+        }
 
         int IMG_HEIGHT = height;
         int IMG_WIDTH = height * originalImage.getWidth() / originalImage.getHeight();

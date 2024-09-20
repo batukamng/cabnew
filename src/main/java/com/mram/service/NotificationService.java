@@ -202,7 +202,9 @@ public class NotificationService {
         if (channel != null) {
             if (channel.isPresent()) {
                 NotificationMessage notificationMessage = new NotificationMessage();
-                notificationMessage.setChannelId(channel.get().getId());
+                if (channel.get() != null) {
+                    notificationMessage.setChannelId(channel.get().getId());
+                }
                 notificationMessage.setTitle(webData.getString("title"));
                 notificationMessage.setBody(webData.getString("body"));
                 notificationRepository.save(notificationMessage);
