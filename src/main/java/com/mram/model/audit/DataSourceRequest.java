@@ -1,7 +1,6 @@
 package com.mram.model.audit;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.mram.utils.Tools;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.TupleElement;

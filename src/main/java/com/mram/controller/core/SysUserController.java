@@ -10,7 +10,6 @@ import com.mram.repository.cmmn.UserValidationRepository;
 import com.mram.repository.core.*;
 import com.mram.service.core.AuthService;
 import com.mram.service.core.PaginatedResult;
-import com.mram.service.core.SendingMailService;
 import com.mram.service.core.SmtpMailSender;
 import jakarta.mail.MessagingException;
 import org.apache.commons.lang3.StringUtils;
@@ -20,12 +19,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

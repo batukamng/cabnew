@@ -11,7 +11,6 @@ import com.mram.repository.core.ModuleRepository;
 import com.mram.repository.core.PrivilegeRepository;
 import com.mram.service.core.PaginatedResult;
 import com.mram.base.exception.ResourceNotFoundException;
-import com.mram.service.core.Services;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
