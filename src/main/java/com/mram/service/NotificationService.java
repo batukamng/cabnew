@@ -51,18 +51,6 @@ public class NotificationService {
         }
     }
 
-    public void saveToken(String token) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<LutUser> user = userRepository.findByUsername(authentication.getName());
-        if (user.isPresent()) {
-            if (!fcmRepository.existsUserToken(user.get().getId(), token)) {
-                NotificationFcm item = new NotificationFcm();
-                item.setFcm(token);
-
-                fcmRepository.save(item);
-            }
-        }
-    }
 
     public Optional<NotificationChannel> getChannel(String code, String topic) {
         return channelRepository.getByCodeTopic(code, topic);
@@ -152,14 +140,7 @@ public class NotificationService {
     public void saveSeenAll(Long userId) {
         List<NotificationView> items = (List<NotificationView>) dao
                 .getHQLResult("from NotificationView v where v.userId=" + userId + "", "list");
-        for (NotificationView item : items) {
-            if (!seenRepository.existsByNtfIdAndUserId(item.getId(), userId)) {
-                NotificationSeen seen = new NotificationSeen();
-                seen.setNtfId(item.getId());
-                seen.setUserId(userId);
-                seenRepository.save(seen);
-            }
-        }
+
     }
 
     public String postToTopic(NotificationDto dto) throws FirebaseMessagingException {

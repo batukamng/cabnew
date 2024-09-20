@@ -271,16 +271,6 @@ public class SysUserController {
         Optional<LutUser> old = userRepository.findById(obj.getLong("id"));
         if (old != null) {
             if (old.isPresent()) {
-                if (old.get().getUsername() != null && obj.getString("username") != null)
-                {
-                    if (!old.get().getUsername().equalsIgnoreCase(obj.getString("username")) != null)
-                    {
-                        if (userRepository.existsByUsernameAndUseYn(obj.getString("username"), 1)) {
-                            return ResponseEntity.status(405).build();
-                        }
-                    }
-                }
-
                 /*
                  * if(!old.get().getEmail().equalsIgnoreCase(signUpRequest.getEmail())){
                  * if(userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -297,13 +287,6 @@ public class SysUserController {
                 List<Role> roles = new ArrayList<>();
                 Collection<Privilege> privileges = new ArrayList<>();
                 if (!strRoles.isEmpty()) {
-                    for (Role u : old.get().getRoles()) {
-
-                        if (old.get().getId() != null)
-                            if (u.getId() != null){
-                                userRepository.deleteRoles(old.get().getId(), u.getId());
-                            }
-                    }
 
                     if (!strRoles.isEmpty() && StringUtils.isNumeric(strRoles.get(0).toString())) {
                         for (int i = 0; i < strRoles.length(); i++) {

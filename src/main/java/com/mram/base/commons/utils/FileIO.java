@@ -112,7 +112,7 @@ public final class FileIO {
         }
 
         int IMG_HEIGHT = height;
-        int IMG_WIDTH = height * originalImage.getWidth() / originalImage.getHeight();
+        int IMG_WIDTH = 0;
 
         BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
         Graphics2D g = resizedImage.createGraphics();
