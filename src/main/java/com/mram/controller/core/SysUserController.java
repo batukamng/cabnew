@@ -89,107 +89,7 @@ public class SysUserController {
 
     @PutMapping("/change-info")
     public ResponseEntity<?> changeInfo(@RequestBody String jsonStr) {
-        JSONObject jsonObj = new JSONObject(jsonStr);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<LutUser> loguser = userRepository.findByUsername(userDetail.getUsername());
-        String name = "";
-        if (loguser.isPresent()) {
-            if (jsonObj != null && loguser != null && jsonObj.has("lastName") && !jsonObj.isNull("lastName")) {
-                name = jsonObj.getString("lastName").substring(0, 1);
-                loguser.get().getDetail().setLastname(jsonObj.getString("lastName"));
-            }
-            if (jsonObj != null && loguser != null && jsonObj.has("firstName") && !jsonObj.isNull("firstName")) {
-                name = name.toUpperCase(Locale.ROOT) + "." + StringUtils.capitalize(jsonObj.getString("firstName"));
-                if (!loguser.get().setFirstname(jsonObj.getString("firstName")).isEmpty()){
-                    loguser.get().setFirstname(jsonObj.getString("firstName"));
-                }
 
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.has("profileVerified") && !jsonObj.isNull("profileVerified")){
-                    if (!loguser.get().setProfileVerified(jsonObj.getInt("profileVerified")).isEmpty()){
-                        loguser.get().setProfileVerified(jsonObj.getInt("profileVerified"));
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null && jsonObj.has("email") && !jsonObj.isNull("email")) {
-                loguser.get().setEmail(jsonObj.getString("email") );
-                if(loguser.get().getEmail() != null){
-                    if (!jsonObj.getString("email").equalsIgnoreCase(loguser.get().getEmail())) {
-                        if (!loguser.get().setEmailVerified(0).isEmpty()){
-                            loguser.get().setEmailVerified(0);
-                        }
-                    }
-                }
-            }
-
-            if (jsonObj != null && loguser != null ) {
-                if(jsonObj.getLong("orgId") != null && jsonObj.has("orgId") && !jsonObj.isNull("orgId")){
-                    if (!loguser.get().setOrgId(jsonObj.getLong("orgId")).isEmpty()){
-                        loguser.get().setOrgId(jsonObj.getLong("orgId"));
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.getString("phone") != null && jsonObj.has("phone") && !jsonObj.isNull("phone")){
-                    if (!loguser.get().setPhone(jsonObj.getString("phone")).isEmpty()){
-                        loguser.get().setPhone(jsonObj.getString("phone"));
-                    }
-                }
-            }
-
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.has("pushWeb") && jsonObj.getLong("pushWeb") != null && jsonObj.get("pushWeb") instanceof Integer){
-                    if (!loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb")).isEmpty()){
-                        loguser.get().getDetail().setPushWeb(jsonObj.getLong("pushWeb"));
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.has("pushSystem") && jsonObj.getLong("pushSystem") != null && jsonObj.get("pushSystem") instanceof Integer){
-                    if (!loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem")).isEmpty()){
-                        loguser.get().getDetail().setPushSystem(jsonObj.getLong("pushSystem"));
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.has("pushNews") && jsonObj.getLong("pushNews") != null && jsonObj.get("pushNews") instanceof Integer){
-                    if (!loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews")).isEmpty()){
-                        loguser.get().getDetail().setPushNews(jsonObj.getLong("pushNews"));
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.has("pushEmail") && jsonObj.getLong("pushEmail") != null && jsonObj.get("pushEmail") instanceof Integer){
-                    if (!loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail")).isEmpty()){
-                        loguser.get().getDetail().setPushEmail(jsonObj.getLong("pushEmail"));
-                    }
-                }
-            }
-
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.getString("newPassword") != null && sonObj.has("newPassword") && !jsonObj.getString("newPassword").equals("")){
-                    if (!loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword"))).isEmpty()){
-                        loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
-                        loguser.get().setLastPasswordUpdated(Instant.now());
-                    }
-                }
-            }
-            if (jsonObj != null && loguser != null) {
-                if (jsonObj.getLong("imgId") != null && jsonObj.has("imgId")){
-                    if (!loguser.get().setImgId(jsonObj.getLong("imgId")).isEmpty()){
-                        loguser.get().setImgId(jsonObj.getLong("imgId"));
-                    }
-                }
-            }
-            LutUser save = userRepository.save(loguser.get());
-            if (save.getImgId() != null) {
-                Optional<AttFile> byId = fileRepository.findById(save.getImgId());
-                byId.ifPresent(save::setAvatar);
-            }
-            return ResponseEntity.ok().body(save);
-        }
         return ResponseEntity.ok().build();
     }
 
@@ -199,7 +99,7 @@ public class SysUserController {
         LutUser currentUser = authService.getCurrentUser();
         Random numGen = SecureRandom.getInstance("SHA1PRNG");
 
-        String code = String.format("%06d", (numGen.nextInt(6)) + 1);
+        String code = "";
         UserValidation val = new UserValidation();
         val.setUserId(currentUser.getId());
         val.setCode(code);

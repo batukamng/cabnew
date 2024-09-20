@@ -293,15 +293,7 @@ public class UserController extends GenericController<LutUser> {
          * }
          */
 
-        if (jsonObj != null && loguser != null ) {
-            if (loguser.get() != null) {
-                if (jsonObj.getString("newPassword") != null && jsonObj.has("newPassword")
-                        && !jsonObj.getString("newPassword").equals("")) {
-                    loguser.get().setPassword(encoder.encode(jsonObj.getString("newPassword")));
-                }
-            }
 
-        }
         userRepository.save(loguser.get());
 
         return ResponseEntity.ok().body(loguser.get());

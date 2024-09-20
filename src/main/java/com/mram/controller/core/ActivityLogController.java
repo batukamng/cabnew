@@ -53,14 +53,10 @@ public class ActivityLogController extends GenericController<ActivityLog> {
             ActivityLog log = activityLogService.create();
             if (log != null) {
 
-                if (menu.get().getId() != null) {
-                    log.setLogId(menu.get().getId());
-                }
+
 
                 log.setCode("event");
-                if (menu.get().getName() != null) {
-                    log.setDescription(menu.get().getName());
-                }
+
                 repository.save(log);
             }
 
@@ -105,11 +101,7 @@ public class ActivityLogController extends GenericController<ActivityLog> {
                 Optional<LutUser> byId = userRepository.findById(log.getCreatedBy());
                 if (byId != null) {
                     if(byId.isPresent()) {
-                        if (byId.get().getOrganization() != null) {
-                            put.put("consumer", byId.get().getOrganization().getName());
-                        } else {
-                            put.put("consumer", "-");
-                        }
+
                         byId.ifPresent(user -> put.put("imp", user.getDetail().getFirstname()));
                         arr.put(put);
                     }

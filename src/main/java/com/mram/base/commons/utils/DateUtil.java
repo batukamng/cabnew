@@ -54,22 +54,8 @@ public final class DateUtil {
         return new SimpleDateFormat(SERVER_DATE_TIME_PATTERN);
     }
 
-    public static java.time.Period getAge(Date date) {
-        if (date == null)
-            return null;
-        LocalDate today = LocalDate.now();
-        LocalDate birthday = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        return java.time.Period.between(birthday, today);
-    }
 
-    public static long getDurationInDays(Date date) {
-        if (date == null)
-            return 0L;
-        LocalDate today = LocalDate.now();
-        LocalDate myDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return ChronoUnit.DAYS.between(myDate, today);
-    }
 
     public static List<Date> getDatesBetween(Date startDate, Date endDate) {
         List<Date> datesInRange = new ArrayList<>();
