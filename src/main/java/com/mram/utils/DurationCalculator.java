@@ -78,9 +78,12 @@ public class DurationCalculator {
         LocalDate toDay = to.toLocalDate();
 
         int allDaysBetween = (int) (ChronoUnit.DAYS.between(fromDay, toDay) + 1);
-        long allWorkingMinutes = IntStream.range(0, allDaysBetween)
-                .filter(i -> isWorkingDay(from.plusDays(i)))
-                .count() * WORKING_MINUTES_PER_DAY ;
+        long allWorkingMinutes = 0;
+        if (count()) {
+            allWorkingMinutes = IntStream.range(0, allDaysBetween)
+                    .filter(i -> isWorkingDay(from.plusDays(i)))
+                    .count() * WORKING_MINUTES_PER_DAY;
+        }
 
         // from - working_day_from_start
         long tailRedundantMinutes = 0;
@@ -114,9 +117,12 @@ public class DurationCalculator {
     }
 
     private boolean isWorkingDay(final LocalDateTime time) {
-        if (time.getDayOfWeek() != null){
-            return time.getDayOfWeek().getValue() < DayOfWeek.SATURDAY.getValue();
+        if (time != null) {
+            if (time.getDayOfWeek() != null) {
+                return time.getDayOfWeek().getValue() < DayOfWeek.SATURDAY.getValue();
+            }
         }
+        return false;
     }
 
     private boolean isWorkingHours(final LocalDateTime time) {
