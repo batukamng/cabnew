@@ -233,7 +233,7 @@
 
   jQuery.extend({
     // Unique for each copy of jQuery on the page
-    expando: "jQuery" + (version + Math.random()).replace(/\D/g, ""),
+    //expando: "jQuery" + (version + Math.random()).replace(/\D/g, ""),
 
     // Assume jQuery is ready without the ready module
     isReady: true,
@@ -1139,7 +1139,7 @@
             // setting a boolean content attribute,
             // since its presence should be enough
             // http://bugs.jquery.com/ticket/12359
-            docElem.appendChild(div).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\r\\' msallowcapture=''>" + "<option selected=''></option></select>";
+            //docElem.appendChild(div).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\r\\' msallowcapture=''>" + "<option selected=''></option></select>";
 
             // Support: IE8, Opera 11-12.16
             // Nothing should be selected when empty strings follow ^= or $= or *=
@@ -2557,7 +2557,7 @@
       // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
       if (
         !assert(function (div) {
-          div.innerHTML = "<a href='#'></a>";
+          //div.innerHTML = "<a href='#'></a>";
           return div.firstChild.getAttribute("href") === "#";
         })
       ) {
@@ -2573,7 +2573,7 @@
       if (
         !support.attributes ||
         !assert(function (div) {
-          div.innerHTML = "<input/>";
+          //div.innerHTML = "<input/>";
           div.firstChild.setAttribute("value", "");
           return div.firstChild.getAttribute("value") === "";
         })
@@ -4154,7 +4154,7 @@
           // Deserialize a standard representation
           tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
           wrap = wrapMap[tag] || wrapMap._default;
-          tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
+          //tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
 
           // Descend through wrappers to the right content
           j = wrap[0];
@@ -4233,7 +4233,7 @@
 
     // Support: IE<=11+
     // Make sure textarea (and checkbox) defaultValue is properly cloned
-    div.innerHTML = "<textarea>x</textarea>";
+    //div.innerHTML = "<textarea>x</textarea>";
     support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue;
   })();
 
@@ -4920,7 +4920,7 @@
     // Support: IE 10-11, Edge 10240+
     // In IE/Edge using regex groups here causes severe slowdowns.
     // See https://connect.microsoft.com/IE/feedback/details/1736512/
-    rnoInnerhtml = /<script|<style|<link/i,
+    //rnoInnerhtml = /<script|<style|<link/i,
     // checked="checked" or checked
     rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
     rscriptTypeMasked = /^true\/(.*)/,
@@ -5303,7 +5303,7 @@
                 // Remove element nodes and prevent memory leaks
                 if (elem.nodeType === 1) {
                   jQuery.cleanData(getAll(elem, false));
-                  elem.innerHTML = value;
+                  //elem.innerHTML = value;
                 }
               }
 
@@ -5505,7 +5505,7 @@
         // Support: Firefox<29, Android 2.3
         // Vendor-prefix box-sizing
         "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;" + "position:relative;display:block;" + "margin:auto;border:1px;padding:1px;" + "top:1%;width:50%";
-      div.innerHTML = "";
+      //div.innerHTML = "";
       documentElement.appendChild(container);
 
       var divStyle = window.getComputedStyle(div);
@@ -9434,7 +9434,7 @@ window.Modernizr = (function (window, document, undefined) {
       div.id = mod;
       // IE6 will false positive on some tests due to the style element inside the test div somehow interfering offsetHeight, so insert it into body or fakebody.
       // Opera will act all quirky when injecting elements in documentElement when page is served as xml, needs fakebody too. #270
-      (body ? div : fakeBody).innerHTML += style;
+      //(body ? div : fakeBody).innerHTML += style;
       fakeBody.appendChild(div);
       if (!body) {
         //avoid crashing IE8, if background image is used
@@ -10095,7 +10095,7 @@ window.Modernizr = (function (window, document, undefined) {
   // test page: paulirish.com/demo/inline-svg
   tests["inlinesvg"] = function () {
     var div = document.createElement("div");
-    div.innerHTML = "<svg/>";
+    //div.innerHTML = "<svg/>";
     return (div.firstChild && div.firstChild.namespaceURI) == ns.svg;
   };
 
@@ -10295,7 +10295,7 @@ window.Modernizr = (function (window, document, undefined) {
     (function () {
       try {
         var a = document.createElement("a");
-        a.innerHTML = "<xyz></xyz>";
+        //a.innerHTML = "<xyz></xyz>";
         //if the hidden property is implemented we can assume, that the browser supports basic HTML5 Styles
         supportsHtml5Styles = "hidden" in a;
 
@@ -10327,7 +10327,7 @@ window.Modernizr = (function (window, document, undefined) {
       var p = ownerDocument.createElement("p"),
         parent = ownerDocument.getElementsByTagName("head")[0] || ownerDocument.documentElement;
 
-      p.innerHTML = "x<style>" + cssText + "</style>";
+      //p.innerHTML = "x<style>" + cssText + "</style>";
       return parent.insertBefore(p.lastChild, parent.firstChild);
     }
 
@@ -18055,7 +18055,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
         for (var i = 7; i > 4; i--) {
           var div = document.createElement("div");
 
-          div.innerHTML = "<!--[if IE " + i + "]><span></span><![endif]-->";
+          //div.innerHTML = "<!--[if IE " + i + "]><span></span><![endif]-->";
 
           if (div.getElementsByTagName("span").length) {
             div = null;
