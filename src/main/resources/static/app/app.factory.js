@@ -635,7 +635,16 @@ altairApp
                 .velocity("reverse");
           },
           randomNUmber: function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
+            const crypto = require("crypto");
+            const array = new Uint32Array(1);
+            const tmp = crypto.getRandomValues(array);
+            let result = "";
+            for (let i = 0; i < tmp.length; i++) {
+              result += String(array[i]);
+            }
+            const safe_randStr = String(result).substring(0, 6);
+
+            return Math.floor(safe_randStr * (max - min + 1) + min);
           },
         };
       },

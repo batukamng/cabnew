@@ -227,7 +227,17 @@ angular
                 function create_UUID() {
                     var dt = new Date().getTime();
                     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                        var r = (dt + Math.random() * 16) % 16 | 0;
+
+                        const crypto = require("crypto");
+                        const array = new Uint32Array(1);
+                        const tmp = crypto.getRandomValues(array);
+                        let result = "";
+                        for (let i = 0; i < tmp.length; i++) {
+                            result += String(array[i]);
+                        }
+                        const safe_randStr = String(result).substring(0, 6);
+
+                        var r = (dt + safe_randStr * 16) % 16 | 0;
                         dt = Math.floor(dt / 16);
                         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
                     });

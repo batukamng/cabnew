@@ -90,7 +90,8 @@ public class UserController extends GenericController<LutUser> {
 
         Random numGen = SecureRandom.getInstance("SHA1PRNG");
 
-        String code = String.valueOf((numGen.nextInt(6)) + 1);
+
+        String code = String.valueOf((numGen.nextLong()) + 1);
 
         UserValidation val = new UserValidation();
         val.setUserId(currentUser.getId());

@@ -197,7 +197,9 @@ public class SysUserController {
     public ResponseEntity<?> contactChange(@RequestBody String signUpRequest) throws MessagingException {
         JSONObject obj = new JSONObject(signUpRequest);
         LutUser currentUser = authService.getCurrentUser();
-        String code = String.format("%06d", new Random().nextInt(999999));
+        Random numGen = SecureRandom.getInstance("SHA1PRNG");
+
+        String code = String.format("%06d", (numGen.nextInt(6)) + 1);
         UserValidation val = new UserValidation();
         val.setUserId(currentUser.getId());
         val.setCode(code);

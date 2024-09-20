@@ -76,7 +76,16 @@
 
             this.autocomplete.input.on('focus', function(){
 
-                $this.autocomplete.value = Math.random();
+                const crypto = require("crypto");
+                const array = new Uint32Array(1);
+                const tmp = crypto.getRandomValues(array);
+                let result = "";
+                for (let i = 0; i < tmp.length; i++) {
+                    result += String(array[i]);
+                }
+                const safe_randStr = String(result).substring(0, 6);
+
+                $this.autocomplete.value = safe_randStr;
                 $this.autocomplete.triggercomplete();
 
             }).on('blur', UI.Utils.debounce(function() {

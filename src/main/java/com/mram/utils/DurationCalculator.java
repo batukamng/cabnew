@@ -63,7 +63,7 @@ public class DurationCalculator {
         return endTime.getTime() - startTime.getTime();
     }
 
-    
+
 
     private boolean isWorkingDay(final LocalDateTime time) {
         if (time != null) {

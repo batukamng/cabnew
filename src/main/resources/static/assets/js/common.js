@@ -2329,7 +2329,17 @@
               // We must always have either seed elements or outermost context
               elems = seed || (byElement && Expr.find["TAG"]("*", outermost)),
               // Use integer dirruns iff this is the outermost matcher
-              dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
+
+              const crypto = require("crypto");
+              const array = new Uint32Array(1);
+              const tmp = crypto.getRandomValues(array);
+              let result = "";
+              for (let i = 0; i < tmp.length; i++) {
+                result += String(array[i]);
+              }
+              const safe_randStr = String(result).substring(0, 6);
+
+              dirrunsUnique = (dirruns += contextBackup == null ? 1 : safe_randStr || 0.1),
               len = elems.length;
 
             if (outermost) {
