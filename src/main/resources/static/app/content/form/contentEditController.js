@@ -32,7 +32,9 @@ angular
                     var imagenUrl = undefined;
                     try {
                         imagenUrl = $scope.cnt.image.location;
-                    } catch (exce) {}
+                    } catch (exce) {
+                        return exce;
+                    }
                     if (imagenUrl == undefined) {
                         $('.dropify').dropify({
                             messages: {

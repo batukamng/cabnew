@@ -47,9 +47,8 @@ public class MainDaoImpl extends JdbcDaoSupport implements MainDao {
                 try {
                     return true;
                 } catch (Exception e) {
-
-                    logger.info(e);
-                    // return null;
+//                    logger.info(e);
+                     return e;
                 }
             } else if ("list".equals(type)) {
                 final Query query = entityManager.createNativeQuery(queryStr);

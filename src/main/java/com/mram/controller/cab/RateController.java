@@ -38,20 +38,22 @@ public class RateController extends GenericController<CabRate> {
         JSONObject obj = new JSONObject(jsonStr);
         List<Long> userIds = new ArrayList<>();
         List<CabPlanUserView> users= (List<CabPlanUserView>) dao.getHQLResult("from CabPlanUserView t where t.id="+obj.getLong("planId"),"list");
-        if(!users.isEmpty()){
-            for(CabPlanUserView user:users){
-                if(repository.existsItem(obj.getLong("planId"),user.getUserId(),obj.getString("typeStr")).isEmpty()){
-                    CabRate rate=new CabRate();
-                    rate.setPlanId(obj.getLong("planId"));
-                    rate.setUserId(user.getUserId());
-                    rate.setTypeStr(obj.getString("typeStr"));
-                    repository.save(rate);
-                    userIds.add(user.getUserId());
-                    services.createActivityLog(new JSONObject()
-                            .put("code", "rate")
-                            .put("logId", rate.getId())
-                            .put("status", obj.getString("status"))
-                            .put("name", "Тайлан үүсгэсэн"));
+        if (users!=null && users.size()>0) {
+            if(!users.isEmpty()){
+                for(CabPlanUserView user:users){
+                    if(repository.existsItem(obj.getLong("planId"),user.getUserId(),obj.getString("typeStr")).isEmpty()){
+                        CabRate rate=new CabRate();
+                        rate.setPlanId(obj.getLong("planId"));
+                        rate.setUserId(user.getUserId());
+                        rate.setTypeStr(obj.getString("typeStr"));
+                        repository.save(rate);
+                        userIds.add(user.getUserId());
+                        services.createActivityLog(new JSONObject()
+                                .put("code", "rate")
+                                .put("logId", rate.getId())
+                                .put("status", obj.getString("status"))
+                                .put("name", "Тайлан үүсгэсэн"));
+                    }
                 }
             }
         }

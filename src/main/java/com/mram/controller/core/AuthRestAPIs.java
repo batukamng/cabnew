@@ -141,6 +141,9 @@ public class AuthRestAPIs {
                             }
 
                             if (detail.getFirstname() != null) {
+                                if (!){
+
+                                }
                                 loggedUser.get().setFirstname(detail.getFirstname());
                             }
 

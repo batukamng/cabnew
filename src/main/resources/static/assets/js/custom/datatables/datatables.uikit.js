@@ -123,7 +123,9 @@
             try {
                 activeEl = $(document.activeElement).data('dt-idx');
             }
-            catch (e) {}
+            catch (e) {
+                return e;
+            }
 
             attach(
                 $(host).empty().html('<ul class="uk-pagination"/>').children('ul'),
