@@ -61,8 +61,9 @@ public class StorageService {
 
             File oldFile = new File(pathString + File.separator + fileName);
             if (oldFile.exists()) {
-                File oldFile2 = new File(pathString + File.separator + fileName);
-                oldFile2.delete();
+                //File oldFile2 = new File(pathString + File.separator + fileName);
+                FileDelete(oldFile);
+                //oldFile2.delete();
             }
             fileName = fileName + "." + FilenameUtils.getExtension(file.getOriginalFilename().toLowerCase());
             Files.copy(file.getInputStream(), rootLocation.resolve(fileName));
@@ -73,6 +74,10 @@ public class StorageService {
             log.info("adfasdfs");
         }
         return null;
+    }
+
+    private synchronized void FileDelete(File file){
+        file.delete();
     }
 
     public Resource loadFile(String filename, String path) throws InvalidPathException {

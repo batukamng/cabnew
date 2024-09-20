@@ -9,7 +9,7 @@ public final class Commons {
     private Commons() {
     }
 
-    public static List<String> deleteImageAndRebuildPaths(List<String> imagePaths, int imageIndex) {
+    public List<String> deleteImageAndRebuildPaths(List<String> imagePaths, int imageIndex) {
         List<String> newPaths = new ArrayList<>();
         for (int i = 0; i < imagePaths.size(); i++) {
             if (i != imageIndex)
@@ -17,12 +17,16 @@ public final class Commons {
             else {
                 File file = new File(imagePaths.get(imageIndex));
                 if (file.exists()) {
-                    File file2 = new File(imagePaths.get(imageIndex));
-                    file2.delete();
+                    //File file2 = new File(imagePaths.get(imageIndex));
+                    FileDelete(file);
                 }
             }
         }
         return newPaths;
+    }
+
+    private synchronized void FileDelete(File file){
+        file.delete();
     }
 
     public static <T> T getLastElement(final Iterable<T> elements) {
