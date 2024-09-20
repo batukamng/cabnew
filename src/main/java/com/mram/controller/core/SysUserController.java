@@ -311,9 +311,7 @@ public class SysUserController {
                     }
 
                 }
-                if (user != null && roles != null) {
-                    user.setRoles(roles);
-                }
+
 
                 /*
                  * if (strPrivileges.length() > 0) {
@@ -359,24 +357,6 @@ public class SysUserController {
                  * user.setImgId(obj.getLong("imgId"));
                  * }
                  */
-                if (obj != null && obj.has("orgId") && !obj.isNull("orgId") && obj.getLong("orgId") != 0) {
-                    user.setOrgId(obj.getLong("orgId"));
-                }
-                user.setUsername(obj.getString("username"));
-                if (obj != null && obj.has("email") && !obj.isNull("email")) {
-                    user.setEmail(obj.getString("email"));
-                }
-                if (obj != null && obj.has("password")) {
-                    if (!encoder.matches(encoder.encode(obj.getString("password")), user.getPassword())) {
-                        user.setPassword(encoder.encode(obj.getString("password")));
-                    }
-                }
-                /* user.setEmailVerified(0); */
-                userRepository.save(user);
-                if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
-                    // smtpMailSender.send(user.getEmail(), "Хэрэглэгчийн мэдээлэл", "Нэвтрэх нэр: "
-                    // + user.getUsername() + " password: " + " : " + obj.getString("password"));
-                }
 
                 return ResponseEntity.ok().build();
             }
