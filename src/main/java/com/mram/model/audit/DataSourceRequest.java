@@ -290,7 +290,7 @@ public class DataSourceRequest {
             Class clazz) {
         if (filter != null) {
 
-            List<FilterDescriptor> filters = filter.filters;
+//            List<FilterDescriptor> filters = filter.filters;
             List<Predicate> predicates = new ArrayList<>();
 
             if (filter.getLogic() == null) {
